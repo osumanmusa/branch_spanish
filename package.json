@@ -17,11 +17,18 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@codekraft-studio/vue-record": "^0.0.3",
         "@material-tailwind/html": "^2.0.0",
         "@preline/overlay": "^1.4.0",
         "datatables.net-dt": "^1.13.4",
         "flowbite": "^1.6.5",
         "flowbite-vue": "^0.0.10",
-        "tw-elements": "^1.0.0-beta2"
+        "lamejs": "^1.2.1",
+        "lodash": "^4.17.21",
+        "recorder-core": "^1.2.23020100",
+        "recorder-js": "^1.0.7",
+        "tw-elements": "^1.0.0-beta2",
+        "vue-audio-recorder": "^3.0.1",
+        "vue-audio-tapir-x": "^1.3.0"
     }
 }

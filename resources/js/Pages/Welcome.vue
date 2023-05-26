@@ -3,20 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import Navbar from'../Components/Navbar.vue';
 
 defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
-    phpVersion: {
-        type: String,
-        required: true,
-    },
+    categories:Object,
 });
 </script>
 
@@ -41,145 +28,33 @@ defineProps({
 
 </section>
 
-<section class="">
+<section class="bg-blue-500">
 <!-- Page Container -->
-<div class="flex items-center justify-center bg-blue-500 py-20">
-    <div class="flex flex-col">
-        <!-- Notes -->
+<div class="container my-12 px-4 md:px-12">
+    <div class="flex flex-wrap -mx-1 lg:-mx-4">
 
+        <div class="flex flex-col mt-16">
 
-        <div class="flex flex-col mt-8">
-            <!-- Meet the Team -->
             <div class="container max-w-7xl px-4">
-              
-                <!-- Team Members -->
-                <div class="flex flex-wrap">
-                    <!-- Member #1 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
+
+                <div class="flex flex-wrap ">
+                    <!-- N0 #1 -->
+                    <div v-for="c in categories" :key="c.id" class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
+                        <div  class="flex flex-col">
                             <!-- Avatar -->
                             <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-1.png">
+                                <img class="rounded-2xl h-[35vh] drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
+                                     :src="'/img/category/'+ c.category_image" >
                             </a>
 
                             <!-- Details -->
                             <div class="text-center mt-6">
                                 <!-- Name -->
                                 <h1 class="text-white text-xl font-bold mb-1">
-                                    Tranter Jaskulski
+                                    {{ c.category_name }}
                                 </h1>
 
                                
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #2 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-2.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Denice Jagna
-                                </h1>
-
-
-                          
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #3 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #1 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-1.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Tranter Jaskulski
-                                </h1>
-
-                               
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #2 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-2.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Denice Jagna
-                                </h1>
-
-
-                          
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #3 -->
-                    <div class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
                             </div>
                         </div>
                     </div>
@@ -191,13 +66,11 @@ defineProps({
         </div>
     </div>
 </div>
-</section>
-
 <div class="bg-blue-500">
     <div class="flex justify-center p-4">
 
     <button
-            class=" py-2 px-6 pb-5 pt-5 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white hover:text-yellow-700 text-sm text-white font-bold transition duration-200"
+            class=" py-2 px-6 mb-5 pb-5 pt-5 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white hover:text-yellow-700 text-sm text-white font-bold transition duration-200"
             >Explore More
     </button>
 
@@ -207,6 +80,11 @@ defineProps({
                 <hr class="hr" />
              <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
 </div>
+</section>
+
+
+
+
 
 </template>
 

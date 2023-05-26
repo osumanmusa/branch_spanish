@@ -23,6 +23,14 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'parent_firstname', 
+        'parent_lastname', 
+        'parent_residence', 
+        'child_firstname', 
+        'child_lastname', 
+        'child_school',
+        'student_id',
+        'student_status',
     ];
 
     /**

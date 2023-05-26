@@ -9,8 +9,15 @@ use App\Http\Controllers\Auth\RedirectAuthenticatedUsersController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Admin\Auth\AdminRegisterController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminFlashcardsController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminPronounciationController;
+use App\Http\Controllers\Admin\AdminQuizController;
+use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\FlashcardController;
+use App\Http\Controllers\ParentController;
+
 
 
 /*
@@ -24,67 +31,18 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-Route::get('/flashcards', function () {
-    return Inertia::render('flashcard', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-Route::get('/pronounciations', function () {
-    return Inertia::render('pronounciation', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-Route::get('/quizme', function () {
-    return Inertia::render('quiz', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
+Route::get("/", [RoutesController::class, "index"])->name('welcome');
+Route::get("/flashcards", [RoutesController::class, "flashcard"])->name('flashcards');
+Route::get("/pronounciations", [RoutesController::class, "pronounciation"])->name('pronounciations');
+
 Route::get('/contesta', function () {
     return Inertia::render('contesta', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
     ]);
 });
-Route::get('/test1', function () {
-    return Inertia::render('test', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-Route::get('/test2', function () {
-    return Inertia::render('test2', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});Route::get('/admin/dashboard', function () {
-    return Inertia::render('admin/dashboard', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-Route::get('/flashcardcontent', function () {
-    return Inertia::render('flashcardcontent', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-Route::get('/procontent', function () {
-    return Inertia::render('procontent', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
+
+
 
 Route::get("/admin/login", [AdminLoginController::class, "index"])->name('adminlogin');
 Route::post("/adminlogged", [AdminLoginController::class, "store"])->name('admin.login');
@@ -105,13 +63,25 @@ All Admin Routes List
 --------------------------------------------
 --------------------------------------------*/
     Route::group(['middleware' => 'checkRole:admin'], function() {
-        Route::inertia('/adminhome', 'Admin/dashboard')->name('admin.home');
+        Route::get("/adminhome", [AdminController::class, "dashboard"])->name('admin.home');
         Route::get("/admin/flashcards", [AdminFlashcardsController::class, "index"])->name('adminflashcards');
         Route::get("/admin_create_flashcard", [AdminFlashcardsController::class, "create"])->name('admin_create_flashcards');
         Route::post("/admin/store_flashcard", [AdminFlashcardsController::class, "store"])->name('admin.flashcard.store');
-
+        Route::get("/admin_edit_flashcard/{id}", [AdminFlashcardsController::class, "edit"])->name('admin.editflashcards');
+        Route::get("/admin_delete_flashcard/{id}", [AdminFlashcardsController::class, "destroy"])->name('admin.deleteflashcards');
 
         Route::post("/admin/store_category", [AdminCategoryController::class, "store"])->name('admin.category.store');
+
+        Route::get("/admin/pronounciation", [AdminPronounciationController::class, "index"])->name('admin.pronounciation');
+        Route::get("/admin/create_pronounciation", [AdminPronounciationController::class, "create"])->name('admin_create_pronounciation');;
+        Route::post("/admin/store_pronounciation", [AdminPronounciationController::class, "store"])->name('admin.pronounciation.store');
+        Route::get("/admin_delete_pronounciation/{id}", [AdminPronounciationController::class, "destroy"])->name('admin.deletepronounciation');
+
+        Route::get("/admin/quiz", [AdminQuizController::class, "index"])->name('admin.quiz');
+        Route::get("/admin/create_quiz", [AdminQuizController::class, "create"])->name('admin_create_quiz');
+        Route::get("/admin_show_quiz/{id}", [AdminQuizController::class, "show"])->name('admin.viewquiz');
+        Route::post("/admin/store_quiz", [AdminQuizController::class, "store"])->name('admin.quiz.store');
+        Route::get("/admin_delete_quiz/{id}", [AdminQuizController::class, "destroy"])->name('admin.deletequiz');
     });
 
 
@@ -126,6 +96,14 @@ All Normal Users Routes List
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         ])->name('user.home');
+        
+        Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
+        Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
+        Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+        Route::post("/storevoice", [RoutesController::class, "storevoice"])->name('voice.store');
+        Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+        Route::post("/storequiz/{id}", [RoutesController::class, "storequiz"])->name('quiz.store');
+
     });
 
 
@@ -135,7 +113,11 @@ All Parent Routes List
 --------------------------------------------
 --------------------------------------------*/
     Route::group(['middleware' => 'checkRole:parent'], function() {
-        Route::inertia('/parenthome', 'GuestDashboard')->name('parent.home');
+        Route::get("/parenthome", [ParentController::class, "dashboard"])->name('parent.home');
+        Route::get("/parent_student_quiz", [ParentController::class, "quiz"])->name('parent.studentquiz');
+        Route::get("/parent_viewquiz/{id}", [ParentController::class, "showquiz"])->name('parent.viewquiz');
+        Route::get("/parent_viewstudent/{id}", [ParentController::class, "showstudent"])->name('parent.viewstudent');
+
     });
 });
 

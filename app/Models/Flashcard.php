@@ -12,7 +12,7 @@ class Flashcard extends Model
     protected $table = "flashcards";
 
     protected $fillable = [
-        'category' ,
+        'category_id' ,
         'flashcard_title' ,
         'flashcard' ,
         'flashcard_backcontent' ,

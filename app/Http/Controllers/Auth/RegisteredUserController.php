@@ -31,26 +31,33 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        dd($request);
+        
         $request->validate([
-            'parent_name' => 'required|string|max:255',
-            'parent_email' => 'required|string|email|max:255|unique:'.User::class,
-            'parent_password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'child_name' => 'required|string|max:255',
-            'child_email' => 'required|string|email|max:255|unique:'.User::class,
-            'child_password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'parent_firstname'=>'required|string|max:255',
-            'parent_lastname'=>'required|string|max:255',
-            'parent_residence'=>'required|string|max:255',
-            'child_firstname'=>'required|string|max:255',
-            'child_lastname'=>'required|string|max:255',
-            'child_school'=>'required|string|max:255',
+            'parent_name' => 'required',
+            'parent_email' => 'required',
+            'parent_password' => 'required',
+            'child_email' => 'required',
+            'child_password' => 'required',
+            'parent_firstname'=>'required',
+            'parent_lastname'=>'required',
+            'parent_residence'=>'required',
+            'child_firstname'=>'required',
+            'child_lastname'=>'required',
+            'child_school'=>'required',
         ]);
 
-        $role='guest';
-
+        $role='parent';
+        $code=User::max('student_id');
+        if($code == ""){
+         $alphagen = "S0001";
+         $student_id = $alphagen;
+        }
+        else{
+         $student_id= ++$code;
+        }
+        
         $user = User::create([
             'name' => $request->parent_name,
             'email' => $request->parent_email,
@@ -61,23 +68,34 @@ class RegisteredUserController extends Controller
             'child_firstname' => $request->child_firstname,
             'child_lastname' => $request->child_lastname,
             'child_school' => $request->child_school,
+            'role' => $role,
+            'student_id' => $student_id,
         ]);
 
         $role='user';
-
+        $status='Enrolled';
         $user = User::create([
-            'name' => $request->parent_name,
-            'email' => $request->parent_email,
-            'password' => Hash::make($request->parent_password),
+            'name' =>$request->child_firstname,
+            'email' => $request->child_email,
+            'password' => Hash::make($request->child_password),
             'parent_firstname' => $request->parent_firstname,
             'parent_lastname' => $request->parent_lastname,
             'parent_residence' => $request->parent_residence,
             'child_firstname' => $request->child_firstname,
             'child_lastname' => $request->child_lastname,
             'child_school' => $request->child_school,
+            'role' => $role,
+            'student_id' => $student_id,
+            'student_status' => $status,
         ]);
+        if($user){
+            return redirect()->route('login');
+        }
+        else{
+
+            return back();
+        }
 
 
-        return redirect()->route('login');
     }
 }

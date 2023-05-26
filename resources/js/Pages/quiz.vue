@@ -3,13 +3,9 @@ import { Head, Link } from '@inertiajs/vue3';
 import Navbar from'../Components/Navbar.vue';
 
 defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
+    categories:Object,
 });
+
 </script>
 
 <template>
@@ -18,8 +14,8 @@ defineProps({
   
 <section class="bg-blue-500">
 <!-- Page Container -->
-<div class="bg-blue-500 flex flex-wrap  mb-2 pt-6">
-    <div class="w-full md:w-8/12 lg:w-12/12 px-8">
+<div class=" flex flex-wrap  mb-1 pt-10">
+    <div class="w-full md:w-8/12 lg:w-12/12 lg:mx-16">
             <!-- Header -->
         <h1 class="text-white text-4xl font-bold">
                Quiz Me
@@ -31,33 +27,29 @@ defineProps({
         </p>
     </div>
 </div>
+<!-- Page Container -->
+<div class="container my-12 mx-auto px-1">
+    <div class="flex flex-wrap -mx-1 lg:-mx-4">
 
-<div class="flex items-center justify-center bg-blue-500 py-20">
+        <div class="flex flex-col mt-16">
 
-    <div class="flex flex-col">
-        <!-- Notes -->
+            <div class="container px-4">
 
-
-        <div class="flex flex-col mt-8">
-            <!-- Meet the Team -->
-            <div class="container max-w-7xl px-4">
-              
-                <!-- Team Members -->
-                <div class="flex flex-wrap">
-                    <!-- Member #1 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
+                <div class="flex flex-wrap ">
+                    <!-- N0 #1 -->
+                    <div v-for="c in categories" :key="c.id" class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
+                        <div  class="flex flex-col">
                             <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-1.png">
+                            <a v-bind:href="route('quiz.show', c.id)" class="mx-auto">
+                                <img class="rounded-2xl h-[35vh] drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
+                                     :src="'/img/category/'+ c.category_image" >
                             </a>
 
                             <!-- Details -->
                             <div class="text-center mt-6">
                                 <!-- Name -->
                                 <h1 class="text-white text-xl font-bold mb-1">
-                                    Tranter Jaskulski
+                                    {{ c.category_name }}
                                 </h1>
 
                                
@@ -65,157 +57,6 @@ defineProps({
                         </div>
                     </div>
 
-                    <!-- Member #2 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-2.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Denice Jagna
-                                </h1>
-
-
-                          
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #3 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #4 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Member #1 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-1.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Tranter Jaskulski
-                                </h1>
-
-                               
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #2 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-2.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Denice Jagna
-                                </h1>
-
-
-                          
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #3 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member #4 -->
-                    <div class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
-                        <div class="flex flex-col">
-                            <!-- Avatar -->
-                            <a href="#" class="mx-auto">
-                                <img class="rounded-2xl drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
-                                    src="img/card-img-3.png">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="text-center mt-6">
-                                <!-- Name -->
-                                <h1 class="text-white text-xl font-bold mb-1">
-                                    Kenji Milton
-                                </h1>
-
-
-                              
-                            </div>
-                        </div>
-                    </div>
 
 
                 </div>
@@ -223,14 +64,15 @@ defineProps({
         </div>
     </div>
 </div>
-</section>
-
-<div class="bg-blue-500">
+<div class="">
 
 
                 <hr class="hr" />
              <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
 </div>
+</section>
+
+
 
 </template>
 

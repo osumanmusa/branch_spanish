@@ -1,0 +1,136 @@
+<script setup>
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AdminNavbar from "../../../Components/Admin/AdminNavbar.vue";
+import AdminSidebar from "../../../Components/Admin/AdminSidebar.vue";
+import pagination from "../../../Components/pagination.vue";
+import { Modal } from "flowbite";
+import {ref ,onMounted} from 'vue';
+
+const props = defineProps({
+    quizes: Object,
+    grades: Object,
+    message: String,
+});
+
+
+const questionslist = ref(true);
+const gradeslist = ref(false);
+function listquestions(){
+    questionslist.value = !questionslist.value;
+    gradeslist.value = false;
+}
+function listgrades(){
+    questionslist.value = false;
+    gradeslist.value = !gradeslist.value;
+}
+
+
+</script>
+<template>
+    <Head title="Flashcards" />
+
+    <div class="flex h-screen bg-blue">
+        <AdminSidebar />
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <AdminNavbar />
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
+                <div class="container mx-3 px-3 py-8">
+                    <!-- Breadcrumb -->
+                    <nav
+                        class="flex w-[25vw] px-5 py-3 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                        aria-label="Breadcrumb"
+                    >
+                        <ol
+                            class="inline-flex items-center space-x-1 md:space-x-3"
+                        >
+                            <li>
+                                <div class="flex items-center">
+                                    <i class="fa fa-angle-left fa-bold"></i>
+                                    <a
+                                        href="#"
+                                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                                        >Quizes</a
+                                    >
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    
+                    <div class="mb-4 border-b border-gray-200 dark:border-gray-700 mt-6">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" >
+                            <li class="mr-2" >
+                                <button @click="listquestions" class="register inline-block py-2 px-6 bg-blue-500 text-white hover:bg-blue-50 text-sm hover:text-white border border-primary font-bold transition duration-200" >
+                                    Questions</button>
+                            </li>
+                            <li class="mr-2">
+                                <button @click="listgrades " class="inline-block p-4 py-2 px-6 bg-white text-gray-400 hover:bg-blue-50 text-sm hover:text-white border border-default font-bold transition duration-200"  >
+                                Grades
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div v-if="questionslist">
+                    <div v-for="q in quizes" :key="q.id" class="mt-5 mb-5">
+                    <h2 id="accordion-collapse-heading-1 " >
+                        <p type="button" class="flex items-center px-6 justify-between w-[75vw] p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl  bg-gray-100">
+                        <span>Question {{ q.id }}</span>
+                     </p>
+                    </h2>
+                    <div class="border border-gray-200 w-[75vw]">
+                        <div class="p-5 px-16 border border-b-0 border-gray-200 ">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">A: {{ q.question }}</p>
+                        <hr class="hr mb-3"/>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">B: {{ q.answer_1 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">C: {{ q.answer_2 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">D: {{ q.answer_3 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">E: {{ q.answer_4 }}</p>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+
+<div v-if="gradeslist">
+
+    <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Student name</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Student Id</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                      <tr v-for="g in grades.data" :key="g.id" class="hover:bg-gray-100">
+        
+                        <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"> {{g.child_firstname +' ' + g.child_lastname}} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{g.student_id}} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{g.user_score +'/'+g.grade}} </td>
+        
+                      </tr>
+        
+                    </tbody>
+                </table>
+            </div>
+            <pagination class="justify-end" :links="grades.links"/>
+</div>
+
+
+            
+
+
+
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+</template>
+<style scoped>
+.hr{
+    border: 2px solid rgb(184, 181, 181);
+}
+</style>

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Flashcard;
+use App\Models\Category;
+use DB;
 
 class AdminFlashcardsController extends Controller
 {
@@ -17,9 +19,11 @@ class AdminFlashcardsController extends Controller
      */
     public function index()
     {
-        $flashcards=Flashcard::select('*')->paginate(15);
+        $flashcards = DB::table('categories')  
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')->paginate(15);
         return Inertia::render('Admin/Flashcards/index',[
             'flashcards'=> $flashcards
+
         ]);
         //
     }
@@ -29,7 +33,11 @@ class AdminFlashcardsController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Flashcards/create');
+        $categories= Category::select('id','category_name')->get();
+        return Inertia::render('Admin/Flashcards/create',[
+            'categories'=> $categories
+
+        ]);
     }
 
     /**
@@ -37,30 +45,38 @@ class AdminFlashcardsController extends Controller
      */
     public function store(Request $request)
     {
-      
-        $request->validate([
-            'category' => 'required',
-            'title' => 'required',
-            'flashcard' => 'required',
-            'backcontent' => 'required',
-            'frontcontent' => 'required',
-        ]);
+        
 
+
+        $flashcards= $request->flashcards;
+        
+        
+    foreach ($flashcards as $key => $value) {
 
         $flashcard = Flashcard::create([
-            'category' => $request->category,
-            'flashcard_title' => $request->title,
-            'flashcard' => $request->flashcard,
-            'flashcard_backcontent' => $request->backcontent,
-            'flashcard_frontcontent' => $request->frontcontent,
-        ]);
-        if($flashcard){
-            return redirect()->route('adminflashcards');
-        }
-        else{
+           'category_id' => $request->category,
+           'flashcard_title' => $value['title'],
+           'flashcard' => $value['flashcard'],
+           'flashcard_backcontent' => $value['backcontent'],
+           'flashcard_frontcontent' => $value['frontcontent'],     
+           ]);
+    }
+       if($flashcard ){
+        return redirect()->route('adminflashcards');
+       }
+       else{
 
-            return back();
-        }
+           return back();
+       }
+      
+        // $request->validate([
+        //     'category' => 'required',
+        //     'title' => 'required',
+        //     'flashcard' => 'required',
+        //     'backcontent' => 'required',
+        //     'frontcontent' => 'required',
+        // ]);
+
 
         
     }
@@ -78,7 +94,14 @@ class AdminFlashcardsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $flashcard=Flashcard::findOrFail($id);
+        $category = Category::where('category_name','=',$flashcard->id);
+
+        return Inertia::render('Admin/Flashcards/create', [
+            'flashcard' => $flashcard,
+            'category' =>'category'
+        ]);
+
     }
 
     /**
@@ -94,6 +117,9 @@ class AdminFlashcardsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $delflashcard=Flashcard::findOrFail($id);
+        
+        $delflashcard->delete();
+        return redirect()->route('adminflashcards');
     }
 }

@@ -34,16 +34,17 @@ class AdminCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'name' => 'required',
         ]);
         $category_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
-       $request->file('image')->move(public_path('img/'), $category_image);
+       $request->file('image')->move(public_path('img/category/'), $category_image);
 
 
        $category = Category::create([
            'category_name' => $request->name,
-           'category_image' => $request->category_image,
+           'category_image' => $category_image,
        ]);
        if($category){
            return redirect()->route('adminflashcards');

@@ -30,11 +30,27 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+     
+        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'])))
+        {
 
-        $request->session()->regenerate();
+        if (auth()->user()->role == 'parent') {
+                return redirect()->route('parent.home');
+            
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        }elseif(auth()->user()->role == 'user') {
+            return redirect()->route('welcome');
+
+        }else{
+            
+            return redirect()->route('login');
+        }
+        }
+
     }
 
     /**

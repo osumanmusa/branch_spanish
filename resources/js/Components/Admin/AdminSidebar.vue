@@ -4,10 +4,11 @@
     
     <div v-cloak :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="sidebar fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-blue-500 lg:translate-x-0 lg:static lg:inset-0">
         <div class="flex items-center justify-center mt-8">
-            <div class="flex items-center">
-                <span class="mx-2 font-semibold text-white">Name of Administrator</span>
+            <div class="flex flex-col items-center">
+                
+                <span class="mx-2 font-semibold text-white ">{{ $page.props.auth.user.name }}</span>
+                <p class="pt-2 text-white">Admin</p>
             </div>
-                <p class=" text-white">Admin</p>
         </div>
     
         <nav class="mt-10">
@@ -23,13 +24,13 @@
                 <span class="mx-3">Flash Cards</span>
             </a>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/tables">
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/pronounciation">
                 <img src="/img/dashboard/3.png"/>
     
                 <span class="mx-3">Pronounciation</span>
             </a>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/forms">
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/quiz">
                 <img src="/img/dashboard/4.png"/>
     
                 <span class="mx-3">Quiz me</span>
