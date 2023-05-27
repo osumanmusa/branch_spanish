@@ -27,9 +27,9 @@ onMounted(() => {
         // modal.show();
     }
 })
-const audiofile= '';
+const audiofile=ref();
 const flashcards = ref([]);
-const bolbFile = ref({})
+const blobFile=ref(); 
 const cardKey = ref(props.flashcard.data[0].flashcard_frontcontent);
 function Shuffle() {
      flashcards.value = _shuffle(props.flashcards);
@@ -75,14 +75,15 @@ function startRecording() {
             mediaRecorder.addEventListener('stop', function() {
               const audioBlob = new Blob(chunks, { type: 'audio/wav' });
               const audioUrl = URL.createObjectURL(audioBlob);
-              bolbFile.vaue = audioBlob;
+ 
+            //   blobFile.value = audioBlob;
              var formData = new FormData();
-        formData.append('audio',audioBlob);
+         formData.append('audio',audioBlob);
         formData.append('voiceid',props.flashcard.data[0].id);
            
-            bolbFile.value = formData;
+            blobFile.value = formData;
+                // audiofile.value = formData;
             
-              const audiofile= audioBlob;
               const audio = document.createElement('audio');
               audio.type='file';
               audio.controls = true;
@@ -118,37 +119,44 @@ function startRecording() {
 //     body:bolbFile
 // })
 // get cookie csrf from django
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+// function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             // Does this cookie string begin with the name we want?
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
 
 const submit = () => {
-	const csrf_token =  document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+	const csrf_token =  document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     fetch('/storevoice', {
     method: 'POST', 
     headers: {
 		'X-CSRFToken': csrf_token,
-        'Content-Type': 'multipart/form-data',
-        'url': 'storevoice',
+        // 'Content-Type': 'application/json',
+        'url': '/storevoice',
+        // 'Content-Type': undefined,
+        // 'Accept': 'application/json',
+        'Authorization': 
+        "Bearer ",
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'origin,X-Requested-With,content-type,accept',
+        'Access-Control-Allow-Credentials': 'true' 
     },
     
-    body:bolbFile.value
+    body:blobFile.value
 })
 };
 // const form = useForm({
-//     bolbFile:'',
+//     bolbFile: audiofile.value,
 
 // });
 // const submit = () => {
@@ -345,6 +353,8 @@ const submit = () => {
                 <!-- Modal body -->
               <form @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="p-6 space-y-6">
+                    
+  <!-- <input type="hidden" name="audio" id="audioInput" v-model="form.bolbFile"> -->
                     
                     <button type="button" @click="startRecording"><i class="fa fa-address-book"></i>Start Recording</button>
   

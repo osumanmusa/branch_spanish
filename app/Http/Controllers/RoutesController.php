@@ -12,6 +12,7 @@ use App\Models\Pronounciation;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Score;
+use App\Models\Voice;
 use DB;
 
 class RoutesController extends Controller
@@ -73,9 +74,25 @@ class RoutesController extends Controller
         ]);
     }
 
-    public function storevoice()
+    public function storevoice(Request $request, string $id)
     {
-        echo 'fweads';
+        dd($ij);
+
+        $user =  Auth::user()->id;
+        $record = time() . '-' . $request->bolbFile->getClientOriginalName();
+       $request->file('bolbFile')->move(public_path('audio/'), $record);
+       $voice = Voice::create([
+        'pronounciation_id' => $id,
+        'user_voice' => $record,
+        'user_id' =>$user,
+    ]);
+    if($voice ){
+        return redirect()->back();
+    }
+    else{
+
+        return back();
+    }
     }
 
     /**
