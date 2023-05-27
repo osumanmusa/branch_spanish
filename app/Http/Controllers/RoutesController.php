@@ -74,20 +74,22 @@ class RoutesController extends Controller
         ]);
     }
 
-    public function storevoice(Request $request, string $id)
+    public function storevoice(Request $request)
     {
-        dd($ij);
+        $id=$request['voiceid'];
+        $user_voice=$request['audio'];
 
         $user =  Auth::user()->id;
-        $record = time() . '-' . $request->bolbFile->getClientOriginalName();
-       $request->file('bolbFile')->move(public_path('audio/'), $record);
+        $record = time() . '-' . $user_voice->getClientOriginalName();
+       $user_voice->move(public_path('audio/'), $record);
+       
        $voice = Voice::create([
         'pronounciation_id' => $id,
         'user_voice' => $record,
         'user_id' =>$user,
     ]);
     if($voice ){
-        return redirect()->back();
+        return back();
     }
     else{
 

@@ -27,7 +27,6 @@ onMounted(() => {
         // modal.show();
     }
 })
-const audiofile=ref();
 const flashcards = ref([]);
 const blobFile=ref(); 
 const cardKey = ref(props.flashcard.data[0].flashcard_frontcontent);
@@ -59,6 +58,7 @@ function playSound (sound) {
       }
     }
 
+    let audiofile = null;
 
 function startRecording() {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -71,18 +71,19 @@ function startRecording() {
             mediaRecorder.addEventListener('dataavailable', function(e) {
               chunks.push(e.data);
             });
-
             mediaRecorder.addEventListener('stop', function() {
-              const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+              const audioBlob = new Blob(chunks, { type: 'audio/mp3' });
               const audioUrl = URL.createObjectURL(audioBlob);
- 
+              audiofile = new FormData();
+    audiofile.append('audio', audioBlob);
+    audiofile.append('voiceid', props.flashcard.data[0].id);
             //   blobFile.value = audioBlob;
-             var formData = new FormData();
-         formData.append('audio',audioBlob);
-        formData.append('voiceid',props.flashcard.data[0].id);
+        //      var formData = new FormData();
+        //  formData.append('audio',audioBlob);
+        // formData.append('voiceid',props.flashcard.data[0].id);
            
-            blobFile.value = formData;
-                // audiofile.value = formData;
+        //     // blobFile.value = formData;
+        //         audiofile = formData;
             
               const audio = document.createElement('audio');
               audio.type='file';
@@ -108,35 +109,10 @@ function startRecording() {
       }
 
       
-// fetch('/payment', {
-//     method: 'POST', 
-//     // headers: {
-//     //     'Content-Type': 'multipart/form-data',
-//     //     'url': 'storevoice',
-
-//     // },
-    
-//     body:bolbFile
-// })
-// get cookie csrf from django
-// function getCookie(name) {
-//     let cookieValue = null;
-//     if (document.cookie && document.cookie !== '') {
-//         const cookies = document.cookie.split(';');
-//         for (let i = 0; i < cookies.length; i++) {
-//             const cookie = cookies[i].trim();
-//             // Does this cookie string begin with the name we want?
-//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//                 break;
-//             }
-//         }
-//     }
-//     return cookieValue;
-// }
-
 const submit = () => {
+    
 	const csrf_token =  document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
     fetch('/storevoice', {
     method: 'POST', 
     headers: {
@@ -152,9 +128,11 @@ const submit = () => {
         'Access-Control-Allow-Credentials': 'true' 
     },
     
-    body:blobFile.value
+    body:audiofile
 })
 };
+
+
 // const form = useForm({
 //     bolbFile: audiofile.value,
 
@@ -162,10 +140,6 @@ const submit = () => {
 // const submit = () => {
 //     form.post(route('voice.store',props.flashcard.data[0].id));
 // };
-// const handels = ()=>{
-//     window.console.log(bolbFile.value)
-//     window.console.log('dsadsadas')
-// }
 
 </script>
 
@@ -351,7 +325,7 @@ const submit = () => {
                     </button>
                 </div>
                 <!-- Modal body -->
-              <form @submit.prevent="submit" enctype="multipart/form-data">
+              <form @submit="submit" enctype="multipart/form-data">
                 <div class="p-6 space-y-6">
                     
   <!-- <input type="hidden" name="audio" id="audioInput" v-model="form.bolbFile"> -->
