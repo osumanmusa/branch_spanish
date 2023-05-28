@@ -46,7 +46,7 @@ const props = defineProps({
 
                     <div class="flex flex-col lg:w-[70vw]  bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
               
-                        <div v-for="c in child" key="c.id" class="grid grid-cols-2 gap-4 mt-3 mb-2">
+                        <div v-for="c in child" :key="c.id" class="grid grid-cols-2 gap-4 mt-3 mb-2">
                             <div><span> <b>First Name :</b></span> {{c.child_firstname}}  </div>
                             <div><span> <b>Last Name :</b></span> {{c.child_lastname}} </div>
                             <div><span> <b>Parent First Name :</b></span> {{c.parent_firstname}}  </div>
@@ -61,7 +61,8 @@ const props = defineProps({
                             
                             <div></div>
                             <div><span> <b>Category Name :</b></span> {{c.category_name}} </div>
-                            <div><span> <b>Quiz Score :</b></span> {{c.user_score}}/ <span v-if="c.q_total == '' ">0</span><span v-else>{{c.q_total  }}</span></div>
+                            <div><span> <b>Quiz Score :</b></span> {{c.user_score}}% </div>
+                            <div><span> <b>Quiz Grade :</b> {{c.grade }}</span></div>
                         </div>
                     </div>
 

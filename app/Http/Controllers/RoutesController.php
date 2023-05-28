@@ -78,6 +78,11 @@ class RoutesController extends Controller
     {
         $id=$request['voiceid'];
         $user_voice=$request['audio'];
+        if ($user_voice =='') {
+            $errormessage='An Error Occured';
+            return redirect()->back()->with('errormessage',$errormessage);
+            # code...
+        }else{
 
         $user =  Auth::user()->id;
         $record = time() . '-' . $user_voice->getClientOriginalName();
@@ -89,12 +94,16 @@ class RoutesController extends Controller
         'user_id' =>$user,
     ]);
     if($voice ){
-        return back();
+        $successmessage='Delivered Successfully';
+        return redirect()->back()->with('successmessage',$successmessage);
     }
     else{
-
-        return back();
+        $errormessage='An Error Occured';
+        return back()->with('errormessage',$errormessage);
     }
+
+    }
+
     }
 
     /**

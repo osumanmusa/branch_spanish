@@ -3,13 +3,43 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import ParentNavbar from "../../../Components/Parent/ParentNavbar.vue";
 import ParentSidebar from "../../../Components/Parent/ParentSidebar.vue";
 import pagination from "../../../Components/pagination.vue";
-import { onMounted } from "vue";
+import { ref, onMounted,  computed } from 'vue';
 import { Modal } from "flowbite";
+// import gsap from 'gsap';
 
 const props = defineProps({
     child: Object,
     message: String,
 });
+
+const query = ref('')
+
+props.child = computed(() => {
+  return child[0].filter((c) => c.id.toLowerCase().includes(query.value))
+})
+
+function onBeforeEnter(el) {
+  el.style.opacity = 0
+  el.style.height = 0
+}
+
+function onEnter(el, done) {
+  gsap.to(el, {
+    opacity: 1,
+    height: '1.6em',
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  })
+}
+
+function onLeave(el, done) {
+  gsap.to(el, {
+    opacity: 0,
+    height: 0,
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  })
+}
 </script>
 <template>
     <Head title="Flashcards" />
@@ -78,11 +108,9 @@ const props = defineProps({
                                                 </svg>
                                             </div>
                                             <input
-                                                type="text"
-                                                id="simple-search"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                 placeholder="Search"
-                                                required=""
+                                                v-model="query"
                                             />
                                         </div>
                                     </form>
@@ -132,9 +160,13 @@ const props = defineProps({
                                     <tbody
                                         class="divide-y divide-gray-200 dark:divide-gray-700"
                                     >
+                                    
+                                    <TransitionGroup
+                                     @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
                                         <tr
-                                            v-for="c in child"
+                                            v-for=" (c, index) in child"
                                             :key="c.id"
+      :data-index="index"
                                             class="hover:bg-gray-100"
                                         >
                                             <td
@@ -176,6 +208,8 @@ const props = defineProps({
                                                 </Link>
                                             </td>
                                         </tr>
+
+                                    </TransitionGroup>
                                     </tbody>
                                 </table>
                             </div>

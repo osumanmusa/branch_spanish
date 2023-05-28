@@ -23,8 +23,11 @@ class ParentController extends Controller
     public function dashboard()
     {   $parent_id =Auth::user()->student_id;
         $child =User::where('users.student_id','=',$parent_id)->where('role','=','user')->get();
+        
+        $successmessage='Welcome';
         return Inertia::render('Parent/dashboard',[
             'child'=> $child,
+            ''
         ]);
     }
 
