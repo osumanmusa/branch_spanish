@@ -34,12 +34,15 @@ class ParentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function quiz()
+    public function quiz(Request $request)
     {   $parent_id =Auth::user()->student_id;
         $child =  DB::table('categories')  
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
-        ->where('users.student_id','=',$parent_id)->get();
+        ->where('users.student_id','=',$parent_id)
+        ->when($request->search, function ($query, $search) {
+            $query->where('email', 'like', '%' . $search . '%');
+        })->get();
         return Inertia::render('Parent/Quiz/index',[
             'child'=> $child,
         ]);

@@ -5,6 +5,8 @@ import ParentSidebar from "../../../Components/Parent/ParentSidebar.vue";
 import pagination from "../../../Components/pagination.vue";
 import { ref, onMounted,  computed } from 'vue';
 import { Modal } from "flowbite";
+import { watch } from "vue";
+import _ from "lodash";
 // import gsap from 'gsap';
 
 const props = defineProps({
@@ -12,34 +14,15 @@ const props = defineProps({
     message: String,
 });
 
-const query = ref('')
+const form = useForm({
+    search: '',
 
-props.child = computed(() => {
-  return child[0].filter((c) => c.id.toLowerCase().includes(query.value))
-})
+});
+const submit = () => {
+    form.get(route('parent.studentquiz'));
+	
 
-function onBeforeEnter(el) {
-  el.style.opacity = 0
-  el.style.height = 0
-}
-
-function onEnter(el, done) {
-  gsap.to(el, {
-    opacity: 1,
-    height: '1.6em',
-    delay: el.dataset.index * 0.15,
-    onComplete: done
-  })
-}
-
-function onLeave(el, done) {
-  gsap.to(el, {
-    opacity: 0,
-    height: 0,
-    delay: el.dataset.index * 0.15,
-    onComplete: done
-  })
-}
+};
 </script>
 <template>
     <Head title="Flashcards" />
@@ -83,7 +66,7 @@ function onLeave(el, done) {
                                 class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
                             >
                                 <div class="w-full md:w-1/2">
-                                    <form class="flex items-center">
+                                    <form  class="flex items-center">
                                         <label
                                             for="simple-search"
                                             class="sr-only"
@@ -110,7 +93,7 @@ function onLeave(el, done) {
                                             <input
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                 placeholder="Search"
-                                                v-model="query"
+                                                v-model="form.search" @keyup="submit"
                                             />
                                         </div>
                                     </form>
