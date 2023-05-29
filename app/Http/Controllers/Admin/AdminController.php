@@ -20,9 +20,12 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $students= User::where('role', '=' ,'user')->paginate(12);
+        $students= User::where('role', '=' ,'user')
+        ->when($request->search, function ($query, $search) {
+            $query->where('child_firstname', 'like', '%' . $search . '%');
+        })->paginate(12);
         $parents= User::where('role','=','parent')->paginate(12);
         $total_students=count($students);
         return Inertia::render('Admin/dashboard',[
@@ -47,22 +50,99 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+        $id=Auth::user()->id;
+        if($request->image == ""){
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+            ]);
+    
+    
+                $profile = DB::table('users')
+                  ->where('id', $id)
+                  ->update(
+                      [ 
+                        'name' => $request->name,
+                        'email' => $request->email,
+                    ]);
+    
+            if ($profile) {
+                $successmessage = 'Updated Successsfully';
+                return redirect()->route('admin.home')->with('successmessage',$successmessage);
+                   }
+        }else{
+         $request->validate([
+             'name' => 'required',
+             'email' => 'required',
+         ]);
+ 
+         $profile_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
+         $request->file('image')->move(public_path('img/profile-img/'), $profile_image);
+              $profile = DB::table('users')
+               ->where('id', $id)
+               ->update(
+                   [ 
+                     'name' => $request->name,
+                     'email' => $request->email,
+                     'profile_image' =>$profile_image,
+                  
+                 ]);
+ 
+         if ($profile) {
+            $successmessage = 'Updated Successsfully';
+            return redirect()->route('admin.home')->with('successmessage',$successmessage);
+            }
+            else{
+         
+                    return back();
+                }
+ 
+         }
+
+         return back();
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function storepass(Request $request)
     {
+        $request->validate([
+            'password' =>'required',
+        ]);
+
+        $profile = DB::table('users')
+              ->where('id', $id)
+              ->update(
+                  [ 
+                    'password' => Hash::make($request->password),
+                 
+                ]);
+
+        if ($profile) {
+            return redirect()->route('admin.home');
+               }
+               else{
+        
+                   return back();
+               }
+
+        
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
+        $user_id=Auth::user()->id;
+        $user=User::where('id','=',$user_id)->get();
+            // dd($user);
+        return Inertia::render('Admin/Profile/edit',[
+            'user'=>$user,
+        ]);
         //
     }
 

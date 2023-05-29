@@ -46,10 +46,10 @@ function selectFile($event) {
 
         <div class="relative mx-4 lg:mx-0">
             
-        <p>Dashboard</p>
+        
     </div>
 <button id="button" type="button" class="relative lg:px-4 " >
-  Category 
+ Add Category 
 </button>
 
     </div>
@@ -57,9 +57,9 @@ function selectFile($event) {
     <div class="flex items-center">
         
         <div  class="relative">
-            <button class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
+            <Link href="/admin/editprofile"  class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
                 <img class="object-cover w-full h-full" src="/img/avatar.jpg" alt="Your avatar">
-            </button>
+            </Link>
 
   
         </div>

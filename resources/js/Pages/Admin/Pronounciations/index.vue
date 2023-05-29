@@ -3,16 +3,38 @@ import {  Head, Link, useForm } from '@inertiajs/vue3';
 import AdminNavbar from "../../../Components/Admin/AdminNavbar.vue";
 import AdminSidebar from "../../../Components/Admin/AdminSidebar.vue";
 import pagination from "../../../Components/pagination.vue";
-import { onMounted } from 'vue';
+import {ref ,onMounted} from 'vue';
 import { Modal } from 'flowbite';
 
 
 
 const props=defineProps({
     pronounciation: Object,
+    submissions: Object,
     message:String,
 
 });
+const form = useForm({
+    search: '',
+
+});
+const submit = (e) => {
+    e.target.preventDefault();
+    
+    form.get('/admin/pronounciation');
+	
+
+};
+
+const showsubmissions = ref(false);
+const showpronoun = ref(true);
+function listsubmissions(){
+    showpronoun.value = false;
+    showsubmissions.value = !showsubmissions.value;
+}function listpronoun(){
+    showpronoun.value = !showpronoun.value;
+    showsubmissions.value = false;
+}
 </script>
 <template>
     <Head title="Pronounciations" />
@@ -34,7 +56,9 @@ const props=defineProps({
     <li>
       <div class="flex items-center">
       <i class="fa fa-angle-left fa-bold"></i>
-        <a href="#" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Pronounciation</a>
+        <buton @click="listsubmissions" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+            Pronounciation
+        </buton>
       </div>
     </li>
   </ol>
@@ -56,20 +80,47 @@ const props=defineProps({
                                     <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
+                            <input v-model="form.search" @keyup="submit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
+                        <button></button>
                         </div>
                     </form>
                 </div>
                 <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <a href="/admin_create_flashcard" class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                      Submissions
-                  </a>
+                    <Button @click="listsubmissions"  class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                      Submissions/Pronounciation
+                  </Button>
                   <a href="/admin/create_pronounciation" class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                       Add Pronounciation
                   </a>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+
+            <div v-if="showsubmissions" class="overflow-x-auto">
+                <table class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 border ">Category name</th>
+                            <th scope="col" class="px-4 py-3">Flashcard</th>
+                            <th scope="col" class="px-4 py-3 border ">Pronounciation Title</th>
+                            <th scope="col" class="px-4 py-3 border ">Submission Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                      <tr v-for="s in submissions.data" :key="s.id" class="hover:bg-gray-100">
+        
+                        <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200">{{ s.category_name }}</td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"> {{ s.flashcard_title }} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"> {{ s.pronounciation_title }} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"><audio ref="player" :src="'/audio/'+ s.user_voice" controls type="audio/mp3"  ></audio> </td>
+        
+
+                      </tr>
+        
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-else class="overflow-x-auto">
                 <table class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -102,6 +153,8 @@ const props=defineProps({
                 </table>
             </div>
             <pagination />
+            
+
         </div>
     </div>
 

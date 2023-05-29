@@ -82,6 +82,9 @@ All Admin Routes List
         Route::get("/admin_show_quiz/{id}", [AdminQuizController::class, "show"])->name('admin.viewquiz');
         Route::post("/admin/store_quiz", [AdminQuizController::class, "store"])->name('admin.quiz.store');
         Route::get("/admin_delete_quiz/{id}", [AdminQuizController::class, "destroy"])->name('admin.deletequiz');
+        Route::get("/admin/editprofile", [AdminController::class, "edit"])->name('admin.editprofile');
+        Route::post("/admin/storeprofile", [AdminController::class, "store"])->name('admin.profile.store');
+        Route::post("/admin/storepass", [AdminController::class, "storepass"])->name('admin.profile.storepass');
     });
 
 

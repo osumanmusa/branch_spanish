@@ -25,11 +25,6 @@
                 <span class="mx-3">Quiz me</span>
             </a>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/forms">
-                <img src="/img/dashboard/5.png"/>
-    
-                <span class="mx-3">Contesta</span>
-            </a>
         </nav>
     </div>
 </template>

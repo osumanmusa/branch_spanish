@@ -22,12 +22,15 @@ class ParentController extends Controller
      */
     public function dashboard()
     {   $parent_id =Auth::user()->student_id;
-        $child =User::where('users.student_id','=',$parent_id)->where('role','=','user')->get();
+        $child =User::where('users.student_id','=',$parent_id)->where('role','=','user')
+        ->when($request->search, function ($query, $search) {
+            $query->where('child_firstname', 'like', '%' . $search . '%');
+        })->get();
         
         $successmessage='Welcome';
         return Inertia::render('Parent/dashboard',[
             'child'=> $child,
-            ''
+            
         ]);
     }
 
@@ -41,7 +44,7 @@ class ParentController extends Controller
         ->join('users', 'userscore.user_id', '=', 'users.id')
         ->where('users.student_id','=',$parent_id)
         ->when($request->search, function ($query, $search) {
-            $query->where('email', 'like', '%' . $search . '%');
+            $query->where('child_firstname', 'like', '%' . $search . '%');
         })->get();
         return Inertia::render('Parent/Quiz/index',[
             'child'=> $child,

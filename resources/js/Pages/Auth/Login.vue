@@ -48,10 +48,7 @@ const currenttab=ref(pages[props.page]);
     
              <p class="text-blue-400">QUIZ ME</p>
     </Link>
-    <Link  href="/contesta" class="favorite hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-20 hover:bg-gray-200 text-sm text-gray-900 font-bold transition duration-200"><img src="img/i4.png" class="nav-icon p-2"/>
-    
-             <p class="text-blue-400">CONTESTA</p>
-    </Link>
+
 
 
     </div>  

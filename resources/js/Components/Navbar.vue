@@ -74,7 +74,7 @@ let showMenu = ref(false);
 
 
         <Link :href="route('logout')" method="post" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50">
-          <img src="/img/i3.png" class="nav-icon p-2 sm:jstify-start"/>
+          <img src="/img/logout1.jpg" class="nav-icon p-2 sm:jstify-start"/>
     
         <p class="text-blue-400">Logout</p>
         </Link>

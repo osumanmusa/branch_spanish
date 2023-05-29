@@ -17,10 +17,14 @@ class AdminFlashcardsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $flashcards = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')->paginate(15);
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        ->when($request->search, function ($query, $search) {
+            $query->where('flashcard_title', 'like', '%' . $search . '%')
+            ->orwhere('category_name', 'like', '%' . $search . '%');
+        })->paginate(10);
         return Inertia::render('Admin/Flashcards/index',[
             'flashcards'=> $flashcards
 

@@ -1,20 +1,33 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import AdminNavbar from "../../Components/Parent/ParentNavbar.vue";
-import AdminSidebar from "../../Components/Parent/ParentSidebar.vue";
-import { ref, onMounted } from 'vue';
+import ParentNavbar from "../../Components/Parent/ParentNavbar.vue";
+import ParentSidebar from "../../Components/Parent/ParentSidebar.vue";
+import pagination from "../../Components/pagination.vue";
+import { ref, onMounted,  computed } from 'vue';
+import { Modal } from "flowbite";
+import { watch } from "vue";
+import _ from "lodash";
 const props = defineProps({
     child: Object,
     successmessage: Object,
 });
+const form = useForm({
+    search: '',
+
+});
+const submit = () => {
+    form.get(route('parent.studentquiz'));
+	
+
+};
 </script>
 <template>
     <Head title="Dashboard" />
     <div class="flex h-screen bg-blue">
-        <AdminSidebar />
+        <ParentSidebar />
 
         <div class="flex-1 flex flex-col overflow-hidden">
-            <AdminNavbar />
+            <ParentNavbar />
 
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                 <div class="container mx-auto px-6 py-8">
@@ -119,11 +132,9 @@ const props = defineProps({
                                                 </svg>
                                             </div>
                                             <input
-                                                type="text"
-                                                id="simple-search"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                 placeholder="Search"
-                                                required=""
+                                                v-model="form.search" @keyup="submit"
                                             />
                                         </div>
                                     </form>
@@ -131,12 +142,6 @@ const props = defineProps({
                                 <div
                                     class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
                                 >
-                                    <a
-                                        href="/admin_create_flashcard"
-                                        class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                    >
-                                        Print
-                                    </a>
                                 </div>
                             </div>
                             <div class="overflow-x-auto">

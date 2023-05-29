@@ -11,6 +11,10 @@ use Inertia\Response;
 use App\Models\Flashcard;
 use App\Models\Category;
 use App\Models\Pronounciation;
+use App\Models\Quiz;
+use App\Models\User;
+use App\Models\Score;
+use App\Models\Voice;
 use DB;
 
 class AdminPronounciationController extends Controller
@@ -18,13 +22,22 @@ class AdminPronounciationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $pronounciation = DB::table('categories')  
         ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')->paginate(15);
+        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')
+        ->when($request->search, function ($query, $search) {
+            $query->where('flashcard_title', 'like', '%' . $search . '%')
+            ->orwhere('category_name', 'like', '%' . $search . '%');
+        })->paginate(15);
+        $submissions = DB::table('categories')  
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')
+        ->join('user_record', 'pronounciation.id', '=', 'user_record.pronounciation_id')->paginate(15);
         return Inertia::render('Admin/Pronounciations/index',[
-            'pronounciation'=> $pronounciation
+            'pronounciation'=> $pronounciation,
+            'submissions'=> $submissions,
 
         ]);
     }

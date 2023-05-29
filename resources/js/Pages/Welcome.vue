@@ -30,19 +30,19 @@ defineProps({
 
 <section class="bg-blue-500">
 <!-- Page Container -->
-<div class="container my-12 px-4 md:px-12">
+<div class="container my-12 mx-auto px-1">
     <div class="flex flex-wrap -mx-1 lg:-mx-4">
 
         <div class="flex flex-col mt-16">
 
-            <div class="container max-w-7xl px-4">
+            <div class="container  px-4">
 
                 <div class="flex flex-wrap ">
                     <!-- N0 #1 -->
                     <div v-for="c in categories" :key="c.id" class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4">
                         <div  class="flex flex-col">
                             <!-- Avatar -->
-                            <a href="#" class="mx-auto">
+                            <a v-bind:href="route('card.show', c.id)"  class="mx-auto">
                                 <img class="rounded-2xl h-[35vh] drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
                                      :src="'/img/category/'+ c.category_image" >
                             </a>
@@ -69,10 +69,10 @@ defineProps({
 <div class="bg-blue-500">
     <div class="flex justify-center p-4">
 
-    <button
-            class=" py-2 px-6 mb-5 pb-5 pt-5 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white hover:text-yellow-700 text-sm text-white font-bold transition duration-200"
+    <Link
+            class=" py-2 px-6 mb-5 pb-5 pt-5 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white hover:text-yellow-700 text-sm text-white font-bold transition duration-200" href="/flashcards"
             >Explore More
-    </button>
+    </Link>
 
     </div>
 
