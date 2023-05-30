@@ -39,7 +39,7 @@ const submit = () => {
 <template>
     <Head title="Quiz" />
     <Navbar/>
-    {{ checkedanswer }}
+   
 <div class="container my-6 mx-auto px-4 md:px-12">
     <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
         <div class="flex items-center justify-between">

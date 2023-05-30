@@ -25,10 +25,13 @@ class AdminFlashcardsController extends Controller
             $query->where('flashcard_title', 'like', '%' . $search . '%')
             ->orwhere('category_name', 'like', '%' . $search . '%');
         })->paginate(10);
+        
         return Inertia::render('Admin/Flashcards/index',[
             'flashcards'=> $flashcards
 
         ]);
+        
+       
         //
     }
 
@@ -66,11 +69,13 @@ class AdminFlashcardsController extends Controller
            ]);
     }
        if($flashcard ){
-        return redirect()->route('adminflashcards');
+        $successmessage = 'Created Successsfully';
+        return redirect()->route('adminflashcards')->with('successmessage',$successmessage);
        }
        else{
-
-           return back();
+        $errormessage = 'Created Successsfully';
+        return back()->with('errormessage',$errormessage);
+        
        }
       
         // $request->validate([
@@ -124,6 +129,8 @@ class AdminFlashcardsController extends Controller
         $delflashcard=Flashcard::findOrFail($id);
         
         $delflashcard->delete();
-        return redirect()->route('adminflashcards');
+        
+        $successmessage = 'Deleted Successsfully';
+        return redirect()->route('adminflashcards')->with('successmessage',$successmessage);
     }
 }

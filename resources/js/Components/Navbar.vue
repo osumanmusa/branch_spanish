@@ -67,7 +67,7 @@ let showMenu = ref(false);
         </Link>
         <Link href="#" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50">
           
-          <img class="nav-icon p-2 h-[9vh]" src="/img/avatar.jpg" alt="Your avatar">
+          <img class="nav-icon p-2 h-[9vh]" src="/img/avatar.png" alt="Your avatar">
     
         <p class="text-blue-400 md:text-center">{{ $page.props.auth.user.name }}</p>
         </Link>
@@ -81,7 +81,7 @@ let showMenu = ref(false);
             
 
       </div>
-      <li v-else>
+      <div v-else class="flex-col sm:grid-cols-3">
         <Link href="/flashcards" class="lg:inline-block lg:ml-auto px-6 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2" />
                 
                 <p class="text-blue-400">FLASH CARDS</p></Link>
@@ -93,12 +93,12 @@ let showMenu = ref(false);
         <p class="text-blue-400">QUIZ ME</p>
         </Link>
         <Link 
-            :href="route('login')" class="lg:ml-auto lg:mr-3 py-2 px-6 bg-white text-blue-400 hover:bg-blue-50 text-sm hover:text-white border border-primary font-bold transition duration-200"> 
+            :href="route('login')" class="lg:ml-auto lg:mr-3  py-2 px-6 bg-white text-blue-400 hover:bg-blue-50 text-sm hover:text-white border border-primary font-bold transition duration-200"> 
             Login</Link>
         <Link 
-            :href="route('login')" class=" lg:ml-auto lg:mr-3 py-2 px-6  bg-blue-500 hover:bg-white hover:text-blue-500 hover:border border-primary hover:text-blue text-sm text-white font-bold transition duration-200">
+            :href="route('login')" class="lg:ml-auto lg:mr-3 py-2 px-6  bg-blue-500 hover:bg-white hover:text-blue-500 hover:border border-primary hover:text-blue text-sm text-white font-bold transition duration-200">
             Register</Link>
-      </li>
+      </div>
           </ul>
     </nav>
 </template>

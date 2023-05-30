@@ -6,8 +6,6 @@ import pagination from "../../Components/pagination.vue";
 import {ref ,onMounted} from 'vue';
 import { Modal } from "flowbite";
 const props=defineProps({
-    total_students: Object,
-    students: Object,
     parents: Object,
     message:String,
     successmessage: Object,
@@ -88,46 +86,10 @@ const submit = () => {
     </button>
     </div>
 </Transition>
-                    <!-- component -->
-                    <div
-                        class="mb-6 bg-green-600 lg:w-[18vw] border rounded-xl shadow-sm sm:flex dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
-                    >
-                        <div class="flex flex-wrap">
-                            <div class="p-1 flex flex-col h-full sm:p-7">
-                                <h3
-                                    class="text-lg font-bold text-gray-100 dark:text-white"
-                                >
-                                    Student
-                                </h3>
-                                <p
-                                    class="mt-1 text-gray-100 dark:text-gray-400"
-                                >
-                                    {{ total_students }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap">
-                            <div class="p-1 flex flex-col h-full sm:p-7">
-                                <p class="mt-1">
-                                    <img src="/img/icon.png" class="h[10vh]" />
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Componen end-->
+             
                     <!--Table start-->
                     <div class="mb-4 border-b border-gray-200 dark:border-gray-700 mt-6">
                         <ul class="flex -mb-px text-sm font-medium text-center" >
-                            <li class="mr-2" >
-                                <button @click="liststudent" class="register inline-block py-2 px-6 bg-blue-500 text-white hover:bg-blue-50 text-sm hover:text-white border border-primary font-bold transition duration-200" >
-                                    Students</button>
-                            </li>
-                            <li class="mr-2">
-                                <button @click="listparent " class="inline-block p-4 py-2 px-6 bg-white text-gray-400 hover:bg-blue-50 text-sm hover:text-white border border-default font-bold transition duration-200"  >
-                                Parents
-                                </button>
-                            </li>
                             <div class="w-full md:w-1/2">
                                 <form class="flex items-center">
                                     <label for="simple-search" class="sr-only">Search</label>
@@ -146,7 +108,7 @@ const submit = () => {
                     </div>
 
 
-                    <div v-if="studentlist" class="mx-auto max-w-screen-l lg:px-3">
+                    <div class="mx-auto max-w-screen-l lg:px-3">
                         
                         <!-- Start coding here -->
                         <div
@@ -168,7 +130,16 @@ const submit = () => {
                                                 Student name
                                             </th>
                                             <th scope="col" class="px-4 py-3">
-                                                Studnt Id
+                                                Student Id
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-4 py-3 border"
+                                            >
+                                                Parent name
+                                            </th>
+                                            <th scope="col" class="px-4 py-3">
+                                                student School
                                             </th>
                                             <th
                                                 scope="col"
@@ -180,34 +151,63 @@ const submit = () => {
                                                 scope="col"
                                                 class="px-4 py-3 border"
                                             >
-                                                Status
+                                                Enrollement Status
+                                            </th>
+                                            
+                                            <th
+                                                scope="col"
+                                                class="px-4 py-3 border"
+                                            >
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody
                                         class="divide-y divide-gray-200 dark:divide-gray-700"
                                     >
-                                        <tr v-for="s in students.data" :key="s.id" class="hover:bg-gray-100">
+                                        <tr v-for="p in parents.data" :key="p.id" class="hover:bg-gray-100">
                                             <td
                                                 class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
                                             >
-                                                {{s.child_firstname +' ' + s.child_lastname}}
+                                                {{p.child_firstname +' ' + p.child_lastname}}
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ s.student_id }}
+                                                {{ p.student_id }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{p.parent_firstname +' ' + p.parent_lastname}}
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ s.created_at }}
+                                                {{ p.child_school }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{ p.created_at }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                            >
+                                                {{ p.student_status }}
                                             </td>
 
                                             <td
-                                                class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium"
-                                            >
-                                                {{ s.student_status }}
+                                                class="px-6 mx-1 py-4 border whitespace-nowrap text-center text-sm font-medium"
+                                            > 
+                                                <a class="p-4 py-2 px-6 bg-white text-green-400 hover:bg-green-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('admin.acconts.enroll', p.id)">
+                                                     Enroll/activate
+                                                </a> 
+                                                
+                                
+                                                <a class="p-4 mx-1 py-2 px-6 bg-white text-red-500 hover:bg-red-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('admin.accounts.de-activate', p.id)">
+                                                    <i class="fa fa-trash fa-solid" aria-hidden="true"></i> De-activate
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -220,75 +220,6 @@ const submit = () => {
                     <!--Table end-->
 
                     
-                    <div v-if="parentlist" class="mx-auto max-w-screen-l lg:px-3">
-                        <!-- Start coding here -->
-                        <div
-                            class="bg-white dark:bg-gray-800 relative sm:rounded-lg overflow-hidden"
-                        >
-                            
-                            <div class="overflow-x-auto">
-                                <table
-                                    class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400"
-                                >
-                                    <thead
-                                        class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                                    >
-                                        <tr>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Parent name
-                                            </th>
-                                            <th scope="col" class="px-4 py-3">
-                                                child name
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Email Address
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Phone Number
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody
-                                        class="divide-y divide-gray-200 dark:divide-gray-700"
-                                    >
-                                        <tr v-for="p in parents.data" :key="p.id" class="hover:bg-gray-100">
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{p.parent_firstname +' ' + p.parent_lastname}}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                            {{p.child_firstname +' ' + p.child_lastname}}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ p.email }}
-                                            </td>
-
-                                            <td
-                                                class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium"
-                                            >
-                                                {{ p.mobile }}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <pagination />
-                        </div>
-                    </div>
 
                     <!--Table end-->
                 </div>

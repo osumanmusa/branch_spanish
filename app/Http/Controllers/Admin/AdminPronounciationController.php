@@ -77,11 +77,12 @@ class AdminPronounciationController extends Controller
            'pronounciation_voice' => $record,
        ]);
        if($pronounciation ){
-           return redirect()->route('admin.pronounciation');
+        $successmessage = 'Created Successsfully';
+        return redirect()->route('admin.pronounciation')->with('successmessage',$successmessage);
        }
        else{
-
-           return back();
+        $errormessage = '!Error Something Happend';
+        return back()->with('errormessage',$errormessage);
        }
         //
     }
@@ -118,6 +119,8 @@ class AdminPronounciationController extends Controller
         $delpronounciation=Pronounciation::findOrFail($id);
         
         $delpronounciation->delete();
-        return redirect()->route('admin.pronounciation');
+        
+        $successmessage = 'Deleted Successsfully';
+        return redirect()->route('admin.pronounciation')->with('successmessage',$successmessage);
     }
 }

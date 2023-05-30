@@ -60,11 +60,12 @@ class AdminQuizController extends Controller
            ]);
     }
        if($quiz ){
-           return redirect()->route('admin.quiz');
+        $successmessage = 'Created Successsfully';
+        return redirect()->route('admin.quiz')->with('successmessage',$successmessage);
        }
        else{
-
-           return back();
+        $errormessage = '!Error Something Happend';
+        return back()->with('errormessage',$errormessage);
        }
     }
 
@@ -113,6 +114,7 @@ class AdminQuizController extends Controller
         $delquiz=Quiz::findOrFail($id);
         
         $delquiz->delete();
-        return redirect()->route('admin.quiz');
+        $successmessage = 'Created Successsfully';
+        return redirect()->route('admin.quiz')->with('successmessage',$successmessage);
     }
 }

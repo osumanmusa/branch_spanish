@@ -20,11 +20,11 @@ defineProps({
 </section>
 
 <br>
-<section class="section2 justify-center ">
+<section class="lg:ml-48 lg:mr-48 sm:mx-6 justify-center ">
 
-<h2 class="heading1">Learning Strategy</h2>
+<h2 class="my-4 text-2xl px-4"><b>Learning Strategy</b></h2>
 
-<p class="paragraph1 items-center">Hello, students! Welcome to your Spanish learning site. Here you will find some fun and effective ways to learn Spanish. When learning a foreign language, it is important to study a little everyday. Plan to spend some time each day practicing pronunciation and learning and learning vocabulary, verbs, and phrases. For most students, it is more effective to study in smaller increments (15-20 minutes, 2-3 time a day). Most of all, have fun and never be afraid to make mistakes. Little by little, you will go far. Happy learning!</p>
+<p class="items-center tracking-wider text-justify px-4">Hello, students! Welcome to your Spanish learning site. Here you will find some fun and effective ways to learn Spanish. When learning a foreign language, it is important to study a little everyday. Plan to spend some time each day practicing pronunciation and learning and learning vocabulary, verbs, and phrases. For most students, it is more effective to study in smaller increments (15-20 minutes, 2-3 time a day). Most of all, have fun and never be afraid to make mistakes. Little by little, you will go far. Happy learning!</p>
 
 </section>
 
@@ -265,7 +265,6 @@ text-transform: uppercase;
 color: #000000;
 }
 .paragraph1{
-    position: flex;
 top: 10px;
 left: 270px;
 

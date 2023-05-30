@@ -1,8 +1,11 @@
 <script setup>
 import {  Head, Link, useForm } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted , ref} from 'vue';
 import { Modal } from 'flowbite';
+import {useSidebarStore} from '../../../js/Store/useSidebarstore'
 
+
+const sidebar = useSidebarStore()
 onMounted(() => {
     const $buttonElement = document.querySelector('#button');
     const $modalElement = document.querySelector('#modal');
@@ -20,6 +23,7 @@ onMounted(() => {
         // programmatically show
         // modal.show();
     }
+
 })
 
 const form = useForm({
@@ -34,23 +38,24 @@ const submit = () => {
 function selectFile($event) {
             form.image = $event.target.files[0];
         }
+
 </script>
 <template>
 <header class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-yellow-400">
     <div class="flex items-center">
-        <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none lg:hidden">
+        <button @click="sidebar.toggleOpen" class="text-gray-500 focus:outline-none lg:hidden">
             <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
 
         <div class="relative mx-4 lg:mx-0">
-            
-        
-    </div>
 <button id="button" type="button" class="relative lg:px-4 " >
  Add Category 
 </button>
+            
+        
+    </div>
 
     </div>
     
@@ -58,7 +63,10 @@ function selectFile($event) {
         
         <div  class="relative">
             <Link href="/admin/editprofile"  class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
-                <img class="object-cover w-full h-full" src="/img/avatar.jpg" alt="Your avatar">
+
+    <img class="object-cover w-full h-full" :src="'/img/profile-img/'+ $page.props.auth.user.profile_image"  alt="Your avatar">
+
+
             </Link>
 
   

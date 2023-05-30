@@ -32,6 +32,7 @@ class User extends Authenticatable
         'child_school',
         'student_id',
         'student_status',
+        'account_status',
     ];
 
     /**

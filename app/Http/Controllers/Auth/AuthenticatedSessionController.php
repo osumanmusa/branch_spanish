@@ -34,8 +34,8 @@ class AuthenticatedSessionController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-     
-        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'])))
+     $active='active';
+        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'], 'account_status' => $active)))
         {
 
         if (auth()->user()->role == 'parent') {
@@ -49,6 +49,9 @@ class AuthenticatedSessionController extends Controller
             
             return redirect()->route('login');
         }
+        }else{
+            $errormessage = '!Error User not Authorised. Contact admin';
+            return back()->with('errormessage',$errormessage);
         }
 
     }

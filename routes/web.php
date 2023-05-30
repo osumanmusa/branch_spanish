@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminFlashcardsController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminPronounciationController;
 use App\Http\Controllers\Admin\AdminQuizController;
+use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\FlashcardController;
 use App\Http\Controllers\ParentController;
@@ -34,16 +35,6 @@ use App\Http\Controllers\ParentController;
 Route::get("/", [RoutesController::class, "index"])->name('welcome');
 Route::get("/flashcards", [RoutesController::class, "flashcard"])->name('flashcards');
 Route::get("/pronounciations", [RoutesController::class, "pronounciation"])->name('pronounciations');
-
-Route::get('/contesta', function () {
-    return Inertia::render('contesta', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
-
-
-
 Route::get("/admin/login", [AdminLoginController::class, "index"])->name('adminlogin');
 Route::post("/adminlogged", [AdminLoginController::class, "store"])->name('admin.login');
 Route::get('/admin/register', function () {
@@ -85,6 +76,10 @@ All Admin Routes List
         Route::get("/admin/editprofile", [AdminController::class, "edit"])->name('admin.editprofile');
         Route::post("/admin/storeprofile", [AdminController::class, "store"])->name('admin.profile.store');
         Route::post("/admin/storepass", [AdminController::class, "storepass"])->name('admin.profile.storepass');
+        
+        Route::get("/admin/accounts", [AdminUsersController::class, "index"])->name('admin.accounts');
+        Route::get("/admin_accountes_enroll/{id}", [AdminUsersController::class, "enroll"])->name('admin.acconts.enroll');
+        Route::get("/admin_accounts_deactivate/{id}", [AdminUsersController::class, "deactivate"])->name('admin.accounts.de-activate');
     });
 
 

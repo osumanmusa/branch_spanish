@@ -33,7 +33,7 @@ function submit() {
 <TransitionGroup name="list">
 <div id="step1" v-show="step == 1" :key = "step" class="form-step form-step-active">
     <div class="space-x-4 ">
-        <button type="submit" class="py-2 px-4 bg-yellow-700 text-white rounded hover:bg-white hover:text-yellow-700 active:bg-warning-700 disabled:opacity-50">Enter Details of Parent</button>
+        <button  class="py-2 px-4 bg-yellow-700 text-white rounded hover:bg-white hover:text-yellow-700 active:bg-warning-700 disabled:opacity-50">Enter Details of Parent</button>
 
 
     </div>

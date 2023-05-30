@@ -20,7 +20,7 @@ class ParentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {   $parent_id =Auth::user()->student_id;
         $child =User::where('users.student_id','=',$parent_id)->where('role','=','user')
         ->when($request->search, function ($query, $search) {

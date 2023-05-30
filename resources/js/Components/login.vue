@@ -15,11 +15,11 @@ function submit() {
 <template>
 
 <li class="">
-  <div class="absolute p-6  mt-2 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
+  <div class="absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
 
     <form @submit.prevent="submit" >
       
-    <div class="mt-4 grid lg:grid-cols-1 gap-4">
+    <div class="mt-1 grid lg:grid-cols-1 gap-4">
       <div>
         <label for="name" class="text-sm text-white block mb-1 font-bold">Email</label>
         <input type="email" v-model="logform.email" id="email" class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 text-gray-700 w-full" placeholder="yourmail@provider.com" />
