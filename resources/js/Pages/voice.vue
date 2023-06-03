@@ -30,14 +30,19 @@ onMounted(() => {
     }
 })
 const flashcards = ref([]);
-const blobFile=ref(); 
-const cardKey = ref(props.flashcard.data[0].flashcard_frontcontent);
+
+const cardKey = ref();
+if(props.flashcard.data.length>0){
+ cardKey.value =props.flashcard.data[0].flashcard_frontcontent;
+
+}
 function Shuffle() {
      flashcards.value = _shuffle(props.flashcards);
         }
 onMounted(() =>{
     Shuffle()
     cardKey
+    handelFlip()
     
 })
 
@@ -50,6 +55,8 @@ const handelFlip = () =>{
          cardKey.value = props.flashcard.data[0].flashcard_backcontent
     }
     hasFipped.value = !hasFipped.value
+  
+ 
 
     //window.alert(cardKey.value + hasFipped.value);
 }
@@ -136,23 +143,29 @@ const submit = () => {
 };
 
 
-// const form = useForm({
-//     bolbFile: audiofile.value,
+function deleteAudio() {
+  if (audiofile !== null) {
+    audiofile = null;
+  }
+}
 
-// });
-// const submit = () => {
-//     form.post(route('voice.store',props.flashcard.data[0].id));
-// };
+
+
+
+
+
 
 
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Pronounciation" />
 
 <Navbar/>
+<section class="bg-blue-500" v-if="cardKey">
+
 <transition name="fade" mode="out-in">
-    <div v-if="$page.props.flash.successmessage"  class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.successmessage"  class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-green-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -174,7 +187,7 @@ const submit = () => {
   </transition>
 
   <Transition name="Efade"> 
-    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-red-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -205,18 +218,53 @@ const submit = () => {
 
     <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
 
-
-        <!-- Column -->
-  
+      <div class="grid lg:grid-cols-8 gap-4">
+          <div class="col-span-2">
+            <div class="" >
+              <Link v-if="flashcard.prev_page_url != NULL " :href=" flashcard.prev_page_url "  Class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 ">
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Previous Card
+        </Link>
+        <Button @click="Shuffle" class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+            <svg class="w-6 h-5 inline-block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"></path>
+            </svg>
+            Shuffle Deck</Button>
         
-        <div  class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+        <button  @click="handelFlip" class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+            <svg class="inline-block w-6 h-5" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="24" height="24" fill="url(#pattern0)"/>
+                <defs>
+                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_1600_755" transform="scale(0.0208333)"/>
+                </pattern>
+                <image id="image0_1600_755" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAClElEQVR4nO2Zy2sUQRCHvzWRqCTiA01UiJI/wJMbxUUkf0JERBTxlJOID9TgIQRBE/EBinqQEHITNCLBk3g0xrMa0YOgiApG0YOIuz5HGmphGLp3Znd6etMyH/Rl6Oqp30x1dXc15OTkxPEC6I/pUwA2ASeBm8AzYA6oAD+BL/LstvTZDCzAEYE4oRPRBZwG3kq/epqyGQHWuRAQFbEMuCRfOEjZKsA1YEXWAqoizkp4BJbbJ2BX1gJctKtAazME/AbuAUeBksT2YmAhsBrYAhwDpqVvrbHuiq0TAd+BUWBtHWMqQeeAcoyIVhcCDqQYuxu4U2PsKy4EmFJsUgrAEPDXMP7OrAXYEKHYYxDxEVhOCp4kFPGc9AxlGUouKBjmRKXOJNFUug3Z6QwecV4j4B3Qgid0An80InrxiIcaAYN4xHGNgEk8YqtGwFM8otOw5Y5lJmKkYrEZtBnWg1imI0YP8EyA9yE0XyilmcSrgN3AOPAY6MM9gxoBt5IYFmV7HDYcwD2PNAJOJDHska3xfVlMNuKeLsNWQhXPvOCixvk3jVbzirIWvAKWkD0bDAUzVQGsi6XAROhXvnYgoABMaZwvN3KgGQgZqxpmO9kzbDhSXm5ksA7goEzqcD1nDNiOffYaDvVzaQ/1YednZdDr2A2b4RpllR02XrIy5PysiKn+pTShtd4Q89WmKuBW2K9xvl1S21fJENXnSfP8hZjy/JTNM/AiYF+khj8SeeEvKe4eBraFirttsjEryUo6Y1ikgojz1oq7OnosXW4EhoyTefXhUAaOf7A1YZPQITH8zYLjZfnq6trKOWringJeNuC4SgBq8q9hnqB2ikeAG5Kt3svlxw/gsxSJJ2WfX3R5zZqT8z/zD/OT4D1mMbH4AAAAAElFTkSuQmCC"/>
+                </defs>
+            </svg>
+            Flip Card</button>
+      
+        <Link v-if="flashcard.next_page_url != NULL " v-bind:href=" flashcard.next_page_url " class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+           
+            Next Card 
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </Link>
+            </div>
+
+            
+            
+          </div>
+          <div class="col-span-4">
+            <div  class=" ">
             <div class="flip-card ">
                 <div class="flip-card-inner ">
 
                     <transition name = "flip" mode = "out-in">
                     <div   :key="cardKey" class="flip-card-front ">
 
-                            <!-- Article -->
                          <article class="overflow-hidden rounded-lg bg-white border border-yellow-500 box">
 
 
@@ -224,7 +272,7 @@ const submit = () => {
                     
                 
                                 <div class="px-6 py-4">
-                                        <h1 class="text-gray-700 text-9xl text-2xl">{{cardKey}}
+                                        <h1 class="text-gray-700 text-7xl text-2xl">{{cardKey}}
                                     </h1>
                                 </div>
                 
@@ -232,7 +280,6 @@ const submit = () => {
 
 
                             </article>
-                                 <!-- END Article -->
                     </div>
                 </transition>
                 </div>
@@ -243,11 +290,9 @@ const submit = () => {
 
 
         </div>
-        <!-- END Column -->
-<div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/6 lg:space- justify-center items-center ">
-
-<!-- Article -->
-<article class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm ">
+          </div>
+          <div class="col-span-2">
+            <article class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm ">
     <header class="flex items-center justify-center  py-2 md:p-2 ">            
             <div class="px-2 py-2">
        
@@ -263,9 +308,7 @@ const submit = () => {
     </header>
 
 </article>
-<!-- END Article -->
 
-<!-- Article -->
 <article class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm mt-3">
     <header class="flex items-center justify-center leading-tight py-2 md:p-2">            
             <div class="px-2 py-2">
@@ -282,29 +325,123 @@ const submit = () => {
     </header>
 
 </article>
-<!-- END Article -->
-
-</div>
-
-</div>
-</div>
-
-
-<div class="flex flex-wrap justify-center mx-1 my-12">
-            <div class="flex items-center justify-between" >
-                <Link v-if="flashcard.prev_page_url != NULL " :href=" flashcard.prev_page_url "   Class="lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 ">
-                    Previous Card
-                </Link>
-                <Button @click="Shuffle" class=" lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
-                Shuffle Deck</Button>
+          </div>
+      </div>
+        <!-- Column -->
+  
         
-                <button  @click="handelFlip" class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >Flip Card</button>
-        
-                <Link v-if="flashcard.next_page_url != NULL " v-bind:href=" flashcard.next_page_url "  class=" lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >Next Card <i class="fa fa-arrow-right fa-bold"></i></Link>
+        <!-- <div  class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+            <div class="flip-card ">
+                <div class="flip-card-inner ">
+
+                    <transition name = "flip" mode = "out-in">
+                    <div   :key="cardKey" class="flip-card-front ">
+
+                         <article class="overflow-hidden rounded-lg bg-white border border-yellow-500 box">
+
+
+                            <header class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]">
+                    
+                
+                                <div class="px-6 py-4">
+                                        <h1 class="text-gray-700 text-7xl text-2xl">{{cardKey}}
+                                    </h1>
+                                </div>
+                
+                            </header>
+
+
+                            </article>
+                    </div>
+                </transition>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-center my-4">
+                <p class="text-white text-2xl">Bien, gracias. ¿Y usted?</p>
+            </div>
+
+
+        </div> -->
+        <!-- END Column -->
+<!-- <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/6 lg:space- justify-center items-center ">
+
+<article class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm ">
+    <header class="flex items-center justify-center  py-2 md:p-2 ">            
+            <div class="px-2 py-2">
+       
+                <Button @click.prevent="playSound('/audio/'+ flashcard.data[0].pronounciation_voice)" class="lg:ml-auto lg:mr-3 text-gray-900  font-bold transition duration-200  ">
+                    Hear Me Say It!
+                    <svg fill="none" height="20" stroke="black" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
+                    </svg>
+                </Button>
 
             </div>
 
-        </div> 
+    </header>
+
+</article>
+
+<article class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm mt-3">
+    <header class="flex items-center justify-center leading-tight py-2 md:p-2">            
+            <div class="px-2 py-2">
+       
+                <Button id="modalbtn" type="button" class="lg:ml-auto lg:mr-3 text-gray-900 font-bold transition duration-200  ">
+                    Let Me Hear You Say It!
+                    <svg fill="none" height="20" stroke="black" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"></path>
+                    </svg>
+                </Button>
+
+            </div>
+
+    </header>
+
+</article>
+
+
+</div> -->
+
+</div>
+</div>
+
+
+<!-- <div class="flex flex-wrap justify-center mx-1 my-12">
+            <div class="flex items-center justify-between" >
+              <Link v-if="flashcard.prev_page_url != NULL " :href=" flashcard.prev_page_url "  Class="lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 ">
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Previous Card
+        </Link>
+        <Button @click="Shuffle" class=" lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+            <svg class="w-6 h-5 inline-block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"></path>
+            </svg>
+            Shuffle Deck</Button>
+        
+        <button  @click="handelFlip" class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+            <svg class="inline-block w-6 h-5" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="24" height="24" fill="url(#pattern0)"/>
+                <defs>
+                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_1600_755" transform="scale(0.0208333)"/>
+                </pattern>
+                <image id="image0_1600_755" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAClElEQVR4nO2Zy2sUQRCHvzWRqCTiA01UiJI/wJMbxUUkf0JERBTxlJOID9TgIQRBE/EBinqQEHITNCLBk3g0xrMa0YOgiApG0YOIuz5HGmphGLp3Znd6etMyH/Rl6Oqp30x1dXc15OTkxPEC6I/pUwA2ASeBm8AzYA6oAD+BL/LstvTZDCzAEYE4oRPRBZwG3kq/epqyGQHWuRAQFbEMuCRfOEjZKsA1YEXWAqoizkp4BJbbJ2BX1gJctKtAazME/AbuAUeBksT2YmAhsBrYAhwDpqVvrbHuiq0TAd+BUWBtHWMqQeeAcoyIVhcCDqQYuxu4U2PsKy4EmFJsUgrAEPDXMP7OrAXYEKHYYxDxEVhOCp4kFPGc9AxlGUouKBjmRKXOJNFUug3Z6QwecV4j4B3Qgid0An80InrxiIcaAYN4xHGNgEk8YqtGwFM8otOw5Y5lJmKkYrEZtBnWg1imI0YP8EyA9yE0XyilmcSrgN3AOPAY6MM9gxoBt5IYFmV7HDYcwD2PNAJOJDHska3xfVlMNuKeLsNWQhXPvOCixvk3jVbzirIWvAKWkD0bDAUzVQGsi6XAROhXvnYgoABMaZwvN3KgGQgZqxpmO9kzbDhSXm5ksA7goEzqcD1nDNiOffYaDvVzaQ/1YednZdDr2A2b4RpllR02XrIy5PysiKn+pTShtd4Q89WmKuBW2K9xvl1S21fJENXnSfP8hZjy/JTNM/AiYF+khj8SeeEvKe4eBraFirttsjEryUo6Y1ikgojz1oq7OnosXW4EhoyTefXhUAaOf7A1YZPQITH8zYLjZfnq6trKOWringJeNuC4SgBq8q9hnqB2ikeAG5Kt3svlxw/gsxSJJ2WfX3R5zZqT8z/zD/OT4D1mMbH4AAAAAElFTkSuQmCC"/>
+                </defs>
+            </svg>
+            Flip Card</button>
+      
+        <Link v-if="flashcard.next_page_url != NULL " v-bind:href=" flashcard.next_page_url " class=" lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+           
+            Next Card 
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </Link>
+            </div>
+
+        </div>  -->
 </section>
 
 <section >
@@ -323,7 +460,7 @@ const submit = () => {
                     
                 
                         <div class="px-6 py-4">
-                                <h1 class="text-black text-2xl uppercase text-9xl">{{f.flashcard_title}}
+                                <h1 class="text-black text-2xl uppercase text-6xl text-center px-1">{{f.flashcard_title}}
                              </h1>
                         </div>
                 
@@ -355,8 +492,51 @@ const submit = () => {
              <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
 </div>
 
+</section>
+<section v-else class="">
+
+  <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
+
+        <!-- Column -->
+  
+        
+        <div  class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+            <div class="flip-card ">
+                <div class="flip-card-inner ">
+
+              
+                    <div    class="flip-card-front ">
+
+                            <!-- Article -->
+                         <article class="overflow-hidden rounded-lg bg-white border border-yellow-500 box">
 
 
+                            <header class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]">
+                    
+                
+                                <div class="px-6 py-4">
+                                        <h1 class="text-red-700 text-xl">No Data Available
+                                    </h1>
+                                </div>
+                
+                            </header>
+
+
+                            </article>
+                                 <!-- END Article -->
+                    </div>
+  
+                </div>
+            </div>
+
+        </div>
+
+
+ 
+    </div>
+</div>
+</section>
 <!-- Main modal -->
 
 <div id="modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -394,7 +574,8 @@ const submit = () => {
                         
                     </div>
                                           
-                  
+                    <Link @click="deleteAudio">Delete</Link>
+
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -414,12 +595,8 @@ const submit = () => {
 
 <style>
 body{
-        background-color:  rgb(29 78 236);
+        background-color:  rgb(59 130 246);
     }
-*{
-    
-font-family: 'Gorditas' !important;
-}
 nav{
     z-index:30;
 }
@@ -427,6 +604,12 @@ nav{
 .logo{
     width: 120px;
     margin-left: 20px;
+}
+
+.logo2{
+    width: 220px;
+    margin-left: 20px;
+    height: 60px;
 }
 .nav-icon{
     height: 60px;
@@ -445,14 +628,7 @@ position: relative;
 }
 
 /* This container is needed to position the front and back side */
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
+
 .bg-btn-color{
     background: #F58C28;
  
@@ -519,4 +695,13 @@ position: relative;
       #glowbutton {
         animation: glowing 1300ms infinite;
       }
+       
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+
 </style>

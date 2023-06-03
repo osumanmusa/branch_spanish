@@ -13,20 +13,24 @@ let showMenu = ref(false);
 </script>
 <template>
       <nav
-      class="sticky top-0 
-        px-4
+      class="sticky top-0 nav
         py-4
-        mx-auto
-        md:flex md:justify-between md:items-center bg-white shadow-md
+        md:flex bg-white shadow-md 
       "
     >
-      <div class="flex items-center justify-between">
-        <a href="/"
+      <div class="flex items-center ">
+        <a href="/" class="lg:ml-6 "
           >
-            <img src="/img/logo.png" class="logo"/>
+            <img src="/img/bg.png" class="logo"/>
       </a>
-        <!-- Mobile menu button -->
-        <div @click="toggleNav" class="flex md:hidden">
+        <a href="/" class="lg:ml-1 px-4"
+          >
+            <img src="/img/logo2.jpg" class=" logo2"/>
+      </a>
+        <!-- <button type="button" class="lg:ml-12 py-6 text-gray-700 border border-gray-700 font-medium rounded-lg text-lg px-8 text-center mb-2 ">
+          Branch Out With Spanish</button> -->
+
+        <div @click="toggleNav" class="flex md:hidden px-3">
           <button
             type="button"
             class="
@@ -44,61 +48,138 @@ let showMenu = ref(false);
           </button>
         </div>
       </div>
-
-      <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
       <ul
         :class="showMenu ? 'flex' : 'hidden'"
         class="
           flex-col
           mt-8
           space-y-4
-          md:flex md:space-y-0 md:flex-row md:items-center md:space-x-6 md:mt-0 
+          md:flex md:space-y-0 md:mt-0 lg:ml-20 
         "
-      ><div v-if="$page.props.auth.user">
-        <Link href="/flashcards" class="lg:inline-block lg:ml-auto px-6 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2" />
+      ><div class="lg:flex md:w-[45vw] justify-center items-center">
+        <Link href="/flashcards" class="lg:inline-block md:inline-block md:mx-4 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2 " />
                 
-                <p class="text-blue-400">FLASH CARDS</p></Link>
-        <Link href="/pronounciations" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
+                <p class="nav-text lg:text-xl"><b>FLASH CARDS</b></p></Link>
+        <Link href="/pronounciations" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
     
-        <p class="text-blue-400">PRONOUNCIATION</p></Link>
-        <Link href="/quizme" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50"><img src="/img/i3.png" class="nav-icon p-2"/>
+        <p class="nav-text lg:text-xl"><b>PRONOUNCIATION</b></p></Link>
+        <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50"><img src="/img/i3.png" class="nav-icon p-2"/>
     
-        <p class="text-blue-400">QUIZ ME</p>
+        <p class="nav-text lg:text-xl"><b>QUIZ ME</b></p>
         </Link>
-        <Link href="#" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50">
+        </div>
+        </ul>
+      <ul
+        :class="showMenu ? 'flex' : 'hidden'"
+        class="
+          flex-col
+          mt-8
+          space-y-4
+          md:flex md:space-y-0  md:mt-0 justify-end 
+        "
+      ><div v-if="$page.props.auth.user" class="lg:w-[30vw] lg:text-end">
+        <Link href="#" class="lg:inline-block mx-10 lg:ml-auto px-4 hover:bg-gray-50">
           
-          <img class="nav-icon p-2 h-[9vh]" src="/img/avatar.png" alt="Your avatar">
+          <img class="logged-icon" src="/img/avatar.png" alt="Your avatar">
     
-        <p class="text-blue-400 md:text-center">{{ $page.props.auth.user.name }}</p>
+        <p class="nav-text md:text-center">{{ $page.props.auth.user.name }}</p>
         </Link>
 
 
-        <Link :href="route('logout')" method="post" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50">
+        <Link :href="route('logout')" method="post" class="lg:inline-block mx-10 lg:ml-auto px-4 hover:bg-gray-50">
           <img src="/img/logout1.jpg" class="nav-icon p-2 sm:jstify-start"/>
     
-        <p class="text-blue-400">Logout</p>
+        <p class="nav-text">Logout</p>
         </Link>
             
 
       </div>
-      <div v-else class="flex-col sm:grid-cols-3">
-        <Link href="/flashcards" class="lg:inline-block lg:ml-auto px-6 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2" />
-                
-                <p class="text-blue-400">FLASH CARDS</p></Link>
-        <Link href="/pronounciations" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
-    
-        <p class="text-blue-400">PRONOUNCIATION</p></Link>
-        <Link href="/quizme" class="lg:inline-block lg:ml-auto px-4 hover:bg-gray-50"><img src="/img/i3.png" class="nav-icon p-2"/>
-    
-        <p class="text-blue-400">QUIZ ME</p>
-        </Link>
+      <div v-else class="lg:w-[30vw] lg:text-end">
         <Link 
-            :href="route('login')" class="lg:ml-auto lg:mr-3  py-2 px-6 bg-white text-blue-400 hover:bg-blue-50 text-sm hover:text-white border border-primary font-bold transition duration-200"> 
-            Login</Link>
+            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto  py-3 px-10 bg-white nav-text  border border-primary font-bold "> 
+            <b>LOGIN</b></Link>
         <Link 
-            :href="route('login')" class="lg:ml-auto lg:mr-3 py-2 px-6  bg-blue-500 hover:bg-white hover:text-blue-500 hover:border border-primary hover:text-blue text-sm text-white font-bold transition duration-200">
-            Register</Link>
+            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto py-4 px-10 log-button text-sm text-white font-bold">
+            <b>SIGNUP</b></Link>
       </div>
           </ul>
     </nav>
+
+<!-- 
+<div class="nav flex flex-wrap sticky top-0 ">
+    <nav class="flex justify-between bg-white text-white w-screen ">
+      <div class="px-5 xl:px-12 py-6 flex items-center">
+        <a class="text-3xl font-bold font-heading px-6" href="/">
+          <img src="/img/bg.png" class="logo"/>
+        </a> 
+        <button type="button" class="lg:ml-12 lg:py-6 text-gray-700 border border-gray-700 font-medium rounded-lg text-lg lg:px-8 text-center mb-2 ">
+          Branch Out With Spanish</button>
+
+        <div @click="toggleNav" class="flex md:hidden">
+          <button
+            type="button"
+            class="
+              text-yellow-800
+              hover:text-gray-400
+              focus:outline-none focus:text-gray-400 px-4
+            "
+          >
+            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+              <path
+                fill-rule="evenodd"
+                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <ul 
+        :class="showMenu ? 'flex' : 'hidden'" class=" w-full md:items-center md:w-auto md:flex px-4 mx-auto  space-x-12">
+           
+          <Link href="/flashcards" class="lg:inline-block md:inline-block md:mx-6 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2 " />
+                
+                <p class="nav-text lg:text-xl"><b>FLASH CARDS</b></p></Link>
+        <Link href="/pronounciations" class="lg:inline-block md:inline-block md:mx-6 px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
+    
+        <p class="nav-text lg:text-xl"><b>PRONOUNCIATION</b></p></Link>
+        <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-6 px-4 hover:bg-gray-50"><img src="/img/i3.png" class="nav-icon p-2"/>
+    
+        <p class="nav-text lg:text-xl"><b>QUIZ ME</b></p>
+        </Link>
+        </ul>
+        <div  
+        :class="showMenu ? 'flex' : 'hidden'" class=" xl:flex items-center space-x-5 items-center mr-3">
+
+          <Link 
+            :href="route('login')" class="lg:inline-block lg:mx-10 lg:ml-auto  py-4 px-6 bg-white nav-text  border border-primary font-bold "> 
+            Login</Link>
+        <Link 
+            :href="route('login')" class="lg:inline-block mx-10 lg:ml-auto py-4 px-6  bg-blue-500 text-sm text-white font-bold">
+            Register</Link>
+          
+        </div>
+
+    </nav>
+    
+</div> -->
+
+
 </template>
+<style scoped>
+.logged-icon{
+    height: 60px;
+    width: 60px;
+}
+.log-button{
+  background: #007FFF;
+}
+.logo2{
+    width: 220px;
+    margin-left: 20px;
+    height: 60px;
+}
+.nav-text{
+  color: #007FFF;
+}
+</style>

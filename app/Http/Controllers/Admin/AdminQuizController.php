@@ -45,10 +45,22 @@ class AdminQuizController extends Controller
     public function store(Request $request)
     {
         $questions= $request->questions;
-        
+
     foreach ($questions as $key => $value) {
+        $total=Category::max('quiz_no');
+        if($total == ""){
+         $quiztotal = 1;
+        }
+        else{
+         $quiztotal= ++$total;
+        }
         
-      
+      $cat = DB::table('categories')
+        ->where('id', $request->category)
+        ->update(
+            [ 
+              'quiz_no' => $quiztotal,
+          ]);
        $quiz = Quiz::create([
            'category_id' => $request->category,
            'question' => $value['quiz'],

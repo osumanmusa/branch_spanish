@@ -59,7 +59,7 @@ const submit = () => {
 </div>
 
 
-<section>
+<section v-if="$props.quizes.length>0">
 <!-- Page Container -->
 <div class="container my-6 mx-auto px-4 md:px-12">
 <form  @submit.prevent="submit">
@@ -167,21 +167,64 @@ const submit = () => {
 </div>
 
   
-
-</section>
-
 <div class="">
 
 
 <hr class="hr" />
 <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
 </div>
+</section>
+<section v-else>
+
+    <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
+
+        <!-- Column -->
+  
+        
+        <div  class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+            <div class="flip-card ">
+                <div class="flip-card-inner ">
+
+              
+                    <div    class="flip-card-front ">
+
+                            <!-- Article -->
+                         <article class="overflow-hidden rounded-lg bg-white border border-yellow-500 box">
+
+
+                            <header class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]">
+                    
+                
+                                <div class="px-6 py-4">
+                                        <h1 class="text-red-700 text-xl">No Data Available
+                                    </h1>
+                                </div>
+                
+                            </header>
+
+
+                            </article>
+                                 <!-- END Article -->
+                    </div>
+  
+                </div>
+            </div>
+
+        </div>
+
+
+ 
+    </div>
+</div>
+</section>
+
 
 </template>
 
 <style>
 body{
-        background-color:  rgb(29 78 236);
+        background-color:  rgb(59 130 246);
     }
 *{
     
@@ -197,6 +240,12 @@ nav{
 .logo{
     width: 120px;
     margin-left: 20px;
+}
+
+.logo2{
+    width: 220px;
+    margin-left: 20px;
+    height: 60px;
 }
 .nav-icon{
     height: 60px;

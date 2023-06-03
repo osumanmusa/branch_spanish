@@ -6,18 +6,24 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title inertia>{{ config('app.name', 'Branch-Spanish') }}</title>
-        <script src="https://use.fontawesome.com/9af3ad2e32.js"></script>
+        <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}">
+        <link rel="icon" type="image/jpg" href="{{ asset('img/favicon.jpg') }}">
 
         <!-- Fonts -->
         
-
+<style>
+    *{
+    
+    font-family: 'Typo Round' !important;
+    }
+</style>
 
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body >
         @inertia
     </body>
 </html>

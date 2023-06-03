@@ -13,14 +13,18 @@ const props=defineProps({
 
 });
 const flashcards = ref([]);
-const cardKey = ref(props.flashcard.data[0].flashcard_frontcontent);
+const cardKey = ref();
+if(props.flashcard.data.length>0){
+ cardKey.value =props.flashcard.data[0].flashcard_frontcontent;
 
+}
 function Shuffle() {
      flashcards.value = _shuffle(props.flashcards);
         }
 onMounted(() =>{
     Shuffle()
     cardKey
+    handelFlip()
     
 })
 
@@ -50,7 +54,7 @@ const handelFlip = () =>{
 
 
 
-<section   >
+<section  class="bg-blue-500" v-if="cardKey" >
 <!-- Page Container -->
 
 
@@ -83,7 +87,7 @@ const handelFlip = () =>{
                     
                 
                                 <div class="px-6 py-4">
-                                        <h1 class="text-gray-700 text-9xl text-2xl">{{cardKey}}
+                                        <h1 class="text-gray-700 text-7xl text-2xl">{{cardKey}}
                                     </h1>
                                 </div>
                 
@@ -100,18 +104,37 @@ const handelFlip = () =>{
                 <p class="text-white text-2xl">{{ flashcard.data[0].flashcard }}</p>
             </div>
         <div class="flex flex-wrap justify-center mx-1 lg:-mx-4 lg:my-12">
-        <div class="flex items-center justify-between" :key="flashcard.links[0].id">
+        <div class="flex items-center justify-between" >
         <Link v-if="flashcard.prev_page_url != NULL " :href=" flashcard.prev_page_url "  Class="lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 ">
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
             Previous Card
         </Link>
         <Button @click="Shuffle" class=" lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
-        Shuffle Deck</Button>
+            <svg class="w-6 h-5 inline-block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"></path>
+            </svg>
+            Shuffle Deck</Button>
         
-        <button  @click="handelFlip" class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >Flip Card</button>
+        <button  @click="handelFlip" class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+            <svg class="inline-block w-6 h-5" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="24" height="24" fill="url(#pattern0)"/>
+                <defs>
+                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_1600_755" transform="scale(0.0208333)"/>
+                </pattern>
+                <image id="image0_1600_755" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAClElEQVR4nO2Zy2sUQRCHvzWRqCTiA01UiJI/wJMbxUUkf0JERBTxlJOID9TgIQRBE/EBinqQEHITNCLBk3g0xrMa0YOgiApG0YOIuz5HGmphGLp3Znd6etMyH/Rl6Oqp30x1dXc15OTkxPEC6I/pUwA2ASeBm8AzYA6oAD+BL/LstvTZDCzAEYE4oRPRBZwG3kq/epqyGQHWuRAQFbEMuCRfOEjZKsA1YEXWAqoizkp4BJbbJ2BX1gJctKtAazME/AbuAUeBksT2YmAhsBrYAhwDpqVvrbHuiq0TAd+BUWBtHWMqQeeAcoyIVhcCDqQYuxu4U2PsKy4EmFJsUgrAEPDXMP7OrAXYEKHYYxDxEVhOCp4kFPGc9AxlGUouKBjmRKXOJNFUug3Z6QwecV4j4B3Qgid0An80InrxiIcaAYN4xHGNgEk8YqtGwFM8otOw5Y5lJmKkYrEZtBnWg1imI0YP8EyA9yE0XyilmcSrgN3AOPAY6MM9gxoBt5IYFmV7HDYcwD2PNAJOJDHska3xfVlMNuKeLsNWQhXPvOCixvk3jVbzirIWvAKWkD0bDAUzVQGsi6XAROhXvnYgoABMaZwvN3KgGQgZqxpmO9kzbDhSXm5ksA7goEzqcD1nDNiOffYaDvVzaQ/1YednZdDr2A2b4RpllR02XrIy5PysiKn+pTShtd4Q89WmKuBW2K9xvl1S21fJENXnSfP8hZjy/JTNM/AiYF+khj8SeeEvKe4eBraFirttsjEryUo6Y1ikgojz1oq7OnosXW4EhoyTefXhUAaOf7A1YZPQITH8zYLjZfnq6trKOWringJeNuC4SgBq8q9hnqB2ikeAG5Kt3svlxw/gsxSJJ2WfX3R5zZqT8z/zD/OT4D1mMbH4AAAAAElFTkSuQmCC"/>
+                </defs>
+            </svg>
+            Flip Card</button>
       
         <Link v-if="flashcard.next_page_url != NULL " v-bind:href=" flashcard.next_page_url " class=" lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900  hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 " >
+           
             Next Card 
-            <i class="fa fa-arrow-right fa-bold"></i>
+            <svg class="w-6 h-5 inline" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
         </Link>
 
         </div>
@@ -125,7 +148,7 @@ const handelFlip = () =>{
 </div>
 
 
-</section>
+
 <section >
 <!-- Page Container -->
 <div class="container my-10 mx-auto px-4 md:px-12">
@@ -142,7 +165,7 @@ const handelFlip = () =>{
                     
                 
                         <div class="px-6 py-4">
-                                <h1 class="text-black text-2xl uppercase text-9xl">{{f.flashcard_title}}
+                                <h1 class="text-black text-2xl uppercase text-6xl text-center px-1">{{f.flashcard_title}}
                              </h1>
                         </div>
                 
@@ -174,13 +197,56 @@ const handelFlip = () =>{
              <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
 </div>
 
+</section>
+<section v-else class="">
+    <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
+{{ flashcard.data }}
+        <!-- Column -->
+  
+        
+        <div  class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
+            <div class="flip-card ">
+                <div class="flip-card-inner ">
+
+              
+                    <div    class="flip-card-front ">
+
+                            <!-- Article -->
+                         <article class="overflow-hidden rounded-lg bg-white border border-yellow-500 box">
 
 
+                            <header class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]">
+                    
+                
+                                <div class="px-6 py-4">
+                                        <h1 class="text-red-700 text-xl">No Data Available
+                                    </h1>
+                                </div>
+                
+                            </header>
+
+
+                            </article>
+                                 <!-- END Article -->
+                    </div>
+  
+                </div>
+            </div>
+
+        </div>
+
+
+ 
+    </div>
+</div>
+
+</section>
 </template>
 
 <style>
 body{
-        background-color:  rgb(29 78 236);
+        background-color:  rgb(59 130 246);
     }
 *{
     
@@ -193,6 +259,11 @@ nav{
 .logo{
     width: 120px;
     margin-left: 20px;
+}
+.logo2{
+    width: 220px;
+    margin-left: 20px;
+    height: 60px;
 }
 .nav-icon{
     height: 60px;

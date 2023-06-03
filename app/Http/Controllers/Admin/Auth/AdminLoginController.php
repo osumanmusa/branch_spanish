@@ -50,7 +50,7 @@ class AdminLoginController extends Controller
             'password' => 'required',
         ]);
      
-        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'])))
+        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'],'role' => 'admin')))
         {
 
         if (auth()->user()->role == 'admin') {

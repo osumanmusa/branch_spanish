@@ -80,12 +80,11 @@ const props=defineProps({
     <li>
       <div class="flex items-center">
       <i class="fa fa-angle-left fa-bold"></i>
-        <a href="#" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Quiz</a>
+        <a href="/admin/quiz" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Quiz</a>
       </div>
     </li>
   </ol>
 </nav>
-
 
 
 
@@ -117,7 +116,7 @@ const props=defineProps({
                     <thead class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="lg:px-4 lg:py-3 border ">Category name</th>
-                            <th scope="col" class="lg:px-4 lg:py-3 border ">Date Upladed</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Total Quiz</th>
                             <th scope="col" class="lg:px-4 lg:py-3 border ">Actions</th>
                         </tr>
                     </thead>
@@ -125,7 +124,7 @@ const props=defineProps({
                       <tr v-for="c in categories.data" :key="c.id" class="hover:bg-gray-100">
         
                         <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"> {{c.category_name}} </td>
-                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{c.created_at}} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{c.quiz_no}} </td>
         
                         <td class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium">
                          <Link class="p-2 text-blue-500 hover:text-blue-200" v-bind:href="route('admin.viewquiz', c.id)">

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminPronounciationController;
 use App\Http\Controllers\Admin\AdminQuizController;
 use App\Http\Controllers\Admin\AdminUsersController;
+use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\FlashcardController;
 use App\Http\Controllers\ParentController;
@@ -80,6 +81,12 @@ All Admin Routes List
         Route::get("/admin/accounts", [AdminUsersController::class, "index"])->name('admin.accounts');
         Route::get("/admin_accountes_enroll/{id}", [AdminUsersController::class, "enroll"])->name('admin.acconts.enroll');
         Route::get("/admin_accounts_deactivate/{id}", [AdminUsersController::class, "deactivate"])->name('admin.accounts.de-activate');
+        
+        Route::get("/admin/students", [AdminStudentController::class, "index"])->name('admin.students');
+        Route::get("/admin_show_student/{id}", [AdminStudentController::class, "show"])->name('admin.viewstudent');
+        // Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "details"])->name('admin.studentdetails');
+        Route::post("/admin_student_detail", [AdminStudentController::class, "details"])->name('admin.getstudentdetails');
+
     });
 
 

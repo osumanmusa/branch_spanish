@@ -117,9 +117,9 @@ user_score: Object,
 </template>
 
 <style>
-body{
+/* body{
         background-color:  rgb(29 78 236);
-    }
+    } */
 *{
     
 font-family: 'Gorditas' !important;

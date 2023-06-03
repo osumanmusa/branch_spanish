@@ -12,13 +12,13 @@ defineProps({
     <Head title="Welcome" />
 <Navbar/>
   
-<section class="bg-blue-500">
+<section class="bg-blue-500" >
 <!-- Page Container -->
-<div class=" flex flex-wrap  mb-1 pt-10">
-    <div class="w-full md:w-8/12 lg:w-12/12 lg:mx-16">
+<div class="bg-blue-500 flex flex-wrap  mb-2 pt-6">
+    <div class="w-full md:w-8/12 lg:w-12/12 px-8">
             <!-- Header -->
         <h1 class="text-white text-4xl font-bold">
-               Quiz Me
+            Quiz Me
         </h1>
 
         <!-- Description -->
@@ -89,6 +89,12 @@ nav{
     width: 120px;
     margin-left: 20px;
 }
+
+.logo2{
+    width: 220px;
+    margin-left: 20px;
+    height: 60px;
+}
 .nav-icon{
     height: 60px;
     width: 60px;
@@ -96,130 +102,6 @@ nav{
 
 .bg-img{
 position: relative;
-}
-.f1{
-position: relative;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-/* or 45% */
-
-text-transform: capitalize;
-color: rgba(238, 189, 14, 0.8);
-
-transform: rotate(14.8deg);
-}
-.f2{
-position: absolute;
-
-
-left: 94px;
-top: 222px;
-text-decoration:none;
-text-overflow:hidden;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-line-height: 27px;
-/* or 45% */
-
-text-transform: capitalize;
-
-color: rgba(235, 69, 95, 0.8);
-
-}
-.f3{
-    position: absolute;
-left: 80.17px;
-top: 360px;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-line-height: 27px;
-/* or 45% */
-
-text-transform: capitalize;
-
-color: rgba(40, 128, 18, 0.8);
-
-transform: rotate(7.5deg);
-
-}
-.f4{
-    position: absolute;
-left: 107.31px;
-top: 600.8px;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-line-height: 27px;
-/* or 45% */
-
-text-transform: capitalize;
-
-color: rgba(0, 255, 246, 0.8);
-
-transform: rotate(-8.9deg);
-}
-.f5{
-    position: absolute;
-left: 588px;
-top: 620px;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-line-height: 122px;
-/* or 203% */
-
-text-transform: capitalize;
-
-color: rgba(225, 77, 42, 0.8);
-}
-.f6{
-    position: absolute;
-left: 608.23px;
-top: 450px;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 60px;
-line-height: 27px;
-/* or 45% */
-
-text-transform: capitalize;
-
-color: rgba(255, 255, 255, 0.8);
-
-transform: rotate(2.68deg);
-}
-.f7{
-    position: absolute;
-left: 1104.67px;
-top: 250px;
-
-font-family: 'Gorditas';
-font-style: normal;
-font-weight: 400;
-font-size: 40px;
-line-height: 27px;
-/* or 68% */
-
-text-transform: capitalize;
-
-color: rgba(253, 132, 31, 0.8);
-
-transform: rotate(14.74deg);
 }
 
 .heading1{

@@ -13,6 +13,7 @@ use App\Models\Quiz;
 use App\Models\User;
 use App\Models\Score;
 use App\Models\Voice;
+use App\Models\Useranswers;
 use DB;
 
 class RoutesController extends Controller
@@ -162,9 +163,15 @@ class RoutesController extends Controller
         $score = $score + 1;
         
        }
+       $userid = Auth::user()->id;
+       $answerstore = Useranswers::create([
+        'user_id' => $userid,
+        'quiz_id' => $value['questionId'],
+        'user_answer' => $value['chossenAnswer'],
+    ]);
+
        
     }
-    
     $t_grade= ($score/$totalanswer)*100;
     if ($t_grade >= '90' ) {
         $grade='A+';
