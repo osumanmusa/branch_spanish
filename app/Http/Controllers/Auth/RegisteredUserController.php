@@ -115,7 +115,7 @@ class RegisteredUserController extends Controller
                 $data["parent_password"],$data["child_name"],$data["child_email"],$data["child_password"])
                 ->subject('Branch Spanish - Account Created Successfully');
                 });
-            $successmessage = 'Great!,Acont Created Successfully. A confirmation mail will be sent shortly';
+            $successmessage = 'Great!,Acccount Created Successfully. A confirmation mail will be sent shortly';
             return redirect('login')->with('successmessage',$successmessage);
         }
         else{

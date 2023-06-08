@@ -54,7 +54,7 @@ let showMenu = ref(false);
           flex-col
           mt-8
           space-y-4
-          md:flex md:space-y-0 md:mt-0 lg:ml-15 
+          md:flex md:space-y-0 md:mt-0 lg:ml-15 px-3
         "
       ><div class="lg:flex md:w-[45vw] justify-center items-center">
         <Link href="/flashcards" class="lg:inline-block md:inline-block md:mx-4 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2 " />
@@ -63,7 +63,7 @@ let showMenu = ref(false);
         <Link href="/pronounciations" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
     
         <p class="nav-text lg:text-xl"><b>PRONOUNCIATION</b></p></Link>
-        <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50"><img src="/img/i3.png" class="nav-icon p-2"/>
+        <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50 "><img src="/img/i3.png" class="nav-icon p-2"/>
     
         <p class="nav-text lg:text-xl"><b>QUIZ ME</b></p>
         </Link>
@@ -75,7 +75,7 @@ let showMenu = ref(false);
           flex-col
           mt-8
           space-y-4
-          md:flex md:space-y-0  md:mt-0 justify-end 
+          md:flex md:space-y-0  md:mt-0 justify-end px-2
         "
       ><div v-if="$page.props.auth.user" class="lg:w-[30vw] lg:text-end">
         <Link href="#" class="lg:inline-block mx-10 lg:ml-auto px-4 hover:bg-gray-50">
@@ -85,7 +85,6 @@ let showMenu = ref(false);
         <p class="nav-text md:text-center">{{ $page.props.auth.user.name }}</p>
         </Link>
 
-
         <Link :href="route('logout')" method="post" class="lg:inline-block mx-10 lg:ml-auto px-4 hover:bg-gray-50">
           <img src="/img/logout1.jpg" class="nav-icon p-2 sm:jstify-start"/>
     
@@ -94,12 +93,12 @@ let showMenu = ref(false);
             
 
       </div>
-      <div v-else class="lg:w-[30vw] lg:text-end mr-10 lg:mb-3">
+      <div v-else class="lg:w-[25vw] lg:text-end lg:mr-10 lg:mb-3 space-x-8">
         <Link 
-            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto  py-3 px-10 bg-white nav-text  border border-primary font-bold "> 
+            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto  py-3 px-8 bg-white nav-text  border border-primary font-bold "> 
             <b>LOGIN</b></Link>
         <Link 
-            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto py-4 px-10 log-button text-sm text-white font-bold">
+            :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto py-3 px-8 log-button text-white font-bold">
             <b>SIGNUP</b></Link>
       </div>
           </ul>

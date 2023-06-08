@@ -158,8 +158,6 @@ function deleteAudio() {
     }
     audioUrl.value = null;
 }
-
-
 </script>
 
 <template>
@@ -261,91 +259,64 @@ function deleteAudio() {
 
             <div class="container my-12 mx-auto px-4 md:px-12">
                 <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
-                    <div class="grid lg:grid-cols-8 gap-4">
-                        <div class="col-span-2">
+                    <div class="lg:grid lg:grid-cols-8 gap-4">
+                        <div class="col-span-2 mt-6">
                             <div class="">
                                 <Link
                                     v-if="flashcard.prev_page_url != NULL"
                                     :href="flashcard.prev_page_url"
-                                    Class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 "
+                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
-                                    <svg
-                                        class="w-6 h-5 inline"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true"
+                                    <i class="fa fa-arrow-left"></i>
+                                    Previous Card</Link
+                                >
+                                <button
+                                    @click="Shuffle"
+                                    type="button"
+                                    class="py-4 px-5 mr-2 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
+                                >
+                                    <i class="fa fa-shuffle"></i>
+                                    Shuffle Deck
+                                </button>
+                                <button
+                                    @click="handelFlip"
+                                    class="py-4 px-5 mr-2 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
+                                >
+                                    <i class="fa fa-rotate"></i>
+                                    Flip Card
+                                </button>
+
+                                <div>
+                                    <Link
+                                        v-if="flashcard.next_page_url != NULL"
+                                        v-bind:href="flashcard.next_page_url"
+                                        class="bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-2 mb-4 mt-4"
                                     >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path>
-                                    </svg>
+                                        Next Card
+                                        <i class="fa fa-arrow-right"></i
+                                    ></Link>
+                                </div>
+                                <!-- <Link
+                                    v-if="flashcard.prev_page_url != NULL"
+                                    :href="flashcard.prev_page_url"
+                                    Class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 "
+                                >
+                                <i class="fa fa-arrow-left"></i>
                                     Previous Card
                                 </Link>
                                 <Button
                                     @click="Shuffle"
-                                    class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
+                                    class=" lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
                                 >
-                                    <svg
-                                        class="w-6 h-5 inline-block"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
-                                        ></path>
-                                    </svg>
+                                <i class="fa fa-shuffle"></i>
                                     Shuffle Deck</Button
                                 >
 
                                 <button
                                     @click="handelFlip"
-                                    class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
+                                    class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
                                 >
-                                    <svg
-                                        class="inline-block w-6 h-5"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    >
-                                        <rect
-                                            width="24"
-                                            height="24"
-                                            fill="url(#pattern0)"
-                                        />
-                                        <defs>
-                                            <pattern
-                                                id="pattern0"
-                                                patternContentUnits="objectBoundingBox"
-                                                width="1"
-                                                height="1"
-                                            >
-                                                <use
-                                                    xlink:href="#image0_1600_755"
-                                                    transform="scale(0.0208333)"
-                                                />
-                                            </pattern>
-                                            <image
-                                                id="image0_1600_755"
-                                                width="48"
-                                                height="48"
-                                                xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAClElEQVR4nO2Zy2sUQRCHvzWRqCTiA01UiJI/wJMbxUUkf0JERBTxlJOID9TgIQRBE/EBinqQEHITNCLBk3g0xrMa0YOgiApG0YOIuz5HGmphGLp3Znd6etMyH/Rl6Oqp30x1dXc15OTkxPEC6I/pUwA2ASeBm8AzYA6oAD+BL/LstvTZDCzAEYE4oRPRBZwG3kq/epqyGQHWuRAQFbEMuCRfOEjZKsA1YEXWAqoizkp4BJbbJ2BX1gJctKtAazME/AbuAUeBksT2YmAhsBrYAhwDpqVvrbHuiq0TAd+BUWBtHWMqQeeAcoyIVhcCDqQYuxu4U2PsKy4EmFJsUgrAEPDXMP7OrAXYEKHYYxDxEVhOCp4kFPGc9AxlGUouKBjmRKXOJNFUug3Z6QwecV4j4B3Qgid0An80InrxiIcaAYN4xHGNgEk8YqtGwFM8otOw5Y5lJmKkYrEZtBnWg1imI0YP8EyA9yE0XyilmcSrgN3AOPAY6MM9gxoBt5IYFmV7HDYcwD2PNAJOJDHska3xfVlMNuKeLsNWQhXPvOCixvk3jVbzirIWvAKWkD0bDAUzVQGsi6XAROhXvnYgoABMaZwvN3KgGQgZqxpmO9kzbDhSXm5ksA7goEzqcD1nDNiOffYaDvVzaQ/1YednZdDr2A2b4RpllR02XrIy5PysiKn+pTShtd4Q89WmKuBW2K9xvl1S21fJENXnSfP8hZjy/JTNM/AiYF+khj8SeeEvKe4eBraFirttsjEryUo6Y1ikgojz1oq7OnosXW4EhoyTefXhUAaOf7A1YZPQITH8zYLjZfnq6trKOWringJeNuC4SgBq8q9hnqB2ikeAG5Kt3svlxw/gsxSJJ2WfX3R5zZqT8z/zD/OT4D1mMbH4AAAAAElFTkSuQmCC"
-                                            />
-                                        </defs>
-                                    </svg>
+                                    <i class="fa fa-rotate"></i>
                                     Flip Card
                                 </button>
 
@@ -354,28 +325,13 @@ function deleteAudio() {
                                     v-bind:href="flashcard.next_page_url"
                                     class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
                                 >
-                                    Next Card
-                                    <svg
-                                        class="w-6 h-5 inline"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path>
-                                    </svg>
-                                </Link>
+                                    Next Card <i class="fa fa-arrow-right"></i>
+                                </Link> -->
                             </div>
                         </div>
                         <div class="col-span-4">
                             <div class=" ">
-                                <div class="flip-card">
+                                <div class="flip-card mt-6">
                                     <div class="flip-card-inner">
                                         <transition name="flip" mode="out-in">
                                             <div
@@ -403,12 +359,12 @@ function deleteAudio() {
                                 </div>
                                 <div class="flex flex-wrap justify-center my-4">
                                     <p class="text-white text-2xl">
-                                        Bien, gracias. ¿Y usted?
+                                        {{ flashcard.data[0].flashcard }}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-2">
+                        <div class="col-span-2 mt-6">
                             <article
                                 class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm"
                             >
@@ -632,16 +588,23 @@ function deleteAudio() {
 
         <div class="">
             <hr class="hr" />
-        <div class="flex flex-col inline-block">
-            <span class="inline-block text-white text-center p-4">   Copyright @2013 <a href="https://branchoutwithspanish.com/">BranchOutWithSpanish.com</a>
-
-                <span class="inline-block justify-end text-white  p-4 admin-log"> 
-                    <Link href="/admin/login" class="py-4 px-8 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white">Admin Login</Link>
-
+            <div class="flex flex-col inline-block">
+                <span class="inline-block text-white text-center p-4">
+                    Copyright @2013
+                    <a href="https://branchoutwithspanish.com/"
+                        >BranchOutWithSpanish.com</a
+                    >
                 </span>
-            </span>
-            
-        </div>
+                <span
+                    class="inline-block justify-end text-white text-center p-4 mt-3 mb-3"
+                >
+                    <Link
+                        href="/admin/login"
+                        class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
+                        >Admin Login</Link
+                    >
+                </span>
+            </div>
         </div>
     </section>
     <section v-else class="">

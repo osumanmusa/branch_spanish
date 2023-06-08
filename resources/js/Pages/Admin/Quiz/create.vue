@@ -9,7 +9,7 @@ const props = defineProps({
     message: String,
 });
 const questions = ref([{}]);
-const selected = ref('A')
+const selected = ref("A");
 
 const form = useForm({
     questions: [
@@ -50,7 +50,6 @@ function removeForm() {
     questions.value.pop();
     form.questions.pop();
 }
-
 </script>
 <template>
     <Head title="Flashcards" />
@@ -63,7 +62,6 @@ function removeForm() {
 
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
                 <div class="container mx-auto lg:px-6 py-8">
-                   
                     <!--Create form sart-->
                     <div
                         class="flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
@@ -185,33 +183,48 @@ function removeForm() {
                                             >Correct Answer (Enter Answer
                                             Letter)</label
                                         >
-                                    <select class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" 
-                                            v-model="
-                                                form.questions[i].answer 
-                                            " >
-                                        <option :value="form.questions[i].answer1">
-                                        {{form.questions[i].answer1}}
-                                        </option>
-                                        <option :value="form.questions[i].answer2">
-                                        {{form.questions[i].answer2}}
-                                        </option>
-                                        <option :value="form.questions[i].answer3">
-                                        {{form.questions[i].answer3}}
-                                        </option>
-                                        <option :value="form.questions[i].answer4">
-                                        {{form.questions[i].answer4}}
-                                        </option>
-                                    </select>
+                                        <select
+                                            class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                            v-model="form.questions[i].answer"
+                                        >
+                                            <option
+                                                :value="
+                                                    form.questions[i].answer1
+                                                "
+                                            >
+                                                {{ form.questions[i].answer1 }}
+                                            </option>
+                                            <option
+                                                :value="
+                                                    form.questions[i].answer2
+                                                "
+                                            >
+                                                {{ form.questions[i].answer2 }}
+                                            </option>
+                                            <option
+                                                :value="
+                                                    form.questions[i].answer3
+                                                "
+                                            >
+                                                {{ form.questions[i].answer3 }}
+                                            </option>
+                                            <option
+                                                :value="
+                                                    form.questions[i].answer4
+                                                "
+                                            >
+                                                {{ form.questions[i].answer4 }}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
-                                
-                                
-                            <div class="mb-4 mt-4">
-                                <br/>
-                                <hr/>
-                                <br/>
-                                <br/>
-                            </div>
+
+                                <div class="mb-4 mt-4">
+                                    <br />
+                                    <hr />
+                                    <br />
+                                    <br />
+                                </div>
                             </div>
                             <div class="lg:right-0 mb-3 p-3">
                                 <Button
