@@ -180,7 +180,7 @@ const submit = () => {
                                             <td
                                                 class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium"
                                             >
-                                                <Link v-bind:href="route('parent.viewquiz', c.id)"
+                                                <Link v-bind:href="route('parent.viewquiz', [c.id,c.s_category_id])"
                                                     class="p-2 text-blue-500 hover:text-blue-200"
                                                 >
                                                     <i

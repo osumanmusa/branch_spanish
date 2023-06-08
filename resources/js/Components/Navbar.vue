@@ -54,7 +54,7 @@ let showMenu = ref(false);
           flex-col
           mt-8
           space-y-4
-          md:flex md:space-y-0 md:mt-0 lg:ml-20 
+          md:flex md:space-y-0 md:mt-0 lg:ml-15 
         "
       ><div class="lg:flex md:w-[45vw] justify-center items-center">
         <Link href="/flashcards" class="lg:inline-block md:inline-block md:mx-4 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2 " />
@@ -94,7 +94,7 @@ let showMenu = ref(false);
             
 
       </div>
-      <div v-else class="lg:w-[30vw] lg:text-end">
+      <div v-else class="lg:w-[30vw] lg:text-end mr-10 lg:mb-3">
         <Link 
             :href="route('login')" class="lg:inline-block lg:mx-5 lg:ml-auto  py-3 px-10 bg-white nav-text  border border-primary font-bold "> 
             <b>LOGIN</b></Link>

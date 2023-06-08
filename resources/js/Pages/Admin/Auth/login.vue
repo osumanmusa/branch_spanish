@@ -51,7 +51,7 @@ function submit() {
                             <label for="" class="text-xs font-semibold px-1">Email</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                <input type="email" v-model="form.email" id="email"  class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Enter your Email Address">
+                                <input type="email" v-model="form.email" id="email"  class="w-full -ml-10 pl-10 pr-3 py-3 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Enter your Email Address">
                                 <div v-show="form.hasErrors">
                                     <p class="text-sm text-red-600" :message="form.errors.email">
                                         {{ message }}
@@ -65,7 +65,7 @@ function submit() {
                             <label for="" class="text-xs font-semibold px-1">Password</label>
                             <div class="flex">
                                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                                <input type="password" id="password" v-model="form.password" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Enter your password">
+                                <input type="password" id="password" v-model="form.password" class="w-full -ml-10 pl-10 pr-3 py-3 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Enter your password">
                                 <div v-show="form.hasErrors">
                                     <p class="text-sm text-red-600" :message="form.errors.password">
                                         {{ message }}
@@ -78,9 +78,6 @@ function submit() {
                         <div class="w-full px-3 mb-5">
                             <button type="submit"  value="Submit" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">Login</button>
                         </div>
-                    </div>
-                    <div class="text-center mb-10">
-                        <p>Don't Have an Account? <a href="register" class="text-gray-900 font-bold"><b>Register</b></a></p>
                     </div>
                 </div>
             </form>

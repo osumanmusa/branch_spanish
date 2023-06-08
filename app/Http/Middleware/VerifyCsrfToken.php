@@ -13,6 +13,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/storevoice',
+        '/admin/store_pronounciation',
+        '/superadmin/store_pronounciation',
         //
     ];
 }

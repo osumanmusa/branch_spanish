@@ -12,9 +12,9 @@ defineProps({
 <Navbar/>
 
 
-<section class="bg-blue-500">
+<section class="bg-color">
 <!-- Page Container -->
-<div class="bg-blue-500 flex flex-wrap  mb-2 pt-6">
+<div class="bg-color flex flex-wrap  mb-2 pt-6">
     <div class="w-full md:w-8/12 lg:w-12/12 px-8">
             <!-- Header -->
         <h1 class="text-white text-4xl font-bold">
@@ -66,7 +66,7 @@ defineProps({
         </div>
     </div>
 </div>
-<div class="bg-blue-500">
+<div class="bg-color">
 
 
 
@@ -80,10 +80,7 @@ defineProps({
 </template>
 
 <style>
-*{
-    
-font-family: 'Gorditas' !important;
-}
+
 nav{
     z-index:30;
 }

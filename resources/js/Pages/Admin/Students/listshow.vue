@@ -12,14 +12,8 @@ const props = defineProps({
     message: String,
 });
 
-const form = useForm({
-    category_id:[],
-    user_id:[],
-});
 
-const submit = () => {
-    form.post(route('admin.getstudentdetails'));
-};
+
 </script>
 <template>
     <Head title="Flashcards" />
@@ -44,16 +38,15 @@ const submit = () => {
                                 <div class="flex items-center">
                                     <i class="fa fa-angle-left fa-bold"></i>
                                     <a
-                                        href="#"
+                                        href="/admin/students"
                                         class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
-                                        >Quizes</a
+                                        >Student Details</a
                                     >
                                 </div>
                             </li>
                         </ol>
                     </nav>
 
-{{studentquiz}}
     <div class="mx-auto py-8 max-w-screen-xl lg:px-3">
         <!-- Start coding here -->
         <div class="bg-white dark:bg-gray-800 relative sm:rounded-lg overflow-hidden">
@@ -86,7 +79,7 @@ const submit = () => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                      <tr v-for="(s,index) in studentquiz.data" :key="s.id" class="hover:bg-gray-100">
+                      <tr v-for="s in studentquiz.data" :key="s.id" class="hover:bg-gray-100">
         
                         <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"> {{s.child_firstname +' ' + s.child_lastname}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.student_id}} </td>
@@ -94,19 +87,18 @@ const submit = () => {
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.user_score}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.grade}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
-                         <form method="post" @submit.prevent="submit">   
-                            <input type="hidden" v-bind:value="form.user_id=s.id"/>
-                            <input type="hidden"  v-bind:value="form.category_id=[s.s_category_id]"/>
 
-                            <Button @click="submit" class="p-2 text-blue-500 hover:text-blue-300 flex justify-center inline-block" >
+
+                            <Link :href="route('admin.getstudentdetails', [s.id, s.s_category_id])"  class="p-2 text-blue-500 hover:text-blue-300 flex justify-center inline-block" >
                             <svg class="w-5 h-5 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg> Details
-                          </Button>
-                        </form>
+                          </Link>
                         </td>
-        
+<!--         
+                         <form method="post" @submit.prevent="submit">   
+                        </form> -->
                       </tr>
         
                     </tbody>

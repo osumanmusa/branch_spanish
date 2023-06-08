@@ -120,10 +120,7 @@ user_score: Object,
 /* body{
         background-color:  rgb(29 78 236);
     } */
-*{
-    
-font-family: 'Gorditas' !important;
-}
+
 nav{
     z-index:30;
 }

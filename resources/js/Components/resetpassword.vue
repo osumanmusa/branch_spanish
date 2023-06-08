@@ -19,10 +19,10 @@ const submit = () => {
 </script>
   
 <template>
- <li class="bg-blue-500">
+ <li class="bg-color">
 
  
-  <div class=" bg-blue-500 absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
+  <div class=" bg-color absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
   <div class="space-x-4">
       <button type="submit" class="px-8 py-3 btn-log text-black  rounded hover:bg-white hover:text-yellow-700 text-xl"><b>Enter Parents Email </b></button>
   <form @submit.prevent="submit" >

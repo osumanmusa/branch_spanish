@@ -3,7 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import Navbar from'../Components/Navbar.vue';
 
 defineProps({
-    categories:Object,
+    quizcategories:Object,
 });
 
 </script>
@@ -12,9 +12,9 @@ defineProps({
     <Head title="Welcome" />
 <Navbar/>
   
-<section class="bg-blue-500" >
+<section class="bg-color" >
 <!-- Page Container -->
-<div class="bg-blue-500 flex flex-wrap  mb-2 pt-6">
+<div class="bg-color flex flex-wrap  mb-2 pt-6">
     <div class="w-full md:w-8/12 lg:w-12/12 px-8">
             <!-- Header -->
         <h1 class="text-white text-4xl font-bold">
@@ -37,7 +37,7 @@ defineProps({
 
                 <div class="flex flex-wrap ">
                     <!-- N0 #1 -->
-                    <div v-for="c in categories" :key="c.id" class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
+                    <div v-for="c in quizcategories" :key="c.id" class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
                         <div  class="flex flex-col">
                             <!-- Avatar -->
                             <a v-bind:href="route('quiz.show', c.id)" class="mx-auto">
@@ -77,10 +77,7 @@ defineProps({
 </template>
 
 <style>
-*{
-    
-font-family: 'Gorditas' !important;
-}
+
 nav{
     z-index:30;
 }

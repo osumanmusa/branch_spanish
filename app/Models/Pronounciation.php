@@ -9,7 +9,7 @@ class Pronounciation extends Model
 {
     use HasFactory;
     
-    protected $table = "pronounciation";
+    protected $table = "pronounciations";
 
     protected $fillable = [
         'category_id' ,

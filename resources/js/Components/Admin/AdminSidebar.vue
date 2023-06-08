@@ -21,7 +21,7 @@ const sidebar = useSidebarStore()
             <div class="flex flex-col items-center">
                 
                 <span class="mx-2 font-semibold text-white ">{{ $page.props.auth.user.name }}</span>
-                <p class="pt-2 text-white">Admin</p>
+                <p class="pt-2 text-white">{{ $page.props.auth.user.role }}</p>
             </div>
         </div>
     
@@ -58,7 +58,7 @@ const sidebar = useSidebarStore()
             <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/accounts">
                 <img src="/img/i5.jpg" class="w-6 h-6"/>
 
-                <span class="mx-3">Accouts</span>
+                <span class="mx-3">Accounts</span>
             </a>
     
         </nav>

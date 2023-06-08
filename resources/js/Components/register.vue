@@ -28,7 +28,7 @@ function submit() {
  <li class="">
 
 
-  <div class="bg-blue-500 absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
+  <div class="bg-color absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
   <form @submit.prevent="submit">
 <TransitionGroup name="list">
 <div id="step1" v-show="step == 1" :key = "step" class="form-step form-step-active">

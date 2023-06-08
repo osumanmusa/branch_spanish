@@ -8,14 +8,23 @@
         <title inertia>{{ config('app.name', 'Branch-Spanish') }}</title>
         <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}">
         <link rel="icon" type="image/jpg" href="{{ asset('img/favicon.jpg') }}">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Lato">
 
         <!-- Fonts -->
         
 <style>
     *{
     
-    font-family: 'Typo Round' !important;
-    }
+    font-family: "Lato";
+    font-weight: 400;
+    font-style: normal;
+    font-display: auto;
+    unicode-range: U+000-5FF;
+    src: local("Lato"), url("~@/assets/fonts/Lalo/Lato-Regular.ttf") format("ttf");
+    }.bg-color{
+    background: #007FFF;
+}
 </style>
 
         <!-- Scripts -->
@@ -23,7 +32,7 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body >
+    <body class="body-font font-Lato">
         @inertia
     </body>
 </html>

@@ -14,8 +14,8 @@ function submit() {
 </script>
 <template>
 
-<li class="bg-blue-500">
-  <div class="bg-blue-500 absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
+<li class="bg-color">
+  <div class="bg-color absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto ">
 
     <form @submit.prevent="submit" >
       

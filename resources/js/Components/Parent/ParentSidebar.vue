@@ -7,7 +7,7 @@
             <div class="flex flex-col items-center">
                 
                 <span class="mx-2 font-semibold text-white">Name of Administrator</span>
-                <p class="pt-2 text-white">Admin</p>
+                <p class="pt-2 text-white">{{ $page.props.auth.user.role }}</p>
             </div>
         </div>
     
@@ -19,10 +19,24 @@
             </a>
 
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_student_quiz">
-                <img src="/img/dashboard/4.png"/>
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_student">
+                <img src="/img/dashboard/5.png"/>
     
                 <span class="mx-3">Quiz me</span>
+            </a>
+
+    
+             <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_pronounciation">
+                 <img src="/img/dashboard/4.png" class="w-5 h-5"/>
+
+                 <span class="mx-4"> Pronounciations</span>
+             </a>
+
+    
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_addstudent">
+                <img src="/img/i5.jpg" class="w-5 h-5"/>
+
+                <span class="mx-4"> Add New Account</span>
             </a>
     
         </nav>

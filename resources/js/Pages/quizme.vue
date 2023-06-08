@@ -226,10 +226,7 @@ const submit = () => {
 body{
         background-color:  rgb(59 130 246);
     }
-*{
-    
-font-family: 'Gorditas' !important;
-}
+
 nav{
     z-index:30;
 }

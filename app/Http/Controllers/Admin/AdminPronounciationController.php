@@ -26,15 +26,15 @@ class AdminPronounciationController extends Controller
     {
         $pronounciation = DB::table('categories')  
         ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
         ->when($request->search, function ($query, $search) {
             $query->where('flashcard_title', 'like', '%' . $search . '%')
             ->orwhere('category_name', 'like', '%' . $search . '%');
         })->paginate(15);
         $submissions = DB::table('categories')  
         ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')
-        ->join('user_record', 'pronounciation.id', '=', 'user_record.pronounciation_id')->paginate(15);
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')->paginate(15);
         return Inertia::render('Admin/Pronounciations/index',[
             'pronounciation'=> $pronounciation,
             'submissions'=> $submissions,
@@ -61,30 +61,65 @@ class AdminPronounciationController extends Controller
      */
     public function store(Request $request)
     {
+            
         $request->validate([
             'category' => 'required',
             'flashcard' => 'required',
             'title' => 'required',
         ]);
-        $record = time() . '-' . $request->file('audio')->getClientOriginalName();
-       $request->file('audio')->move(public_path('audio/'), $record);
+    //     if($request->hasFile('audio') ){
+    //     $record = time() . '-' . $request->file('audio')->getClientOriginalName();
+    //    $request->file('audio')->move(public_path('audio/'), $record);
+
+    //     }else
+    if($request->hasFile('recordfile')){
+
+            $record = time() . '-' . $request->recordfile->getClientOriginalName();
+           $request->recordfile->move(public_path('audio/'), $record);
+
+        }
+
+        $pronounciation = Pronounciation::create([
+            'flashcard_id' => $request->flashcard,
+            'category_id' => $request->category,
+            'pronounciation_title' => $request->title,
+            'pronounciation_voice' => $record,
+        ]);
+    
+        if ($pronounciation) {
+            $successmessage = 'Created Successfully';
+            return back()->with('successmessage', $successmessage);
+        } else {
+            $errormessage = '!Error Something Happened';
+            return back()->with('errormessage', $errormessage);
+        }
+        $errormessage = '!Error Something Happened';
+        return back()->with('errormessage', $errormessage);
+    //     dd($request);
+    //     $request->validate([
+    //         'category' => 'required',
+    //         'flashcard' => 'required',
+    //         'title' => 'required',
+    //     ]);
+    //     $record = time() . '-' . $request->file('audio')->getClientOriginalName();
+    //    $request->file('audio')->move(public_path('audio/'), $record);
 
 
-       $pronounciation = Pronounciation::create([
-           'flashcard_id' => $request->flashcard,
-           'category_id' => $request->category,
-           'pronounciation_title' => $request->title,
-           'pronounciation_voice' => $record,
-       ]);
-       if($pronounciation ){
-        $successmessage = 'Created Successsfully';
-        return redirect()->route('admin.pronounciation')->with('successmessage',$successmessage);
-       }
-       else{
-        $errormessage = '!Error Something Happend';
-        return back()->with('errormessage',$errormessage);
-       }
-        //
+    //    $pronounciation = Pronounciation::create([
+    //        'flashcard_id' => $request->flashcard,
+    //        'category_id' => $request->category,
+    //        'pronounciation_title' => $request->title,
+    //        'pronounciation_voice' => $record,
+    //    ]);
+    //    if($pronounciation ){
+    //     $successmessage = 'Created Successsfully';
+    //     return redirect()->route('admin.pronounciation')->with('successmessage',$successmessage);
+    //    }
+    //    else{
+    //     $errormessage = '!Error Something Happend';
+    //     return back()->with('errormessage',$errormessage);
+    //    }
+    //     //
     }
 
     /**

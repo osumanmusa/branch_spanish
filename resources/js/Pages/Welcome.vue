@@ -12,10 +12,10 @@ defineProps({
 
 <Navbar/>
 
-<section class="bg-blue-500 w-full hero-section">
-    <div class="container flex flex-row p-3 mx-auto lg:py-24 lg:flex-row lg:justify-between hero-container">
+<section class="bg-color w-full hero-section">
+    <div class="flex   ">
 
-      <img src="img/hero2.png" class="hero-img ">
+      <img src="img/hero.png" class="hero-img container-fluid">
     </div>
 </section>
 
@@ -29,7 +29,7 @@ defineProps({
 <br>
 </div>
 
-<section class="bg-blue-500">
+<section class="bg-color">
 <!-- Page Container -->
 <div class="container my-12 mx-auto px-1">
     <br>
@@ -69,7 +69,7 @@ defineProps({
         </div>
     </div>
 </div>
-<div class="bg-blue-500">
+<div class="bg-color">
     <div class="flex justify-center p-4">
 
     <Link
@@ -101,9 +101,14 @@ defineProps({
 </template>
 
 <style>
+*{
+    font-famiy:'Lato';
+}
 body{
     background-color: white;
     
+}.bg-color{
+    background: #007FFF;
 }
 
 .nav{

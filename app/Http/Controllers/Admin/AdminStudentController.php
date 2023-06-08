@@ -63,27 +63,18 @@ class AdminStudentController extends Controller
         ]);
         //
     }
-    public function details(Request $request)
+    public function details(string $id,string $btntype)
     {
-        
-        $student=  DB::table('categories')  
-        ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
-        ->join('users', 'userscore.user_id', '=', 'users.id')
-        ->where('users.id','=',$request->user_id)
-        ->where('categories.id' ,'=',$request->category_id)->get();
-
-        
-        
         $studentquiz=  DB::table('categories')  
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
         ->join('useranswers', 'users.id', '=', 'useranswers.user_id')
         ->join('quiz', 'useranswers.quiz_id', '=', 'quiz.id')
-        ->select('categories.id As id','category_name','category_image')
-        ->where('users.id','=',$request->user_id)
-        ->where('categories.id' ,'=',$request->category_id)->get();
-        dd($studentquiz);
-
+        ->where('users.id','=',$id)
+        ->where('categories.id' ,'=',$btntype)
+        ->where('userscore.s_category_id' ,'=',$btntype)
+        ->where('quiz.category_id' ,'=',$btntype)->get();
+    
         return Inertia::render('Admin/Students/show',[
             'studentquiz' => $studentquiz,
             

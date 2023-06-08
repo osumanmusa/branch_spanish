@@ -65,7 +65,12 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 15px 30px;">
-                                    <h2 style="font-size: 18px; color: #6576ff; font-weight: 600; margin: 0;">Branch Out With Spanish</h2>
+                                    <img src="{{asset('img/logo.png')}}"/>
+                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 30px 30px 15px 30px;">
+                                    <h2 style="font-size: 18px; color: #6576ff; font-weight: 600; margin: 0;">{{$subject}}</h2>
                                 </td>
                             </tr>
                             <tr>

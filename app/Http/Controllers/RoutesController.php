@@ -67,7 +67,7 @@ class RoutesController extends Controller
     {
         $flashcard = DB::table('categories')  
         ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciation', 'flashcards.id', '=', 'pronounciation.flashcard_id')->where('flashcards.category_id','=',$id)->paginate(1);
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')->where('flashcards.category_id','=',$id)->paginate(1);
         $flashcards=Flashcard::select('*')->where('flashcards.category_id','=',$id)->get();
         return Inertia::render('voice', [
             'flashcard' =>$flashcard,
@@ -114,19 +114,25 @@ class RoutesController extends Controller
     {
         
         $user =  Auth::user()->id;
-        $categories =  DB::table('categories')  
+        $quizcategories =  DB::table('categories')  
         ->leftjoin('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->leftjoin('users', 'userscore.user_id', '=', 'users.id')
         ->select('categories.id As id','category_name','category_image')
         ->where('userscore.s_category_id','=',null)
-        ->orwhere('users.id','!=',$user)
+        ->orwhere('userscore.user_id','!=',$user)
         ->get();
+        
+        // $user =  Auth::user()->id;
+        // $userscore =Score::where('user_id','=',$user)->get();
+
+        // $quizcategories =Category::where('id','!=',$userscore->s_category_id)->get();
+
         // $regged= Score::where('user_id','=',$user)->get();
 
         // $categories= Category::whereNotIn('id',$child->cateh)->get();
        
         return Inertia::render('quiz', [
-            'categories' =>$categories,
+            'quizcategories' =>$quizcategories,
         ]);
     }
 
@@ -135,12 +141,20 @@ class RoutesController extends Controller
      */
     public function showquiz(string $id)
     {
+        $user =  Auth::user()->id;
+        $userscore =Score::where('user_id','=',$user)->where('s_category_id','=',$id)->first();
         
-        $quizes = DB::table('categories')  
-        ->join('quiz', 'categories.id', '=', 'quiz.category_id')->where('quiz.category_id','=',$id)->get();
-        return Inertia::render('quizme', [
-            'quizes' =>$quizes,
-        ]);
+         if($userscore==null){
+    
+            $quizes = DB::table('categories')  
+            ->join('quiz', 'categories.id', '=', 'quiz.category_id')->where('quiz.category_id','=',$id)->get();
+            return Inertia::render('quizme', [
+                'quizes' =>$quizes,
+            ]);
+
+        }else{
+            return redirect()->back();
+        }
     }
     
 
@@ -207,12 +221,21 @@ class RoutesController extends Controller
         'grade' => $grade,
     ]);
     if($storescore){
-        return Inertia::render('score', [
-            'score' =>$score,
-            'totalanswer' => $totalanswer,
-            'grade'=>$grade,
-            'user_score'=>$t_grade,
-        ]);
+        return redirect()->route('user.score')
+        ->with(
+            'score',$score)
+        ->with(
+            'totalanswer',$totalanswer)
+        ->with(
+            'grade',$grade)
+        ->with(
+            'user_score',$t_grade);
+        // return Inertia::render('score', [
+        //     'score' =>$score,
+        //     'totalanswer' => $totalanswer,
+        //     'grade'=>$grade,
+        //     'user_score'=>$t_grade,
+        // ]);
     }
     else{
 

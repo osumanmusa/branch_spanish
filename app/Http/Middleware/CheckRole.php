@@ -15,6 +15,9 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
+        if ($role == 'superadmin' && auth()->user()->role != 'superadmin' ) {
+            abort(403);
+        }
         if ($role == 'admin' && auth()->user()->role != 'admin' ) {
             abort(403);
         }

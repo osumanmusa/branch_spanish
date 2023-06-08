@@ -54,7 +54,7 @@ const handelFlip = () =>{
 
 
 
-<section  class="bg-blue-500" v-if="cardKey" >
+<section  class="bg-color" v-if="cardKey" >
 <!-- Page Container -->
 
 
@@ -248,10 +248,7 @@ const handelFlip = () =>{
 body{
         background-color:  rgb(59 130 246);
     }
-*{
-    
-font-family: 'Gorditas' !important;
-}
+
 nav{
     z-index:30;
 }

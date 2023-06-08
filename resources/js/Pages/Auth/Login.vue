@@ -238,14 +238,10 @@ let showMenu = ref(false);
 </template>
 <style >
 body{
-    background-color:  rgb(59 130 246);
+    background: #007FFF;
 
     }
-    
-*{
-    
-font-family: 'Gorditas' !important;
-}
+   
 nav{
     z-index:30;
 }

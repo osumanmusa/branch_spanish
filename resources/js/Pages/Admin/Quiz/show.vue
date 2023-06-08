@@ -49,7 +49,7 @@ function listgrades(){
                                 <div class="flex items-center">
                                     <i class="fa fa-angle-left fa-bold"></i>
                                     <a
-                                        href="#"
+                                        href="/admin/quiz"
                                         class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
                                         >Quizes</a
                                     >
@@ -75,9 +75,15 @@ function listgrades(){
                     <div v-if="questionslist">
                     <div v-for="q in quizes" :key="q.id" class="mt-5 mb-5">
                     <h2 id="accordion-collapse-heading-1 " >
-                        <p type="button" class="flex items-center px-6 justify-between w-[75vw] p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl  bg-gray-100">
+                        <div type="button" class="flex inline-block items-center px-6 justify-between w-[75vw] p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl  bg-gray-100">
                         <span>Question {{ q.id }}</span>
-                     </p>
+                        <div class="delbutton flex text-red-500"><a :href="route('admin.delquiz',q.id)">
+                            delete
+                            <svg class="w-5 h-5 text-red" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </a></div>
+                        </div>
                     </h2>
                     <div class="border border-gray-200 w-[75vw]">
                         <div class="p-5 px-16 border border-b-0 border-gray-200 ">
@@ -142,5 +148,8 @@ function listgrades(){
 <style scoped>
 .hr{
     border: 2px solid rgb(184, 181, 181);
+}
+.delbutton{
+    float: right;
 }
 </style>

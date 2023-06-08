@@ -47,7 +47,7 @@ class AdminQuizController extends Controller
         $questions= $request->questions;
 
     foreach ($questions as $key => $value) {
-        $total=Category::max('quiz_no');
+        $total=Category::where('id','=',$request->category)->max('quiz_no');
         if($total == ""){
          $quiztotal = 1;
         }
@@ -105,8 +105,20 @@ class AdminQuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function delquiz(string $id)
     {
+        $delquiz=Quiz::findorfail($id);
+        $maxquiz=Category::where('id','=',$delquiz->category_id)->max('quiz_no');
+        $max=$maxquiz-1;
+        $delquiz->delete();
+        $updated = DB::table('categories')
+                  ->where('id', $delquiz->category_id)
+                  ->update(
+                      [ 
+                        'quiz_no' => $max,
+                    ]);
+        $successmessage = 'Deleted Successsfully';
+        return redirect()->back()->with('successmessage',$successmessage);
         //
     }
 
@@ -123,10 +135,16 @@ class AdminQuizController extends Controller
      */
     public function destroy(string $id)
     {
-        $delquiz=Quiz::findOrFail($id);
-        
+        $delquiz=Quiz::where('category_id','=',$id);
+        $max=0;
         $delquiz->delete();
-        $successmessage = 'Created Successsfully';
+        $profile = DB::table('categories')
+                  ->where('id', $id)
+                  ->update(
+                      [ 
+                        'quiz_no' => $max,
+                    ]);
+        $successmessage = 'Deleted Successsfully';
         return redirect()->route('admin.quiz')->with('successmessage',$successmessage);
     }
 }

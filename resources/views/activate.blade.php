@@ -65,27 +65,22 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 15px 30px;">
-                                    <h2 style="font-size: 18px; color: #6576ff; font-weight: 600; margin: 0;">Branch Out With Spanish</h2>
+                                    <img src="{{asset('img/logo.png')}}"/>
+                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 30px 30px 15px 30px;">
+                                    <h2 style="font-size: 18px; color: #000000; font-weight: 600; margin: 0;">{{$subject}}</h2>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;">Dear {{$parent_firstname}}, </p>
                                     <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal. </p>
-                                    <p style="margin-bottom: 25px;">Below are the informaiton provided in creating your account </p>
+                                    <p style="margin-bottom: 25px;">Your Account and any has been succesfully been Activated </p>
                                     <br>
-                                    <p style="margin-bottom: 10px;">Parent Details</p>
-
-                                    <p style="margin-bottom: 10px;">Email : {{$parent_email}}</p>
-                                    <p style="margin-bottom: 10px;">Password : {{$parent_password}}</p>
-                                    <br>
-                                    <p style="margin-bottom: 10px;">Student Details</p>
-
-                                    <p style="margin-bottom: 10px;">Email : {{$child_email}}</p>
-                                    <p style="margin-bottom: 10px;">Password : {{$child_password}}</p>
-                                    <br>
-                                    <p style="margin-bottom: 25px;">An Account Activation Mail will be sent to you within the day</p>
-                                    <p style="margin-bottom: 25px;">You can similarly contact our administrator for your account activation should incase you dont recieve any mail</p>
+                                    <p style="margin-bottom: 25px;">You can now Login and use our Platform</p>
+                                   
                                 
                                 </td>
                             </tr>

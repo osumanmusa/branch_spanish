@@ -33,6 +33,7 @@ class User extends Authenticatable
         'student_id',
         'student_status',
         'account_status',
+        'parent_index',
     ];
 
     /**

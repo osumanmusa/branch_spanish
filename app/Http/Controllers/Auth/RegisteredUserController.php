@@ -69,6 +69,7 @@ class RegisteredUserController extends Controller
         else{
          $student_id= ++$code;
         }
+        $c_index=random_int(100000, 999999);
         
         $user = User::create([
             'name' => $request->parent_name,
@@ -81,11 +82,10 @@ class RegisteredUserController extends Controller
             'child_lastname' => $request->child_lastname,
             'child_school' => $request->child_school,
             'role' => $role,
-            'student_id' => $student_id,
+            'parent_index' => $c_index,
         ]);
 
         $role='user';
-        $status='Enrolled';
         $user = User::create([
             'name' =>$request->child_firstname,
             'email' => $request->child_email,
@@ -98,7 +98,7 @@ class RegisteredUserController extends Controller
             'child_school' => $request->child_school,
             'role' => $role,
             'student_id' => $student_id,
-            'student_status' => $status,
+            'parent_index' => $c_index,
         ]);
         if($user){
             $subject="Branch Spanish - Account Created Successfully";
