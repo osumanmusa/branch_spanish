@@ -69,7 +69,16 @@ defineProps({
 </div>
 <div class="bg-color">
     <hr class="hr" />
-    <p class="text-white text-center p-4">   Copyright @2013.BranchOutWithSpanish.com</p>
+        <div class="flex flex-col inline-block">
+            <span class="inline-block text-white text-center p-4">   Copyright @2013 <a href="https://branchoutwithspanish.com/">BranchOutWithSpanish.com</a>
+
+                <span class="inline-block justify-end text-white  p-4 admin-log"> 
+                    <Link href="/admin/login" class="py-4 px-8 bg-yellow-500 hover:bg-white hover:text-blue-500 hover:border border-white">Admin Login</Link>
+
+                </span>
+            </span>
+            
+        </div>
 </div>
 </section>
 
