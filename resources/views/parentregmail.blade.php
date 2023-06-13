@@ -77,15 +77,15 @@
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;">Dear {{$parent_firstname}}, </p>
                                     <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal. </p>
-                                    <p style="margin-bottom: 25px;">Below are the informaiton provided in creating your account </p>
+                                    <p style="margin-bottom: 25px;">Below is the information provided in creating your account.</p>
                                     <br>
                                     <p style="margin-bottom: 10px;">Student Details</p>
 
-                                    <p style="margin-bottom: 10px;">Email : {{$child_email}}</p>
-                                    <p style="margin-bottom: 10px;">Password : {{$child_password}}</p>
+                                    <p style="margin-bottom: 10px;">Email: {{$child_email}}</p>
+                                    <p style="margin-bottom: 10px;">Password: {{$child_password}}</p>
                                     <br>
-                                    <p style="margin-bottom: 25px;">An Account Activation Mail will be sent to you within the day</p>
-                                    <p style="margin-bottom: 25px;">You can also contact our administrator for your account activation should incase you dont recieve any mail</p>
+                                    <p style="margin-bottom: 25px;">Account Activation Mail will be sent to you within the day.</p>
+                                    <p style="margin-bottom: 25px;">You can also contact our administrator for your account activation should in a case you do not receive any mail.</p>
                                 
                                 </td>
                             </tr>
@@ -93,7 +93,7 @@
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;"> Kind regards,</p>
                                     <p style="margin-bottom: 10px;">Administrator - Branch Out With Spanish</p>
-                                    <p style="margin-bottom: 10px;">Email: admissions@unicafuniversity.com</p>
+                                    <p style="margin-bottom: 10px;">Email: admin@branchoutwithspanish.com</p>
                                     <p style="margin-bottom: 10px;">branchoutwithspanish.com</p>
                                 </td>
                             </tr>

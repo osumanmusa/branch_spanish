@@ -64,7 +64,8 @@ function selectFile($event) {
         <div  class="relative">
             <Link href="/admin/editprofile"  class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
 
-    <img class="object-cover w-full h-full" :src="'/img/profile-img/'+ $page.props.auth.user.profile_image"  alt="Your avatar">
+    <img v-if="$page.props.auth.user.profile_image==null" class="object-cover w-full h-full" src="/img/avatar.png"  alt="Your avatar">
+    <img v-else class="object-cover w-full h-full" :src="'/img/profile-img/'+ $page.props.auth.user.profile_image"  alt="Your avatar">
 
 
             </Link>

@@ -25,6 +25,7 @@
         "flowbite-vue": "^0.0.10",
         "lamejs": "^1.2.1",
         "lodash": "^4.17.21",
+        "moment": "^2.29.4",
         "pinia": "^2.1.3",
         "recorder-core": "^1.2.23020100",
         "recorder-js": "^1.0.7",

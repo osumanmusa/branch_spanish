@@ -1,9 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
-import login from "../../Components/login.vue";
-import registercomponent from "../../Components/register.vue";
-import resetpassword from "../../Components/resetpassword.vue";
+import Navbar from "../../Components/Navbar.vue";
 
 const props = defineProps({
     page: String,
@@ -15,13 +13,16 @@ const props = defineProps({
     errormessage: Object,
 });
 
-const pages = {
-    login: login,
-    register: registercomponent,
-    resetpassword: resetpassword,
-};
 
-const currenttab = ref(pages[props.page]);
+const logform = useForm({
+    email: null,
+    password: null,
+});
+function submit() {
+    logform.post(route("login"), {
+        onFinish: () => logform.reset("password", "password_confirmation"),
+    });
+}
 let showMenu = ref(false);
 const toggleNav = () => (showMenu.value = !showMenu.value);
 </script>
@@ -29,63 +30,84 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
 <template>
     <Head title="Authentication Page" />
 
-    <nav class="sticky top-0 py-4 md:flex bg-white">
-        <div class="flex items-center">
-            <a href="/" class="lg:ml-6">
-                <img src="/img/bg.png" class="logo" />
-            </a>
+<Navbar />
 
-            <a href="/" class="lg:ml-1 px-4">
-                <img src="/img/logo2.jpg" class="logo2" />
-            </a>
-            <!-- <button type="button" class="lg:ml-12 py-6 text-gray-700 border border-gray-700 font-medium rounded-lg text-lg px-8 text-center mb-2 ">
-          Branch Out With Spanish</button> -->
+<!-- <nav
+  class="sticky top-0 nav
+    py-4
+    md:flex bg-white shadow-md 
+  "
+>
+  <div class="flex items-center ">
+    <a href="/" class="lg:ml-6 "
+      >
+        <img src="/img/bg.png" class="logo"/>
+  </a>
+    <a href="/" class="lg:ml-1 px-4"
+      >
+        <img src="/img/logo2.jpg" class=" logo2"/>
+  </a>
 
-            <!-- Mobile menu button -->
-            <div @click="toggleNav" class="flex md:hidden px-3">
-                <button
-                    type="button"
-                    class="text-yellow-800 hover:text-gray-400 focus:outline-none focus:text-gray-400"
-                >
-                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                        <path
-                            fill-rule="evenodd"
-                            d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                        ></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul
-            :class="showMenu ? 'flex' : 'hidden'"
-            class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:mt-0 lg:ml-24"
-        >
-            <div>
-                <Link
-                    href="/flashcards"
-                    class="lg:inline-block md:inline-block md:mx-6 hover:bg-gray-50"
-                    ><img src="/img/i1.png" class="nav-icon p-2" />
 
-                    <p class="nav-text text-xl"><b>FLASH CARDS</b></p></Link
-                >
-                <Link
-                    href="/pronounciations"
-                    class="lg:inline-block md:inline-block md:mx-6 px-4 hover:bg-gray-50"
-                    ><img src="/img/i2.png" class="nav-icon p-2" />
+    <div @click="toggleNav" class="flex md:hidden px-3">
+      <button
+        type="button"
+        class="
+          text-yellow-800
+          hover:text-gray-400
+          focus:outline-none focus:text-gray-400
+        "
+      >
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+          <path
+            fill-rule="evenodd"
+            d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <ul
+    :class="showMenu ? 'flex' : 'hidden'"
+    class="
+      flex-col
+      mt-8
+      space-y-4
+      md:flex md:space-y-0 md:mt-0 lg:ml-15 px-3 pl-8
+    "
+  ><div class="lg:flex md:w-[45vw] justify-center items-center">
+    <Link href="/flashcards" class="lg:inline-block md:inline-block md:mx-4 hover:bg-gray-50"><img src="/img/i1.png" class="nav-icon p-2 " />
+            
+            <p class="nav-text lg:text-l"><b>FLASH CARDS</b></p></Link>
+    <Link href="/pronounciations" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50"><img src="/img/i2.png" class="nav-icon p-2"/>
 
-                    <p class="nav-text text-xl"><b>PRONOUNCIATION</b></p></Link
-                >
-                <Link
-                    href="/quizme"
-                    class="lg:inline-block md:inline-block md:mx-6 px-4 hover:bg-gray-50"
-                    ><img src="/img/i3.png" class="nav-icon p-2" />
+    <p class="nav-text lg:text-l"><b>PRONOUNCIATION</b></p></Link>
+    <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50 "><img src="/img/i3.png" class="nav-icon p-2"/>
 
-                    <p class="nav-text text-xl"><b>QUIZ ME</b></p>
-                </Link>
-            </div>
-        </ul>
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-    </nav>
+    <p class="nav-text lg:text-l"><b>QUIZ ME</b></p>
+    </Link>
+    </div>
+    </ul>
+  <ul
+    :class="showMenu ? 'flex' : 'hidden'"
+    class="
+      flex-col
+      mt-8
+      space-y-4
+      md:flex md:space-y-0  md:mt-0 justify-end px-2
+    "
+  >
+  <div  class="lg:w-[20vw] lg:text-end lg:mr-10 space-x-4 px-4 mb-6 ">
+    <Link 
+        :href="route('login')" class="lg:inline-block lg:mx-4 lg:ml-auto  py-3 px-5 bg-white nav-text  border border-primary font-bold "> 
+        <b>LOGIN</b></Link>
+    <Link 
+        :href="route('register')" class="lg:inline-block lg:mx-4 lg:ml-auto  py-3 px-5 text-white log-button nav-text  border border-primary font-bold "> 
+        <b>SIGNUP</b></Link>
+  </div>
+      </ul>
+</nav> -->
+
     <!-- <nav
       class="sticky top-0 
         px-4
@@ -231,46 +253,74 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
     </Transition>
 
     <!-- component -->
-    <div class="lg:px-16">
-        <div class="flex items-center mt-16 mx-auto p-6">
-            <h1 class="text-white text-2xl lg:px-8">
-                <b>Create New Account</b>
+
+    <!-- component -->
+    <div class="flex items-center lg:ml-24 pt-12 pb-4 px-8">
+            <h1 class="text-white text-2xl lg:px-6 sm:text-center">
+                <b>SIGN IN </b>
             </h1>
         </div>
-        <div class="flex items-center justify-center mt-3 mx-auto p-6">
-            <ul
-                class="mx-auto grid max-w-full w-full lg:grid-cols-6 sm:grid-cols-3 lg:gap-x-4 lg:px-8"
-            >
-                <li class="">
-                    <label
-                        @click="currenttab = pages['login']"
-                        class="flex justify-center mb-3 cursor-pointer border border-gray-300 py-4 px-4 text-white hover:bg-white hover:text-blue-500 border border-white hover:text-blue text-sm border border-primary-100 font-bold focus:outline-none"
-                        for="yes"
-                        >Login</label
-                    >
-                </li>
-                <li class="">
-                    <label
-                        @click="currenttab = pages['register']"
-                        class="flex justify-center mb-3 cursor-pointer py-4 px-4 text-white hover:bg-white hover:text-blue-500 border border-white hover:text-blue text-sm border border-primary-100 font-bold focus:outline-none"
-                        >Sign Up</label
-                    >
-                </li>
 
-                <li class="">
-                    <label
-                        @click="currenttab = pages['resetpassword']"
-                        class="flex justify-center cursor-pointer py-4 px-4 text-white hover:bg-white hover:text-blue-500 border border-white hover:text-blue text-sm border border-primary-100 font-bold focus:outline-none"
-                        >Reset Password</label
+    <div class="flex items-center  justify-center mt-1 ">
+        <ul class="mx-auto grid max-w-full w-full px-4 lg:px-10 ">
+            <li class="">
+                <div
+                    class="bg-color  border-indigo-300 rounded-lg lg:w-[77vw] mx-auto"
+                >
+              <form @submit.prevent="submit" class="mb-10">
+                        
+                <div class="grid lg:grid-cols-1 gap-4">
+                    <div>
+                        <label
+                            for="name"
+                            class="text-lg text-white block mb-1 font-bold"
+                            >Email:</label
+                        >
+                        <input
+                            type="email"
+                            v-model="logform.email"
+                            id="email"
+                            class="bg-gray-100 border border-gray-200 rounded py-3 px-3 block focus:ring-blue-500 text-gray-700 w-full"
+                            placeholder="yourmail@gmail.com"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            for="email"
+                            class="text-lg text-white block mb-1 font-medium"
+                            >Password:</label
+                        >
+                        <input
+                            type="text"
+                            id="password"
+                            v-model="logform.password"
+                            class="bg-gray-100 border border-gray-200 rounded py-3 px-3 block focus:ring-blue-500 text-gray-700 w-full"
+                            placeholder="************"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="py-3">
+                    <p class="text-white"> Don't have an account?<a href="register" class="text-yellow-200"> Click here to register.</a></p>
+                </div>
+                <div class="py-3">
+                    <p class="text-white"> Reset password?<a href="forgot-password" class="text-yellow-200"> Click here.</a></p>
+                </div>
+                <div class="space-x-4 mt-3">
+                    <button
+                        type="submit"
+                        value="Submit"
+                        class="py-2 px-4 btn-log text-black rounded hover:bg-white hover:text-yellow-700 px-8 py-3 text-xl"
                     >
-                </li>
-            </ul>
-        </div>
-        <div class="flex items-center justify-center mt-1">
-            <ul class="mx-auto grid max-w-full w-full grid-cols-6 gap-x-4 px-8">
-                <component :is="currenttab"></component>
-            </ul>
-        </div>
+                        <b>Log in</b>
+                    </button>
+                </div>
+                    </form>
+                </div>
+            </li>
+        </ul>
     </div>
 </template>
 <style>
@@ -291,8 +341,12 @@ nav {
     height: 60px;
 }
 .nav-icon {
-    height: 60px;
-    width: 60px;
+    height: 55px;
+    width:  55px;
+}
+.log-button{
+  background: #007FFF;
+  color:white !important;
 }
 
 .toast-right {

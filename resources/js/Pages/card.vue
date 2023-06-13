@@ -74,8 +74,13 @@ const handelFlip = () => {
                                             class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]"
                                         >
                                             <div class="px-6 py-4">
-                                                <h1
+                                                <h1 v-if="cardKey.length <5"
                                                     class="text-gray-700 text-7xl text-2xl"
+                                                >
+                                                    {{ cardKey }}
+                                                </h1>
+                                                <h1 v-else
+                                                    class="text-gray-700 text-2xl text-2xl"
                                                 >
                                                     {{ cardKey }}
                                                 </h1>
@@ -153,8 +158,13 @@ const handelFlip = () => {
                                     class="flex items-center justify-center leading-tight p-2 md:p-4"
                                 >
                                     <div class="px-6 py-4">
-                                        <h1
+                                        <h1 v-if="f.flashcard_title.length <5"
                                             class="text-black text-2xl uppercase text-6xl text-center px-1"
+                                        >
+                                            {{ f.flashcard_title }}
+                                        </h1>
+                                        <h1 v-else
+                                            class="text-black text-xl uppercase text-center px-1"
                                         >
                                             {{ f.flashcard_title }}
                                         </h1>
@@ -173,9 +183,9 @@ const handelFlip = () => {
             <hr class="hr" />
             <div class="flex flex-col inline-block">
                 <span class="inline-block text-white text-center p-4">
-                    Copyright @2013
+                    Copyright <span>&copy;</span>
                     <a href="https://branchoutwithspanish.com/"
-                        >BranchOutWithSpanish.com</a
+                        > BranchoutwithSpanish.com 2023 </a
                     >
                 </span>
                 <span
@@ -183,7 +193,7 @@ const handelFlip = () => {
                 >
                     <Link
                         href="/admin/login"
-                        class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
+                        class="py-4 px-8 bg-adminbtn-color hover:bg-white hover:text-blue-500 hover:border border rounded-lg border-white"
                         >Admin Login</Link
                     >
                 </span>
@@ -234,6 +244,9 @@ nav {
 }
 .bg-btn-color {
     background: #f58c28;
+}
+.bg-adminbtn-color {
+    background:  rgb(59 130 246);
 }
 
 .logo {

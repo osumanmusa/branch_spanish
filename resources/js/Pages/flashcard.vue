@@ -14,7 +14,7 @@ defineProps({
     <section class="bg-color">
         <!-- Page Container -->
         <div class="bg-color flex flex-wrap mb-2 pt-6">
-            <div class="w-full md:w-8/12 lg:w-12/12 px-8">
+            <div class="w-full md:w-8/12 lg:w-12/12 px-8 lg:ml-10">
                 <!-- Header -->
                 <h1 class="text-white text-4xl font-bold">Flashcards</h1>
 
@@ -37,7 +37,7 @@ defineProps({
                             <div
                                 v-for="c in categories"
                                 :key="c.id"
-                                class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
+                                class="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:py-4"
                             >
                                 <div class="flex flex-col">
                                     <!-- Avatar -->
@@ -74,9 +74,9 @@ defineProps({
             <hr class="hr" />
             <div class="flex flex-col inline-block">
                 <span class="inline-block text-white text-center p-4">
-                    Copyright @2013
+                    Copyright <span>&copy;</span>
                     <a href="https://branchoutwithspanish.com/"
-                        >BranchOutWithSpanish.com</a
+                        > BranchoutwithSpanish.com 2023 </a
                     >
                 </span>
                 <span
@@ -84,7 +84,7 @@ defineProps({
                 >
                     <Link
                         href="/admin/login"
-                        class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
+                        class="py-4 px-8 bg-adminbtn-color hover:bg-white hover:text-blue-500 hover:border border rounded-lg border-white"
                         >Admin Login</Link
                     >
                 </span>
@@ -118,5 +118,8 @@ nav {
 }
 .bg-btn-color {
     background: #f58c28;
+}
+.bg-adminbtn-color {
+    background:  rgb(59 130 246);
 }
 </style>

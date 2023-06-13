@@ -47,6 +47,9 @@ use App\Http\Controllers\ParentController;
 Route::get("/", [RoutesController::class, "index"])->name('welcome');
 Route::get("/flashcards", [RoutesController::class, "flashcard"])->name('flashcards');
 Route::get("/pronounciations", [RoutesController::class, "pronounciation"])->name('pronounciations');
+
+Route::post("/user_passrestore", [RoutesController::class, "resetpass"])->name('user.passrestore');
+
 Route::get("/admin/login", [AdminLoginController::class, "index"])->name('adminlogin');
 Route::post("/adminlogged", [AdminLoginController::class, "store"])->name('admin.login');
 
@@ -98,7 +101,7 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     
     Route::get("/superadmin/students", [SuperAdminStudentController::class, "index"])->name('superadmin.students');
     Route::get("/superadmin_show_student/{id}", [SuperAdminStudentController::class, "show"])->name('superadmin.viewstudent');
-    // Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "details"])->name('admin.studentdetails');
+    Route::get("/superadmin_student_detail/{id}", [SuperAdminStudentController::class, "view"])->name('superadmin.studentdetails');
     Route::get("/superadmin_student_detail/{id}/{btntype}", [SuperAdminStudentController::class, "details"])->name('superadmin.getstudentdetails');
     
     Route::get("/superadmin/admins", [AdminsController::class, "index"])->name('superadmin.admin');
@@ -106,6 +109,10 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     Route::post("/superadmin/storeadmin", [AdminsController::class, "store"])->name('superadmin.admin.store');
     Route::post("/superadmin/deleteadmin/{id}", [AdminsController::class, "details"])->name('superadmin.deleteadmin');
 
+    Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
+    Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
+    Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+    Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
 });
 
 
@@ -145,8 +152,12 @@ All Admin Routes List
         
         Route::get("/admin/students", [AdminStudentController::class, "index"])->name('admin.students');
         Route::get("/admin_show_student/{id}", [AdminStudentController::class, "show"])->name('admin.viewstudent');
-        // Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "details"])->name('admin.studentdetails');
+        Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "view"])->name('admin.studentdetails');
         Route::get("/admin_student_detail/{id}/{btntype}", [AdminStudentController::class, "details"])->name('admin.getstudentdetails');
+        Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
+        Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
+        Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+        Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
 
     });
 

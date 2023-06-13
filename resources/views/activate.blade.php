@@ -76,10 +76,10 @@
                             <tr>
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;">Dear {{$parent_firstname}}, </p>
-                                    <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal. </p>
-                                    <p style="margin-bottom: 25px;">Your Account and any has been succesfully been Activated </p>
+                                    <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal.</p>
+                                    <p style="margin-bottom: 25px;">Your Account and any has been succesfully Activated.</p>
                                     <br>
-                                    <p style="margin-bottom: 25px;">You can now Login and use our Platform</p>
+                                    <p style="margin-bottom: 25px;">You can now login and use our Platform</p>
                                    
                                 
                                 </td>
@@ -88,7 +88,7 @@
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;"> Kind regards,</p>
                                     <p style="margin-bottom: 10px;">Administrator - Branch Out With Spanish</p>
-                                    <p style="margin-bottom: 10px;">Email: admissions@unicafuniversity.com</p>
+                                    <p style="margin-bottom: 10px;">Email: admin@branchoutwithspanish.com</p>
                                     <p style="margin-bottom: 10px;">branchoutwithspanish.com</p>
                                 </td>
                             </tr>

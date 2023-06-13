@@ -107,23 +107,14 @@ const props = defineProps({
 
     <div class="">
         <hr class="hr" />
-        <div class="flex flex-col inline-block">
-            <span class="inline-block text-white text-center p-4">
-                Copyright @2013
-                <a href="https://branchoutwithspanish.com/"
-                    >BranchOutWithSpanish.com</a
-                >
-            </span>
-            <span
-                class="inline-block justify-end text-white text-center p-4 mt-3 mb-3"
-            >
-                <Link
-                    href="/admin/login"
-                    class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
-                    >Admin Login</Link
-                >
-            </span>
-        </div>
+            <div class="flex flex-col inline-block">
+                <span class="inline-block text-white text-center p-4">
+                    Copyright <span>&copy;</span>
+                    <a href="https://branchoutwithspanish.com/"
+                        > BranchoutwithSpanish.com 2023 </a
+                    >
+                </span>
+            </div>
     </div>
 </template>
 
@@ -174,7 +165,10 @@ nav {
 }
 .bg-btn-color {
     background: #f58c28;
-} /* 1. declare transition */
+}
+.bg-adminbtn-color {
+    background:  rgb(59 130 246);
+}
 .shuffle-move,
 .shuffle-enter-active,
 .shuffle-leave-active {

@@ -1,42 +1,20 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import AdminNavbar from "../../Components/Admin/AdminNavbar.vue";
-import AdminSidebar from "../../Components/Admin/AdminSidebar.vue";
-import pagination from "../../Components/pagination.vue";
-import { ref, onMounted } from "vue";
+import AdminNavbar from "../../../Components/Admin/AdminNavbar.vue";
+import AdminSidebar from "../../../Components/Admin/AdminSidebar.vue";
+import pagination from "../../../Components/pagination.vue";
+import { onMounted } from "vue";
 import { Modal } from "flowbite";
+
 const props = defineProps({
-    total_students: Object,
-    quiz: Object,
-    categories: Object,
-    flashcard: Object,
-    parents: Object,
-    voice: Object,
-    students: Object,
-    parents: Object,
+    child: Object,
     message: String,
     successmessage: Object,
     errormessage: Object,
 });
-const studentlist = ref(true);
-const parentlist = ref(false);
-function listparent() {
-    parentlist.value = !parentlist.value;
-    studentlist.value = false;
-}
-function liststudent() {
-    parentlist.value = false;
-    studentlist.value = !studentlist.value;
-}
-const form = useForm({
-    search: "",
-});
-const submit = () => {
-    form.get("/adminhome");
-};
 </script>
 <template>
-    <Head title="Dashboard" />
+    <Head title="Flashcards" />
 
     <div class="flex h-screen bg-blue">
         <AdminSidebar />
@@ -45,7 +23,7 @@ const submit = () => {
             <AdminNavbar />
 
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
-                <div class="container mx-auto px-6 py-8">
+                <div class="container mx-3 px-3 py-8">
                     <Transition name="fade" mode="out-in">
                         <div
                             v-if="$page.props.flash.successmessage"
@@ -136,98 +114,85 @@ const submit = () => {
                             </button>
                         </div>
                     </Transition>
+                    <!-- Breadcrumb -->
+                    <nav
+                        class="flex lg:w-[15vw] px-5 py-3 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                        aria-label="Breadcrumb"
+                    >
+                        <ol
+                            class="inline-flex items-center space-x-1 md:space-x-3"
+                        >
+                            <li>
+                                <div class="flex items-center">
+                                    <a
+                                        href="/admin/students"
+                                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                                        >Students</a
+                                    >
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
 
-                    <div class="grid lg:grid-cols-3 gap-8">
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">
-                                    Students</p>
-                                    <p class="py-4">
-                                    {{ total_students }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-user-group text-7xl text-white" ></i>
-                                </div>
+                    <div
+                        class="flex flex-col lg:w-[70vw] mt-2 bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]"
+                    >
+                        <div
+                            v-for="c in child"
+                            :key="c.id"
+                            class="grid lg:grid-cols-2 gap-4 mt-3 mb-2"
+                        >
+                            <div>
+                                <span> <b>First Name :</b></span>
+                                {{ c.child_firstname }}
+                            </div>
+                            <div>
+                                <span> <b>Last Name :</b></span>
+                                {{ c.child_lastname }}
+                            </div>
+                            <div>
+                                <span> <b>Parent First Name :</b></span>
+                                {{ c.parent_firstname }}
+                            </div>
+                            <div>
+                                <span> <b>Parent Last Name :</b></span>
+                                {{ c.parent_lastname }}
+                            </div>
+                            <div>
+                                <span> <b>Email :</b></span> {{ c.email }}
+                            </div>
+                            <div>
+                                <span> <b>Student ID :</b></span>
+                                {{ c.student_id }}
+                            </div>
+                            <div>
+                                <span> <b>child school :</b></span>
+                                {{ c.child_school }}
+                            </div>
+                            <div>
+                                <span> <b>parent residence :</b></span>
+                                {{ c.parent_residence }}
+                            </div>
+                            <div>
+                                <span> <b>Admission Status :</b></span>
+                                <span
+                                    v-if="c.student_status == null"
+                                    class="text-yellow-400"
+                                >
+                                    <b> Processing</b></span
+                                >
+                                <span v-else class="text-green-400">
+                                    {{ c.student_status }}</span
+                                >
                             </div>
                         </div>
-                        
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">Parents</p>
-                                    <p class="py-4">
-                                    {{ parents }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-users text-7xl text-white" ></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">Flashcards</p>
-                                    <p class="py-4">
-                                    {{ flashcard }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-sticky-note text-7xl text-white" ></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">Pronounciations</p>
-                                    <p class="py-4">
-                                    {{ voice }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-microphone text-7xl text-white" ></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between ">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">Categories</p>
-                                    <p class="py-4">
-                                    {{ categories }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-object-group text-7xl text-white" ></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-green-600 h-32 border rounded-xl">
-                            <div class="flex p-8 text-white justify-between ">
-                                <div class="px-4 text-center">
-                                    <p class="py-1">Quizes</p>
-                                    <p class="py-4">
-                                    {{ quiz }}</p>
-                                </div>
-                                <div class="px-4 font-right">
-                                    <i class="fa fa-question-circle text-7xl text-white" ></i>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <!--Table end-->
                 </div>
             </main>
         </div>
     </div>
 </template>
 <style scoped>
-.hr {
-    border: 2px solid rgb(184, 181, 181);
-}
 .toast-right {
     float: right;
 }

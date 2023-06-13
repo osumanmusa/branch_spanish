@@ -89,7 +89,7 @@ function removeForm() {
                                     <label
                                         for="input-label"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >Flash card Title</label
+                                        >Flash Card Title</label
                                     >
                                     <input
                                         type="text"
@@ -106,7 +106,7 @@ function removeForm() {
                                     <label
                                         for="input-label"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >say it in a sentence</label
+                                        >Say it in a Sentence</label
                                     >
                                     <input
                                         type="text"
@@ -123,7 +123,7 @@ function removeForm() {
                                     <label
                                         for="input-label"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >Flash card front content</label
+                                        >Flash Card Front Content</label
                                     >
                                     <input
                                         type="text"
@@ -140,7 +140,7 @@ function removeForm() {
                                     <label
                                         for="input-label"
                                         class="block text-sm mb-2 dark:text-white"
-                                        >Flash card back content</label
+                                        >Flash Card Back Content</label
                                     >
                                     <input
                                         type="text"

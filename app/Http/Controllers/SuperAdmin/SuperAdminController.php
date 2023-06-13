@@ -22,16 +22,20 @@ class SuperAdminController extends Controller
      */
     public function dashboard(Request $request)
     {
-        $students= User::where('role', '=' ,'user')
-        ->when($request->search, function ($query, $search) {
-            $query->where('child_firstname', 'like', '%' . $search . '%');
-        })->paginate(12);
-        $parents= User::where('role','=','parent')->paginate(12);
-        $total_students=count($students);
+        $total_students= User::where('role', '=' ,'user')->count();
+        $parents= User::where('role','=','parent')->count();
+        $categories= Category::select('*')->count();
+        $flashcard= Flashcard::select('*')->count();
+        $quiz= Quiz::select('*')->count();
+        $voice= Pronounciation::select('*')->count();
         return Inertia::render('SuperAdmin/dashboard',[
             'total_students'=> $total_students,
             'parents' => $parents,
-            'students' => $students,
+            'categories' => $categories,
+            'flashcard' => $flashcard,
+            'quiz' => $quiz,
+            'parents' => $parents,
+            'voice' => $voice,
             
         ]);
         //

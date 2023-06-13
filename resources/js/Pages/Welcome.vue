@@ -40,7 +40,10 @@ defineProps({
         <br />
     </div>
 
-    <section class="bg-color">
+    <section class="bg-color relative" > 
+    <div class="kid-container hidden-small">
+        <img src="/img/kid-icon.png" class="kid-icon  ">
+    </div>
         <!-- Page Container -->
         <div class="container my-12 mx-auto px-1">
             <br />
@@ -57,7 +60,7 @@ defineProps({
                             <div
                                 v-for="c in categories"
                                 :key="c.id"
-                                class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:px-4"
+                                class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:py-4"
                             >
                                 <div class="flex flex-col">
                                     <!-- Avatar -->
@@ -102,9 +105,9 @@ defineProps({
             <hr class="hr" />
             <div class="flex flex-col inline-block">
                 <span class="inline-block text-white text-center p-4">
-                    Copyright @2013
+                    Copyright <span>&copy;</span>
                     <a href="https://branchoutwithspanish.com/"
-                        >BranchOutWithSpanish.com</a
+                        > BranchoutwithSpanish.com 2023 </a
                     >
                 </span>
                 <span
@@ -112,7 +115,7 @@ defineProps({
                 >
                     <Link
                         href="/admin/login"
-                        class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
+                        class="py-4 px-8 bg-adminbtn-color hover:bg-white hover:text-blue-500 hover:border border rounded-lg border-white"
                         >Admin Login</Link
                     >
                 </span>
@@ -133,6 +136,9 @@ body {
 }
 .bg-btn-color {
     background: #f58c28;
+}
+.bg-adminbtn-color {
+    background:  rgb(59 130 246);
 }
 .nav {
     z-index: 30;
@@ -174,4 +180,22 @@ body {
 .admin-log {
     float: right;
 }
+.kid-icon{
+    --height :  298.42px; 
+    position: absolute;
+width: 250.38px;
+height: var(--height);
+left: 80%;
+top: calc(var(--height) * -0.5);
+
+}
+.hidden-small {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .hidden-small {
+        display: none;
+      }
+    }
 </style>

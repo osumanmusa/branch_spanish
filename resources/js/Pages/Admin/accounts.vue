@@ -5,6 +5,7 @@ import AdminSidebar from "../../Components/Admin/AdminSidebar.vue";
 import pagination from "../../Components/pagination.vue";
 import { ref, onMounted } from "vue";
 import { Modal } from "flowbite";
+import moment from "moment";
 const props = defineProps({
     parents: Object,
     message: String,
@@ -262,7 +263,9 @@ const submit = () => {
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ p.created_at }}
+                                                <!-- {{ p.created_at }} -->
+                                                
+                                                {{ moment(p.created_at).format("DD-MM-YYYY") }}
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"

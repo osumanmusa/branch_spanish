@@ -32,7 +32,6 @@ const props = defineProps({
                         >
                             <li>
                                 <div class="flex items-center">
-                                    <i class="fa fa-angle-left fa-bold"></i>
                                     <a
                                         href="#"
                                         class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
@@ -46,7 +45,7 @@ const props = defineProps({
 
                     <div class="flex flex-col lg:w-[70vw]  bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
               
-                        <div v-for="c in child" key="c.id" class="grid grid-cols-2 gap-4 mt-3 mb-2">
+                        <div v-for="c in child" key="c.id" class="grid g:grid-cols-2 gap-4 mt-3 mb-2">
                             <div><span> <b>First Name :</b></span> {{c.child_firstname}}  </div>
                             <div><span> <b>Last Name :</b></span> {{c.child_lastname}} </div>
                             <div><span> <b>Parent First Name :</b></span> {{c.parent_firstname}}  </div>

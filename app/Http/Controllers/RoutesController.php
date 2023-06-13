@@ -15,6 +15,8 @@ use App\Models\Score;
 use App\Models\Voice;
 use App\Models\Useranswers;
 use DB;
+use Illuminate\Support\Facades\Hash;
+use Mail;
 
 class RoutesController extends Controller
 {
@@ -164,8 +166,6 @@ class RoutesController extends Controller
     public function storequiz(Request $request, string $id)
     {
         
-
-       
         // $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->get();
         $useranswer= $request->checkedanswer;
         $totalanswer= count($useranswer);
@@ -266,8 +266,50 @@ class RoutesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function resetpass(Request $request)
     {
+        $users=User::where('email','=',$request->email)->first();
+
+
+
+    if($users){
+        
+        
+        $password=random_int(100000, 999999);
+        $reset_user = DB::table('users')
+        ->where('id','=', $users->id)
+        ->update(
+            [ 
+              'password' => Hash::make($password),
+          ]);
+   if ($reset_user) {
+    $subject="Branch Spanish - Password Reset";
+    $data["parent_email"]=$request->email;
+    $data["subject"]=$subject;
+    $data["user_name"]=$users->name;
+    $data["password"]=$password;
+     Mail::send('reset', $data, function($message)use($data)  {
+        $message->to($data["parent_email"],$data["user_name"], $data["password"],
+        $data["subject"])
+        ->subject('Branch Spanish - Password Reset Successful');
+        });
+    $successmessage = 'Great!,Password Reset Successfully. A confirmation mail will be sent shortly';
+    return redirect()->back()->with('successmessage',$successmessage);
+         }else{
+            $errormessage = '!Error Smething happend';
+            return back()->with('errormessage',$errormessage);
+
+         }
+
+         $errormessage = '!Error';
+         return back()->with('errormessage',$errormessage);
+        
+
+    }else{
+        $errormessage = '!Error Smething happend';
+        return back()->with('errormessage',$errormessage);
+
+     }
         //
     }
 

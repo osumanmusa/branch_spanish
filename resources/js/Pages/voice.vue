@@ -83,7 +83,6 @@ function startRecording() {
             mediaRecorder.addEventListener("start", function () {
                 // window.alert('Started')
 
-                btnClass = "greenbutton";
                 isRecording.value = true;
             });
             mediaRecorder.addEventListener("stop", function () {
@@ -345,11 +344,16 @@ function deleteAudio() {
                                                         class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]"
                                                     >
                                                         <div class="px-6 py-4">
-                                                            <h1
-                                                                class="text-gray-700 text-7xl text-2xl"
-                                                            >
-                                                                {{ cardKey }}
-                                                            </h1>
+                                                <h1 v-if="cardKey.length <5"
+                                                    class="text-gray-700 text-7xl text-2xl"
+                                                >
+                                                    {{ cardKey }}
+                                                </h1>
+                                                <h1 v-else
+                                                    class="text-gray-700 text-2xl text-2xl"
+                                                >
+                                                    {{ cardKey }}
+                                                </h1>
                                                         </div>
                                                     </header>
                                                 </article>
@@ -371,7 +375,7 @@ function deleteAudio() {
                                 <header
                                     class="flex items-center justify-center py-2 md:p-2"
                                 >
-                                    <div class="px-2 py-2">
+                                    <div class="px-2 py-4">
                                         <Button
                                             @click.prevent="
                                                 playSound(
@@ -382,22 +386,7 @@ function deleteAudio() {
                                             "
                                             class="lg:ml-auto lg:mr-3 text-gray-900 font-bold transition duration-200"
                                         >
-                                            Hear Me Say It!
-                                            <svg
-                                                fill="none"
-                                                height="20"
-                                                stroke="black"
-                                                stroke-width="1.5"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                aria-hidden="true"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
-                                                ></path>
-                                            </svg>
+                                            Hear Me Say It! <i class="fa fa-volume-up"></i>
                                         </Button>
                                     </div>
                                 </header>
@@ -409,28 +398,15 @@ function deleteAudio() {
                                 <header
                                     class="flex items-center justify-center leading-tight py-2 md:p-2"
                                 >
-                                    <div class="px-2 py-2">
+                                    <div class="px-2 py-4">
                                         <Button
                                             id="modalbtn"
                                             type="button"
                                             class="lg:ml-auto lg:mr-3 text-gray-900 font-bold transition duration-200"
                                         >
                                             Let Me Hear You Say It!
-                                            <svg
-                                                fill="none"
-                                                height="20"
-                                                stroke="black"
-                                                stroke-width="1.5"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                aria-hidden="true"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
-                                                ></path>
-                                            </svg>
+                                        <i class="fa fa-microphone"></i>
+                                           
                                         </Button>
                                     </div>
                                 </header>
@@ -570,8 +546,13 @@ function deleteAudio() {
                                     class="flex items-center justify-center leading-tight p-2 md:p-4"
                                 >
                                     <div class="px-6 py-4">
-                                        <h1
+                                        <h1 v-if="f.flashcard_title.length <5"
                                             class="text-black text-2xl uppercase text-6xl text-center px-1"
+                                        >
+                                            {{ f.flashcard_title }}
+                                        </h1>
+                                        <h1 v-else
+                                            class="text-black text-xl uppercase text-center px-1"
                                         >
                                             {{ f.flashcard_title }}
                                         </h1>
@@ -590,18 +571,9 @@ function deleteAudio() {
             <hr class="hr" />
             <div class="flex flex-col inline-block">
                 <span class="inline-block text-white text-center p-4">
-                    Copyright @2013
+                    Copyright <span>&copy;</span>
                     <a href="https://branchoutwithspanish.com/"
-                        >BranchOutWithSpanish.com</a
-                    >
-                </span>
-                <span
-                    class="inline-block justify-end text-white text-center p-4 mt-3 mb-3"
-                >
-                    <Link
-                        href="/admin/login"
-                        class="py-4 px-8 bg-btn-color hover:bg-white hover:text-blue-500 hover:border border-white"
-                        >Admin Login</Link
+                        > BranchoutwithSpanish.com 2023 </a
                     >
                 </span>
             </div>
@@ -783,7 +755,10 @@ nav {
 
 .bg-btn-color {
     background: #f58c28;
-} /* 1. declare transition */
+}
+.bg-adminbtn-color {
+    background:  rgb(59 130 246);
+}
 .shuffle-move,
 .shuffle-enter-active,
 .shuffle-leave-active {

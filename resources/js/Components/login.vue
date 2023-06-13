@@ -14,7 +14,7 @@ function submit() {
 <template>
     <li class="bg-color">
         <div
-            class="bg-color absolute p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto"
+            class="bg-color absolute lg:p-6 border-indigo-300 rounded-lg w-[85vw] mx-auto"
         >
             <form @submit.prevent="submit">
                 <div class="grid lg:grid-cols-1 gap-4">

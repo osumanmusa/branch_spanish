@@ -69,18 +69,18 @@
                                  </td>
                             </tr>
                             <tr>
-                                <td style="padding: 30px 30px 15px 30px;display:center">
-                                    <h2 style="font-size: 18px; color: #020202; font-weight: 600; margin: 0;">{{$subject}}</h2>
+                                <td style="padding: 30px 30px 15px 30px;">
+                                    <h2 style="font-size: 18px; color: #000000; font-weight: 600; margin: 0;">{{$subject}}</h2>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
-                                    <p style="margin-bottom: 10px;">Dear {{$username}}, </p>
-                                    <p style="margin-bottom: 10px;">An Account has been created for you as an Administrator of our portal. </p>
-                                    <p style="margin-bottom: 25px;">You can now login and use our Platform Using these Credentials.</p>
+                                    <p style="margin-bottom: 10px;">Dear {{$user_name}}, </p>
+                                    <p style="margin-bottom: 10px;">Thank you for requesting a password reset at the Branch Out With Spanish portal. </p>
+                                    <p style="margin-bottom: 25px;">A new password has been generated for you. </p>
                                     <br>
-                                    <p style="margin-bottom: 25px;">Email:  {{$email}}</p>
-                                    <p style="margin-bottom: 25px;">Password: {{$password}}</p>
+                                    <p style="margin-bottom: 25px;">Your New Password is:</p>
+                                    <p style="margin-bottom: 25px;"><b>{{$password}}</b></p>
                                    
                                 
                                 </td>

@@ -85,9 +85,14 @@ class SuperAdminStudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function view(string $id)
     {
-        //
+
+        $child =User::where('id','=',$id)->get();
+        return Inertia::render('SuperAdmin/Students/view',[
+            'child' => $child,
+            
+        ]);
     }
 
     /**
