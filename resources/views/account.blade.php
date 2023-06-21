@@ -51,6 +51,9 @@
         img {
             -ms-interpolation-mode:bicubic;
         }
+        .email-logo{
+            width:190px;
+        }
     </style>
 
 </head>
@@ -65,7 +68,7 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 15px 30px;">
-                                    <img src="{{asset('img/logo.png')}}"/>
+                                    <img src="{{asset('img/logo2.jpg')}}" class="email-logo"/>
                                  </td>
                             </tr>
                             <tr>
@@ -75,9 +78,9 @@
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
-                                    <p style="margin-bottom: 10px;">Dear {{$username}}, </p>
-                                    <p style="margin-bottom: 10px;">An Account has been created for you as an Administrator of our portal. </p>
-                                    <p style="margin-bottom: 25px;">You can now login and use our Platform Using these Credentials.</p>
+                                    <p style="margin-bottom: 10px;">Hello, {{$username}}</p>
+                                    <p style="margin-bottom: 10px;">As our portal's administrator, an account has been made for you. </p>
+                                    <p style="margin-bottom: 25px;">Now that you have these credentials, you can log in and use our platform.</p>
                                     <br>
                                     <p style="margin-bottom: 25px;">Email:  {{$email}}</p>
                                     <p style="margin-bottom: 25px;">Password: {{$password}}</p>
@@ -88,9 +91,9 @@
                             <tr>
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;"> Kind regards,</p>
-                                    <p style="margin-bottom: 10px;">Administrator - Branch Out With Spanish</p>
+                                    <p style="margin-bottom: 10px;">Administrator: Branch Out With Spanish</p>
                                     <p style="margin-bottom: 10px;">Email: admin@branchoutwithspanish.com</p>
-                                    <p style="margin-bottom: 10px;">branchoutwithspanish.com</p>
+                                    <p style="margin-bottom: 10px;">https://branchoutwithspanish.com</p>
                                 </td>
                             </tr>
                             

@@ -43,7 +43,7 @@ const submit = () => {
                     <Transition name="fade" mode="out-in">
                         <div
                             v-if="$page.props.flash.successmessage"
-                            class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -90,7 +90,7 @@ const submit = () => {
                         <div
                             v-if="$page.props.flash.errormessage"
                             id="toast-simple"
-                            class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -232,77 +232,62 @@ const submit = () => {
                                             :key="p.id"
                                             class="hover:bg-gray-100"
                                         >
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{
-                                                    p.child_firstname +
-                                                    " " +
-                                                    p.child_lastname
-                                                }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ p.student_id }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{
-                                                    p.parent_firstname +
-                                                    " " +
-                                                    p.parent_lastname
-                                                }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ p.child_school }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                <!-- {{ p.created_at }} -->
-                                                
-                                                {{ moment(p.created_at).format("DD-MM-YYYY") }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ p.student_status }}
-                                            </td>
+                                           
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
+                                           >
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{p.child_firstname +' ' + p.child_lastname}}</a>
+                                           </td>
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                           >
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{ p.student_id }}</a>
+                                           </td>
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
+                                           >
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{p.parent_firstname +' ' + p.parent_lastname}}</a>
+                                           </td>
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                           >
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{ p.child_school }}</a>
+                                           </td>
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                           >
+                                               <!-- {{ p.created_at}} -->
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{ moment(p.created_at).format("DD-MM-YYYY") }}</a>
+                                           </td>
+                                           <td
+                                               class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
+                                           >
+                                               <a :href="
+                                                       route('admin.studentdetails', p.id
+                                                       )">{{ p.student_status }}</a>
+                                           </td>
 
-                                            <td
-                                                class="px-6 mx-1 py-4 border whitespace-nowrap text-center text-sm font-medium"
-                                            >
-                                                <a
-                                                    class="p-4 py-2 px-6 bg-white text-green-400 hover:bg-green-600 text-sm hover:text-white border border-default font-bold transition duration-200"
-                                                    v-bind:href="
-                                                        route(
-                                                            'admin.acconts.enroll',
-                                                            p.id
-                                                        )
-                                                    "
-                                                >
+                                           <td
+                                               class="px-6 mx-1 py-4 border whitespace-nowrap text-center text-sm font-medium"
+                                           > 
+                                               <a class="p-4 py-2 px-6 bg-white text-green-400 hover:bg-green-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('admin.acconts.enroll', p.id)">
                                                     Enroll/activate
-                                                </a>
-
-                                                <a
-                                                    class="p-4 mx-1 py-2 px-6 bg-white text-red-500 hover:bg-red-600 text-sm hover:text-white border border-default font-bold transition duration-200"
-                                                    v-bind:href="
-                                                        route(
-                                                            'admin.accounts.de-activate',
-                                                            p.id
-                                                        )
-                                                    "
-                                                >
-                                                    <i
-                                                        class="fa fa-trash fa-solid"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                    De-activate
-                                                </a>
+                                               </a> 
+                                               
+                               
+                                               <a class="p-4 mx-1 py-2 px-6 bg-white text-red-500 hover:bg-red-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('admin.accounts.de-activate', p.id)">
+                                                   <i class="fa fa-trash fa-solid" aria-hidden="true"></i> De-activate
+                                               </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -324,7 +309,19 @@ const submit = () => {
 .hr {
     border: 2px solid rgb(184, 181, 181);
 }
-.toast-right {
-    float: right;
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

@@ -39,28 +39,47 @@ class SuperAdminRegisterController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $users=User::select('*')->where('role','=','admin')
+        ->whereIn('email',[$request->email])
+        ->get();
+
+
+    if($users->isNotEmpty()){
+        $errormessage = 'Error!, This user exist. Please use a different credential or login.';
+        return back()->with('errormessage',$errormessage);
+        
+
+    }else{
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required',
         ]);
+        if($request->password!= $request->password_confirmation){
+            $errormessage = 'Error!, Passwords do not match.';
+            return back()->with('errormessage',$errormessage);
+            
+    
+        }else{
 
-    $role="superadmin";
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $role,
-        ]);
-        if($user){
-            return redirect()->route('superadminlogin');
+            $role="superadmin";
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $role,
+            ]);
+
+            if($user){
+                $successmessage = 'Account created!, You can login now.';
+                return redirect()->route('superadminlogin')->with('successmessage',$successmessage);
+            }
+            else{
+    
+                return back();
+            }
         }
-        else{
-
-            return back();
-        }
-
+    }
 
     }
 

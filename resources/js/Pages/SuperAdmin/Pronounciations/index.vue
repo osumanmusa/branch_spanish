@@ -48,7 +48,7 @@ function listsubmissions(){
                     <div class="container mx-3 px-3 py-8">
 
 <Transition name="fade" mode="out-in">
-    <div v-if="$page.props.flash.successmessage"  class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.successmessage"  class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-green-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -70,7 +70,7 @@ function listsubmissions(){
   </Transition>
 
   <Transition name="Efade"> 
-    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-red-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -97,7 +97,7 @@ function listsubmissions(){
     <li>
       <div class="flex items-center">
         <a href="/superadmin/pronounciation" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-            Pronounciation
+            Pronunciation
         </a>
       </div>
     </li>
@@ -124,10 +124,10 @@ function listsubmissions(){
                 <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                   
                   <a href="/superadmin/create_pronounciation" class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                      Add Pronounciation
+                      Add Pronunciation
                   </a>  
                   <Button @click="listsubmissions"  class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-                      Submissions/Pronounciation
+                      Submissions/Pronunciation
                   </Button>
                 </div>
             </div>
@@ -138,7 +138,7 @@ function listsubmissions(){
                         <tr>
                             <th scope="col" class="px-4 py-3 border ">Category name</th>
                             <th scope="col" class="px-4 py-3">Flashcard</th>
-                            <th scope="col" class="px-4 py-3 border ">Pronounciation Title</th>
+                            <th scope="col" class="px-4 py-3 border ">Pronunciation Title</th>
                             <th scope="col" class="px-4 py-3 border ">Submission Audio</th>
                         </tr>
                     </thead>
@@ -163,8 +163,8 @@ function listsubmissions(){
                         <tr>
                             <th scope="col" class="px-4 py-3 border ">Category name</th>
                             <th scope="col" class="px-4 py-3">Flashcard</th>
-                            <th scope="col" class="px-4 py-3 border ">Pronounciation Title</th>
-                            <th scope="col" class="px-4 py-3 border ">Pronounciation Audio</th>
+                            <th scope="col" class="px-4 py-3 border ">Pronunciation Title</th>
+                            <th scope="col" class="px-4 py-3 border ">Pronunciation Audio</th>
                             <th scope="col" class="px-4 py-3 border ">Actions</th>
                         </tr>
                     </thead>
@@ -210,8 +210,20 @@ function listsubmissions(){
 </template>
 <style scoped>
 
-.toast-right{
-    float:right;
-}  
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
 </style>
   

@@ -54,20 +54,37 @@ let QNo=1;
                         </ul>
                     </div>
 
-                    <div v-for="q in studentquiz" :key="q.id" class="mt-5 mb-5">
+                    <div v-for="(q,i) in studentquiz" :key="q.id" class="mt-5 mb-5">
                     <h2 id="accordion-collapse-heading-1 " >
                         <p type="button" class="flex items-center px-6 justify-between w-[75vw] p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl  bg-gray-100">
-                        <span>Question {{ QNo++ }}</span>
+                        <span>Question {{ i +1 }}</span>
                      </p>
                     </h2>
                     <div class="border border-gray-200 w-[75vw]">
                         <div class="p-5 px-16 border border-b-0 border-gray-200 ">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">A: {{ q.question }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">Q{{ i +1 }}: {{ q.question }}</p>
                         <hr class="hr mb-3"/>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">B: {{ q.answer_1 }}</p>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">C: {{ q.answer_2 }}</p>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">D: {{ q.answer_3 }}</p>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">E: {{ q.answer_4 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">A: {{ q.answer_1 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">B: {{ q.answer_2 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">C: {{ q.answer_3 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">D: {{ q.answer_4 }}</p>
+                        <!-- <p class="mb-2 text-gray-500 dark:text-gray-400">Q{{ i +1 }}: {{ q.question }}</p>
+                        <hr class="hr mb-3"/>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                        <span v-if="q.answer_1 === q.answer && q.user_answer === q.answer_1" class="bg-green-500 text-white px-2">A: {{ q.answer_1 }}</span>
+                       
+                        <span v-else-if="q.user_answer != q.answer && q.user_answer === q.answer_1" class="px-2">A: {{ q.answer_1 }}</span>
+                        <span v-else class="px-2">A: {{ q.answer_1 }}</span></p>
+
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                        <span v-if="q.answer_2 === q.answer" class="bg-green-500 text-white px-2">B: {{ q.answer_2 }}</span>
+                        <span v-else class="px-2">B: {{ q.answer_2 }}</span></p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                        <span v-if="q.answer_3 === q.answer" class="bg-green-500 text-white px-2">C: {{ q.answer_3 }}</span>
+                        <span v-else class="px-2">C: {{ q.answer_3 }}</span></p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">
+                        <span v-if="q.answer_4 === q.answer" class="bg-green-500 text-white px-2">D: {{ q.answer_4 }}</span>
+                        <span v-else class="px-2">D: {{ q.answer_4 }}</span></p> -->
                         <br>
                         <p class="mb-2 text-gray-500 dark:text-gray-400">Correct Answer: {{ q.answer }}</p>
                         <p class="mb-2 text-gray-500 dark:text-gray-400">Selected Answer: {{ q.user_answer }}</p>

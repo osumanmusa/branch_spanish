@@ -6,6 +6,7 @@ import paginate from "../Components/paginate.vue";
 import { shuffle as _shuffle } from "lodash-es";
 
 const props = defineProps({
+    results: Object,
     score: Object,
     totalanswer: Object,
     grade: Object,
@@ -33,7 +34,6 @@ const props = defineProps({
                 </div>
 
                 <!-- Column -->
-
                 <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2">
                     <div class="flip-card">
                         <div class="flip-card-inner">
@@ -57,13 +57,13 @@ const props = defineProps({
                                                     >
                                                         Well Done
                                                     </h1>
-                                                    <h2>You Scored:</h2>
+                                                    <h2 class="text-gray-700 "> You Scored:</h2>
                                                     <p>
                                                         <b
-                                                            >{{ $props.score }}
+                                                            >{{ $props.results.score}}
                                                             /
                                                             {{
-                                                                $props.totalanswer
+                                                                $props.results.q_total
                                                             }}</b
                                                         >
                                                     </p>
@@ -71,10 +71,10 @@ const props = defineProps({
                                                     <p>
                                                         <b
                                                             >{{
-                                                                $props.user_score
+                                                                $props.results.user_score
                                                             }}%
                                                             {{
-                                                                $props.grade
+                                                                $props.results.grade
                                                             }}</b
                                                         >
                                                     </p>
@@ -89,7 +89,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div
-                        class="flex flex-wrap justify-center mx-1 lg:-mx-4 lg:my-12"
+                        class="flex flex-wrap justify-center mx-1 lg:-mx-4 lg:my-12 mt-4"
                     >
                         <div class="flex items-center justify-between">
                             <Link
@@ -119,9 +119,9 @@ const props = defineProps({
 </template>
 
 <style>
-/* body{
-        background-color:  rgb(29 78 236);
-    } */
+body{
+    background: #007fff;
+    }
 
 nav {
     z-index: 30;

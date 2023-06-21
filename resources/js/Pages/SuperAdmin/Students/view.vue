@@ -12,7 +12,7 @@ const props=defineProps({
     message:String,
     successmessage: Object,
     errormessage: Object,
-
+    parent:Object,
 });
 
 
@@ -31,7 +31,7 @@ const props=defineProps({
 
 
 <Transition name="fade" mode="out-in">
-    <div v-if="$page.props.flash.successmessage"  class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.successmessage"  class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-green-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -53,7 +53,7 @@ const props=defineProps({
   </Transition>
 
   <Transition name="Efade"> 
-    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-red-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -88,16 +88,16 @@ const props=defineProps({
 
 <div class="flex flex-col lg:w-[70vw] mt-2 bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
 
-    <div v-for="c in child" key="c.id" class="grid lg:grid-cols-2 gap-4 mt-3 mb-2">
-        <div><span> <b>First Name :</b></span> {{c.child_firstname}}  </div>
-        <div><span> <b>Last Name :</b></span> {{c.child_lastname}} </div>
-        <div><span> <b>Parent First Name :</b></span> {{c.parent_firstname}}  </div>
-        <div><span> <b>Parent Last Name :</b></span> {{c.parent_lastname}} </div>
-        <div><span> <b>Email :</b></span> {{c.email}}  </div>
-        <div><span> <b>Student ID :</b></span> {{c.student_id}} </div>
-        <div><span> <b>child school :</b></span> {{c.child_school}} </div>
-        <div><span> <b>parent residence :</b></span> {{c.parent_residence}} </div>
-        <div><span> <b>Admission Status :</b></span>
+    <div v-for="c in child" :key="c.id" class="grid lg:grid-cols-2 gap-4 mt-3 mb-2">
+        <div><span> <b>First Name: </b></span> {{c.child_firstname}}  </div>
+        <div><span> <b>Last Name: </b></span> {{c.child_lastname}} </div>
+        <div><span> <b>Parent First Name: </b></span> {{c.parent_firstname}}  </div>
+        <div><span> <b>Parent Last Name: </b></span> {{c.parent_lastname}} </div>
+        <div><span> <b>Email: </b></span> {{c.email}}  </div>
+        <div><span> <b>Student ID: </b></span> {{c.student_id}} </div>
+        <div><span> <b>Child School: </b></span> {{c.child_school}} </div>
+        <div><span> <b>Parent Residence: </b></span> {{c.parent_residence}} </div>
+        <div><span> <b>Admission Status:  </b></span>
                 <span v-if="c.student_status == null" class="text-yellow-400">
                 <b> Processing</b></span>
                 <span v-else class="text-green-400"> {{ c.student_status}}</span>  
@@ -123,7 +123,19 @@ const props=defineProps({
 </template>
 <style scoped>
 
-.toast-right{
-    float:right;
-}  
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+} 
 </style>

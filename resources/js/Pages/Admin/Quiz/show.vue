@@ -11,7 +11,8 @@ const props = defineProps({
     grades: Object,
     message: String,
 });
-
+let QNo=1;
+const adding=1
 const questionslist = ref(true);
 const gradeslist = ref(false);
 function listquestions() {
@@ -80,31 +81,16 @@ function listgrades() {
                     </div>
 
                     <div v-if="questionslist">
-                        <div v-for="q in quizes" :key="q.id" class="mt-5 mb-5">
+                        <div v-for="(q,i) in quizes" :key="q.id" class="mt-5 mb-5">
                             <h2 id="accordion-collapse-heading-1 ">
                                 <div
                                     type="button"
                                     class="flex inline-block items-center px-6 justify-between w-[75vw] p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl bg-gray-100"
                                 >
-                                    <span>Question {{ q.id }}</span>
+                                    <span>Question {{ i +1}}</span>
                                     <div class="delbutton flex text-red-500">
                                         <a :href="route('admin.delquiz', q.id)">
-                                            delete
-                                            <svg
-                                                class="w-5 h-5 text-red"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.5"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                aria-hidden="true"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                ></path>
-                                            </svg>
+                                            <i class="fa fa-trash"></i> Delete
                                         </a>
                                     </div>
                                 </div>
@@ -113,32 +99,12 @@ function listgrades() {
                                 <div
                                     class="p-5 px-16 border border-b-0 border-gray-200"
                                 >
-                                    <p
-                                        class="mb-2 text-gray-500 dark:text-gray-400"
-                                    >
-                                        A: {{ q.question }}
-                                    </p>
-                                    <hr class="hr mb-3" />
-                                    <p
-                                        class="mb-2 text-gray-500 dark:text-gray-400"
-                                    >
-                                        B: {{ q.answer_1 }}
-                                    </p>
-                                    <p
-                                        class="mb-2 text-gray-500 dark:text-gray-400"
-                                    >
-                                        C: {{ q.answer_2 }}
-                                    </p>
-                                    <p
-                                        class="mb-2 text-gray-500 dark:text-gray-400"
-                                    >
-                                        D: {{ q.answer_3 }}
-                                    </p>
-                                    <p
-                                        class="mb-2 text-gray-500 dark:text-gray-400"
-                                    >
-                                        E: {{ q.answer_4 }}
-                                    </p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">Q{{ i +1 }}: {{ q.question }}</p>
+                        <hr class="hr mb-3"/>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">A: {{ q.answer_1 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">B: {{ q.answer_2 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">C: {{ q.answer_3 }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400">D: {{ q.answer_4 }}</p>
                                 </div>
                             </div>
                         </div>

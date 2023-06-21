@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\AdminStudentController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\FlashcardController;
 use App\Http\Controllers\ParentController;
-
+use App\Http\Middleware\Authenticate;
 
 
 /*
@@ -43,6 +43,14 @@ use App\Http\Controllers\ParentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme')->middleware(Authenticate::class);
+
+Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show')->middleware(Authenticate::class);
+
+Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show')->middleware(Authenticate::class);
+
+Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show')->middleware(Authenticate::class);
+
 
 Route::get("/", [RoutesController::class, "index"])->name('welcome');
 Route::get("/flashcards", [RoutesController::class, "flashcard"])->name('flashcards');
@@ -81,9 +89,11 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     Route::post("/superadmin/store_category", [SuperAdminCategoryController::class, "store"])->name('superadmin.category.store');
 
     Route::get("/superadmin/pronounciation", [SuperAdminPronounciationController::class, "index"])->name('superadmin.pronounciation');
+    Route::get("/superadmin/verifypronounciation", [SuperAdminPronounciationController::class, "verify"])->name('superadmin.verifypronounciation');
     Route::get("/superadmin/create_pronounciation", [SuperAdminPronounciationController::class, "create"])->name('superadmin_create_pronounciation');;
     Route::post("/superadmin/store_pronounciation", [SuperAdminPronounciationController::class, "store"])->name('superadmin.pronounciation.store');
     Route::get("/superadmin_delete_pronounciation/{id}", [SuperAdminPronounciationController::class, "destroy"])->name('superadmin.deletepronounciation');
+    Route::get("/superadmin_show_pronounciation/{id}", [SuperAdminPronounciationController::class, "showpronounciation"])->name('superadmin.showpronounciation');
 
     Route::get("/superadmin/quiz", [SuperAdminQuizController::class, "index"])->name('superadmin.quiz');
     Route::get("/superadmin/create_quiz", [SuperAdminQuizController::class, "create"])->name('superadmin_create_quiz');
@@ -107,12 +117,12 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     Route::get("/superadmin/admins", [AdminsController::class, "index"])->name('superadmin.admin');
     Route::get("/superadmin/addadmin", [AdminsController::class, "create"])->name('superadmin.addadmin');
     Route::post("/superadmin/storeadmin", [AdminsController::class, "store"])->name('superadmin.admin.store');
-    Route::post("/superadmin/deleteadmin/{id}", [AdminsController::class, "details"])->name('superadmin.deleteadmin');
+    Route::get("/superadmin/deleteadmin/{id}", [AdminsController::class, "destroy"])->name('superadmin.deleteadmin');
 
-    Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
-    Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
-    Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
-    Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+
+
+
+
 });
 
 
@@ -132,9 +142,11 @@ All Admin Routes List
         Route::post("/admin/store_category", [AdminCategoryController::class, "store"])->name('admin.category.store');
 
         Route::get("/admin/pronounciation", [AdminPronounciationController::class, "index"])->name('admin.pronounciation');
+        Route::get("/admin/verifypronounciation", [AdminPronounciationController::class, "verify"])->name('admin.verifypronounciation');
         Route::get("/admin/create_pronounciation", [AdminPronounciationController::class, "create"])->name('admin_create_pronounciation');;
         Route::post("/admin/store_pronounciation", [AdminPronounciationController::class, "store"])->name('admin.pronounciation.store');
         Route::get("/admin_delete_pronounciation/{id}", [AdminPronounciationController::class, "destroy"])->name('admin.deletepronounciation');
+        Route::get("/admin_show_pronounciation/{id}", [AdminPronounciationController::class, "showpronounciation"])->name('admin.showpronounciation');
 
         Route::get("/admin/quiz", [AdminQuizController::class, "index"])->name('admin.quiz');
         Route::get("/admin/create_quiz", [AdminQuizController::class, "create"])->name('admin_create_quiz');
@@ -154,10 +166,11 @@ All Admin Routes List
         Route::get("/admin_show_student/{id}", [AdminStudentController::class, "show"])->name('admin.viewstudent');
         Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "view"])->name('admin.studentdetails');
         Route::get("/admin_student_detail/{id}/{btntype}", [AdminStudentController::class, "details"])->name('admin.getstudentdetails');
-        Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
-        Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
-        Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
-        Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+        // Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
+        // Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
+        // Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+        // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+
 
     });
 
@@ -174,13 +187,15 @@ All Normal Users Routes List
         'canRegister' => Route::has('register'),
         ])->name('user.home');
         
-        Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
-        Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
-        Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+        // Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
+        // Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
+        // Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
+        Route::get("/verifypronounciation", [RoutesController::class, "verify"])->name('voice.verify');
         Route::post("/storevoice", [RoutesController::class, "storevoice"])->name('voice.store');
-        Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+        // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
         Route::post("/storequiz/{id}", [RoutesController::class, "storequiz"])->name('quiz.store');
         Route::get("/getscore", [RoutesController::class, "showscore"])->name('user.score');
+        // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
 
     });
 

@@ -26,6 +26,7 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+        
     }
 
     // public function render($request, Exception $exception)
@@ -40,4 +41,5 @@ class Handler extends ExceptionHandler
     // }
     // return parent::render($request, $exception);
     // }
+    
 }

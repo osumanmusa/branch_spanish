@@ -15,7 +15,7 @@ let showMenu = ref(false);
       <nav
       class="sticky top-0 nav
         py-4
-        md:flex bg-white shadow-md 
+        md:flex bg-col shadow-md 
       "
     >
       <div class="flex items-center ">
@@ -65,7 +65,7 @@ let showMenu = ref(false);
         <Link href="/pronounciations" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50">
           <img src="/img/i2.png" class="nav-icon p-2 ml-8"/>
     
-        <p class="nav-text lg:text-l"><b>PRONOUNCIATION</b></p></Link>
+        <p class="nav-text lg:text-l"><b>PRONUNCIATION</b></p></Link>
         <Link href="/quizme" class="lg:inline-block md:inline-block md:mx-4 px-4 hover:bg-gray-50 ">
           <img src="/img/i3.png" class="nav-icon p-2 ml-0.5"/>
     
@@ -82,7 +82,7 @@ let showMenu = ref(false);
           md:flex md:space-y-0  md:mt-0 justify-end px-2
         "
       ><div v-if="$page.props.auth.user" class="lg:w-[25vw] lg:text-end pl-8 lg:mb-4">
-        <Link href="#" class="lg:inline-block mx-10 lg:ml-auto px-4 hover:bg-gray-50">
+        <Link class="lg:inline-block mx-10 lg:ml-auto px-4  ">
           
           <img class="logged-icon ml-2 mr-2" src="/img/avatar.png" alt="Your avatar">
     
@@ -180,11 +180,14 @@ let showMenu = ref(false);
   background: #007FFF;
 }
 .logo2{
-    width: 220px;
+    width: 240px;
     margin-left: 20px;
-    height: 60px;
+    height: 100px;
 }
 .nav-text{
   color: #007FFF;
+}
+.bg-col{
+  background: rgb(247,247,247);
 }
 </style>

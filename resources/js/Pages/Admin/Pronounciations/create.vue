@@ -2,7 +2,8 @@
 import {  Head, Link, useForm } from '@inertiajs/vue3';
 import AdminNavbar from "../../../Components/Admin/AdminNavbar.vue";
 import AdminSidebar from "../../../Components/Admin/AdminSidebar.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
+
 
 const audioUrl = ref("");
 const isRecording = ref(false);
@@ -16,90 +17,144 @@ const props=defineProps({
 
 });
 
+let audiofile = new FormData();
 
-let audiofile = null;
+let mediaRecorder; 
+// function startRecording() {
+//     navigator.mediaDevices
+//         .getUserMedia({ audio: true })
+//         .then(function (stream) {
+//             const mediaRecorder = new MediaRecorder(stream);
+//             const chunks = [];
 
+//             mediaRecorder.start();
+
+//             mediaRecorder.addEventListener("dataavailable", function (e) {
+//                 chunks.push(e.data);
+//             });
+//             mediaRecorder.addEventListener("start", function () {
+//                 // window.alert('Started')
+
+//                 isRecording.value = true;
+//             });
+//             mediaRecorder.addEventListener("stop", function () {
+//                 isRecording.value = false;
+//                 const audioBlob = new Blob(chunks, { type: "audio/mp3" });
+//                 //------new--------
+//                 audioUrl.value = URL.createObjectURL(audioBlob);
+//                 // audiofile = new FormData();
+
+//                 //-----old-----------
+//                 //           const audioUrl = URL.createObjectURL(audioBlob);
+
+//                 // audiofile = new FormData(document.getElementById('form'));
+//                 audiofile.append("recordfile", audioBlob);
+           
+//                 //  const audio = document.createElement('audio');
+//                 // audio.type='file';
+//                 // audio.controls = true;
+//                 // audio.id='recordedaudio';
+//                 // audio.src = audioUrl;
+//                 // audio.value= audioUrl;
+//                 // var wrap = document.getElementById("audioPlayer");
+//                 // wrap.appendChild(audio);
+
+//                 //   blobFile.value = audioBlob;
+//                 //      var formData = new FormData();
+//                 //  formData.append('audio',audioBlob);
+//                 // formData.append('voiceid',props.flashcard.data[0].id);
+
+//                 //     // blobFile.value = formData;
+//                 //         audiofile = formData;
+//             });
+
+//             // Stop recording after 10 seconds
+//             setTimeout(function () {
+//                 mediaRecorder.stop();
+//             }, 5000);
+//         })
+//         .catch(function (err) {
+//             console.log("The following error occurred: " + err);
+//         });
+// }
+
+const chunks = [];
 function startRecording() {
-    navigator.mediaDevices
-        .getUserMedia({ audio: true })
+    
+    navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function (stream) {
-            const mediaRecorder = new MediaRecorder(stream);
-            const chunks = [];
+            mediaRecorder = new MediaRecorder(stream); // Assign MediaRecorder to the global variable
 
-            mediaRecorder.start();
-
+            mediaRecorder.start(); 
             mediaRecorder.addEventListener("dataavailable", function (e) {
                 chunks.push(e.data);
             });
-            mediaRecorder.addEventListener("start", function () {
-                // window.alert('Started')
 
+            mediaRecorder.addEventListener("start", function () {
+                
                 isRecording.value = true;
             });
-            mediaRecorder.addEventListener("stop", function () {
-                isRecording.value = false;
-                const audioBlob = new Blob(chunks, { type: "audio/mp3" });
-                //------new--------
-                audioUrl.value = URL.createObjectURL(audioBlob);
-                audiofile = new FormData();
+            
 
-                //-----old-----------
-                //           const audioUrl = URL.createObjectURL(audioBlob);
-
-                audiofile = new FormData(document.getElementById('form'));
-                audiofile.append("recordfile", audioBlob);
-           
-                //  const audio = document.createElement('audio');
-                // audio.type='file';
-                // audio.controls = true;
-                // audio.id='recordedaudio';
-                // audio.src = audioUrl;
-                // audio.value= audioUrl;
-                // var wrap = document.getElementById("audioPlayer");
-                // wrap.appendChild(audio);
-
-                //   blobFile.value = audioBlob;
-                //      var formData = new FormData();
-                //  formData.append('audio',audioBlob);
-                // formData.append('voiceid',props.flashcard.data[0].id);
-
-                //     // blobFile.value = formData;
-                //         audiofile = formData;
-            });
-
-            // Stop recording after 10 seconds
-            setTimeout(function () {
-                mediaRecorder.stop();
-            }, 5000);
         })
         .catch(function (err) {
             console.log("The following error occurred: " + err);
         });
 }
 
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.addEventListener("dataavailable", function (e) {
+            chunks.push(e.data);
+        });
+        mediaRecorder.addEventListener("stop", function () {
+                isRecording.value = false;
+                const audioBlob = new Blob(chunks, { type: "audio/mp3" });
+                audioUrl.value = URL.createObjectURL(audioBlob);
+                audiofile.append("audio", audioBlob);
+            });
+        mediaRecorder.stop();
+    }
+}
+
+
+
+
 const submit = () => {
+
+
+    let formDataform = new FormData(document.getElementById('form'));
+for (var pair of formDataform.entries()) {
+    audiofile.append(pair[0], pair[1]);
+
+}
+// audiofile = new FormData(document.getElementById('form'));
     const csrf_token = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
     fetch("/admin/store_pronounciation", {
         method: "POST",
-        headers: {
-            "X-CSRFToken": csrf_token,
-            // 'Content-Type': 'application/json',
-            url: "/admin/store_pronounciation",
-            // 'Content-Type': undefined,
-            // 'Accept': 'application/json',
-            // Authorization: "Bearer ",
-            // "Access-Control-Allow-Methods": "POST",
-            // "Access-Control-Allow-Headers":
-            //     "origin,X-Requested-With,content-type,accept",
-            // "Access-Control-Allow-Credentials": "true",
-        },
-
         body: audiofile,
-    });
+    }).then(res => res.json())
+    .then((res) =>{
+        
+       if(res.status == 'success'){
+       
+            window.location.href=('/admin/verifypronounciation')
+        
+       }
+       else if(res.status== 'error'){
+        window.alert(res.message)
+       }
+
+    }) 
+   
 };
+
+
+
+
 
 function deleteAudio() {
 
@@ -224,7 +279,7 @@ function deleteAudio() {
 
 <!--Create form sart-->
 <div class="flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-<form @submit="submit" enctype="multipart/form-data" id="form" class="form">
+<form @submit.prevent="submit" enctype="multipart/form-data" id="form" class="form">
     <div class="grid gap-4 mb-3 md:grid-cols-2 p-3">
         <div>
          <label for="input-label" class=" text-sm mb-2 dark:text-white">Flash Cards Category</label>
@@ -242,36 +297,32 @@ function deleteAudio() {
     </div>
 
     <div class="p-3">
-         <label for="input-label" class="block text-sm  mb-2 dark:text-white">Pronounciation Title</label>
-         <input type="text" id="title" name="title" class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" placeholder="Enter Title">
+         <label for="input-label" class="block text-sm  mb-2 dark:text-white">Pronunciation Title</label>
+         <input type="text" id="title" name="title" class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" placeholder="Enter Title" required>
     </div>
     <div class="p-3">
          <label for="input-label" class="block text-sm  mb-2 dark:text-white">Record Audio</label>
                     <div class="p-6 justify-center flex items-center mt-6">
                         <!-- <input type="hidden" name="audio" id="audioInput" v-model="form.bolbFile"> -->
 
+
                         <button
                             v-if="!audioUrl"
                             type="button"
-                            :class="[isRecording ? 'greenbutton' : 'redbutton']"
                             @click="startRecording"
-                        >
-                            <svg
-                                class="w-11 h-11 m-4 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
-                                ></path>
-                            </svg>
+                        ><div class="w-20 h-20" 
+                            :class="[isRecording ? 'greenbutton' : 'redbutton']">
+                           <i class="fa fa-microphone pt-5 text-white text-3xl"></i> 
+                            </div>
+                            <span>gefd</span>
+                            
                         </button>
+<button  v-show="isRecording"
+                            v-if="!audioUrl" type="button" @click="stopRecording" class="p-4">
+    <svg class="w-11 h-11 m-4 text-white stop-button" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z"></path>
+</svg> Stop</button>
                     </div>
 
                     <div class="p-6 justify-center flex items-center">
@@ -319,8 +370,21 @@ function deleteAudio() {
 
   <div class="lg:px-16 lg:right-0 p-3 ">
 
-    <button type="submit" class="card-submit py-3 px-4 text-right rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-        Save
+    <button type="submit" class="card-submit py-3 px-10 text-right rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+        <!-- <svg v-if="loading" class="" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="1s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </path> -->
+<!-- </svg> -->
+    Save
 
     </button>
 
@@ -388,6 +452,11 @@ function deleteAudio() {
 }
 .greenbutton {
     animation: greenglowing 1300ms infinite;
+    border-radius: 55px;
+}
+.stop-button{
+
+    background: #dd1b1b;
     border-radius: 55px;
 }
 </style>

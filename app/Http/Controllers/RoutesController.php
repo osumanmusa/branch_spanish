@@ -46,9 +46,10 @@ class RoutesController extends Controller
     public function card(string $id)
     {
         $flashcards = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')->where('flashcards.category_id','=',$id)->get();
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        ->where('flashcards.category_id','=',$id)->get();
         $flashcard=Flashcard::select('*')->where('flashcards.category_id','=',$id)->paginate(1);
-        $category= Category::select('*')->where('id','=',$id)->get();
+        $category= Category::select('category_name')->where('id','=',$id)->first();
         return Inertia::render('card', [
             'flashcards' =>$flashcards,
             'flashcard' =>$flashcard,
@@ -69,11 +70,17 @@ class RoutesController extends Controller
     {
         $flashcard = DB::table('categories')  
         ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')->where('flashcards.category_id','=',$id)->paginate(1);
-        $flashcards=Flashcard::select('*')->where('flashcards.category_id','=',$id)->get();
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->where('flashcards.category_id','=',$id)->paginate(1);
+        $flashcards= DB::table('categories')  
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->where('flashcards.category_id','=',$id)->get();
+        $category= Category::select('category_name')->where('id','=',$id)->first();
         return Inertia::render('voice', [
             'flashcard' =>$flashcard,
             'flashcards' =>$flashcards,
+            'category' =>$category,
         ]);
     }
 
@@ -97,12 +104,13 @@ class RoutesController extends Controller
         'user_id' =>$user,
     ]);
     if($voice ){
-        $successmessage='Delivered Successfully';
-        return redirect()->back()->with('successmessage',$successmessage);
+        $successmessage = 'Created Successsfully';
+        echo json_encode(['status' => 'success' , 'message' => $successmessage]);
     }
     else{
-        $errormessage='An Error Occured';
-        return back()->with('errormessage',$errormessage);
+        $errormessage = '!Error Something Happened';
+        
+        echo json_encode(['status' => 'error' , 'message' => $errormessage]);
     }
 
     }
@@ -116,14 +124,26 @@ class RoutesController extends Controller
     {
         
         $user =  Auth::user()->id;
-        $quizcategories =  DB::table('categories')  
-        ->leftjoin('userscore', 'categories.id', '=', 'userscore.s_category_id')
-        ->leftjoin('users', 'userscore.user_id', '=', 'users.id')
-        ->select('categories.id As id','category_name','category_image')
-        ->where('userscore.s_category_id','=',null)
-        ->orwhere('userscore.user_id','!=',$user)
-        ->get();
+        $quizcategories= Category::select('*')->get();
+        // $quizcategories = DB::table('categories')
+        // ->leftJoin('userscore', 'categories.id', '=', 'userscore.s_category_id')
+        // ->leftJoin('users', 'userscore.user_id', '=', 'users.id')
+        // ->select('categories.id as id', 'category_name', 'category_image')
+        // ->where(function ($query) use ($user) {
+        // $query->where('userscore.s_category_id', '=', null)
+        //     ->orWhere('userscore.user_id', '!=', $user);
+        // })
+        // ->get();
         
+        // $quizcategories = DB::table('categories')
+        // ->leftJoin('userscore', 'categories.id', '=', 'userscore.s_category_id')
+        // ->leftJoin('users', 'userscore.user_id', '=', 'users.id')
+        // ->select('categories.id as id', 'category_name', 'category_image')
+        // ->where(function ($query) use ($user) {
+        // $query->where('userscore.s_category_id', '=', null)
+        //     ->orWhere('userscore.user_id', '!=', $user);
+        // })
+        // ->get();
         // $user =  Auth::user()->id;
         // $userscore =Score::where('user_id','=',$user)->get();
 
@@ -144,9 +164,7 @@ class RoutesController extends Controller
     public function showquiz(string $id)
     {
         $user =  Auth::user()->id;
-        $userscore =Score::where('user_id','=',$user)->where('s_category_id','=',$id)->first();
         
-         if($userscore==null){
     
             $quizes = DB::table('categories')  
             ->join('quiz', 'categories.id', '=', 'quiz.category_id')->where('quiz.category_id','=',$id)->get();
@@ -154,9 +172,7 @@ class RoutesController extends Controller
                 'quizes' =>$quizes,
             ]);
 
-        }else{
-            return redirect()->back();
-        }
+        
     }
     
 
@@ -165,84 +181,93 @@ class RoutesController extends Controller
      */
     public function storequiz(Request $request, string $id)
     {
+        $user =  Auth::user()->id;
+        $userscore =Score::where('user_id','=',$user)->where('s_category_id','=',$id)->first();
         
-        // $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->get();
-        $useranswer= $request->checkedanswer;
-        $totalanswer= count($useranswer);
-       $score = 0;
-       foreach ($useranswer as $key => $value) {
-        $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->where('id','=',$value['questionId'])->get();
-       //  dd($dbanswer[0]['answer']. ' '.$value['chossenAnswer']);
-        if ($value['chossenAnswer'] == $dbanswer[0]['answer'] ) {
-        $score = $score + 1;
-        
+        if($userscore==null){
+   
+  // $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->get();
+  $useranswer= $request->checkedanswer;
+  $totalanswer= count($useranswer);
+ $score = 0;
+ foreach ($useranswer as $key => $value) {
+  $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->where('id','=',$value['questionId'])->get();
+ //  dd($dbanswer[0]['answer']. ' '.$value['chossenAnswer']);
+  if ($value['chossenAnswer'] == $dbanswer[0]['answer'] ) {
+  $score = $score + 1;
+  
+ }
+ $userid = Auth::user()->id;
+ $answerstore = Useranswers::create([
+  'user_id' => $userid,
+  'quiz_id' => $value['questionId'],
+  'user_answer' => $value['chossenAnswer'],
+]);
+
+ 
+}
+$temp_grade= ($score/$totalanswer)*100;
+$t_grade= round($temp_grade);
+if ($t_grade >= '90' ) {
+  $grade='A+';
+}
+else if ($t_grade >=80 && $t_grade<=89) {
+  $grade='B+';
+}
+else if ($t_grade >= 70 && $t_grade<=79) {
+  $grade='B-';
+}
+else if ($t_grade >= 60 && $t_grade<=69) {
+  $grade='B';
+}
+else if ($t_grade >= 50  && $t_grade<=9) {
+  $grade='C';
+}
+else if ($t_grade >= 40  && $t_grade<=49) {
+  $grade='D';
+}
+else {
+  $grade='F';
+}
+
+
+$user =  User::find(Auth::user()->id);
+
+
+$storescore = Score::create([
+  's_category_id' => $id,
+  'user_id' => $user->id,
+  'user_score' => $t_grade,
+  'score' => $score,
+  'q_total' => $totalanswer,
+  'grade' => $grade,
+]);
+if($storescore){
+  return redirect()->route('user.score');
+//   return Inertia::render('score', [
+//       'score' =>$score,
+//       'totalanswer' => $totalanswer,
+//       'grade'=>$grade,
+//       'user_score'=>$t_grade,
+//   ]);
+}
+else{
+
+    $errormessage = '!Error, something went wrong';
+    return back()->with('errormessage',$errormessage);
+}
+
+       }else{
+          
+        $errormessage = '!Error, can not take quiz twice';
+        return redirect()->back()->with('errormessage',$errormessage);
        }
-       $userid = Auth::user()->id;
-       $answerstore = Useranswers::create([
-        'user_id' => $userid,
-        'quiz_id' => $value['questionId'],
-        'user_answer' => $value['chossenAnswer'],
-    ]);
-
-       
-    }
-    $t_grade= ($score/$totalanswer)*100;
-    if ($t_grade >= '90' ) {
-        $grade='A+';
-    }
-    else if ($t_grade >=80 && $t_grade<=89) {
-        $grade='B+';
-    }
-    else if ($t_grade >= 70 && $t_grade<=79) {
-        $grade='B-';
-    }
-    else if ($t_grade >= 60 && $t_grade<=69) {
-        $grade='B';
-    }
-    else if ($t_grade >= 50  && $t_grade<=9) {
-        $grade='C';
-    }
-    else if ($t_grade >= 40  && $t_grade<=49) {
-        $grade='D';
-    }
-    else {
-        $grade='F';
-    }
-    
-
-    $user =  User::find(Auth::user()->id);
-
-
-    $storescore = Score::create([
-        's_category_id' => $id,
-        'user_id' => $user->id,
-        'user_score' => $t_grade,
-        'q_total' => $totalanswer,
-        'grade' => $grade,
-    ]);
-    if($storescore){
-        return redirect()->route('user.score')
-        ->with(
-            'score',$score)
-        ->with(
-            'totalanswer',$totalanswer)
-        ->with(
-            'grade',$grade)
-        ->with(
-            'user_score',$t_grade);
-        // return Inertia::render('score', [
-        //     'score' =>$score,
-        //     'totalanswer' => $totalanswer,
-        //     'grade'=>$grade,
-        //     'user_score'=>$t_grade,
-        // ]);
-    }
-    else{
-
-        return back();
-    }
+        
+      
     
    
+       $errormessage = '!Error, can not take quiz twice';
+       return redirect()->back()->with('errormessage',$errormessage);
 
         
     }
@@ -252,15 +277,29 @@ class RoutesController extends Controller
      */
     public function showscore()
     {
-        return Inertia::render('score');
+        $user =  Auth::user()->id;
+        $results =Score::where('user_id','=',$user)
+        ->orderBy('id', 'desc')
+        ->first();
+        if($results == null){
+            return redirect() ->route('welcome');
+        }else{
+
+        // dd($results); 
+        return Inertia::render('score', [
+            'results' =>$results,
+        ]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function verify()
     {
-        //
+        
+        $successmessage = 'Upload Successsful';
+        return redirect()->back()->with('successmessage',$successmessage);
     }
 
     /**

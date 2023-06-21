@@ -60,7 +60,7 @@ defineProps({
                             <div
                                 v-for="c in categories"
                                 :key="c.id"
-                                class="w-full md:w-6/12 lg:w-4/12 mb-6 px-6 sm:px-6 lg:py-4"
+                                class="w-full md:w-6/12 lg:w-4/12 mb-6 px-1 sm:px-6 lg:py-4"
                             >
                                 <div class="flex flex-col">
                                     <!-- Avatar -->

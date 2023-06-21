@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
 
 
     if($users->isNotEmpty()){
-        $errormessage = '!Error, User Exist. Please Use a different credential';
+        $errormessage = 'Error!, user exist. Please use a different credential';
         return redirect('login')->with('errormessage',$errormessage);
         
 

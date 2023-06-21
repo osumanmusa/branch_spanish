@@ -9,8 +9,11 @@ import {useSidebarStore} from '../../../js/Store/useSidebarstore'
 
 const sidebar = useSidebarStore()
 
+const selected = ref(-1);
+const changeSelected = (i) => {
+  selected.value = i;
 
-
+}
 </script>
 <template>
     
@@ -26,41 +29,68 @@ const sidebar = useSidebarStore()
         </div>
     
         <nav class="mt-10">
-            <a class="flex items-center px-6 py-2 mt-4 bg-white text-blue-600 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" href="/adminhome">
+            <Link
+   :class=" { 'selected': selected === 0 } "
+   @click="changeSelected(0)" class=" flex items-center px-6 py-2 mt-4 text-gray-100 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" :href="'/adminhome'">
                 <img src="/img/dashboard/1.png"/>
     
                 <span class="mx-3">Dashboard</span>
-            </a>
+            </Link>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/flashcards">
+            <Link 
+   :class=" { 'selected': selected === 1 } "
+   @click="changeSelected(1)"  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/flashcards'">
                 <img src="/img/dashboard/2.png"/>
     
                 <span class="mx-3">Flash Cards</span>
-            </a>
+            </Link>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/pronounciation">
+            <Link
+   :class=" { 'selected': selected === 2 } "
+   @click="changeSelected(2)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/pronounciation'">
                 <img src="/img/dashboard/3.png"/>
     
-                <span class="mx-3">Pronounciation</span>
-            </a>
+                <span class="mx-3">Pronunciation</span>
+            </Link>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/quiz">
+            <Link
+   :class=" { 'selected': selected === 3 } "
+   @click="changeSelected(3)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/quiz'">
                 <img src="/img/dashboard/4.png"/>
     
                 <span class="mx-3">Quiz me</span>
-            </a>
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/students">
+            </Link>
+            <Link
+   :class=" { 'selected': selected === 4 } "
+   @click="changeSelected(4)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/students'">
                 <img src="/img/i6.png" class="w-6 h-6"/>
 
                 <span class="mx-3">Students</span>
-            </a>
+            </Link>
     
-            <a class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/accounts">
+            <Link
+   :class=" { 'selected': selected === 5 } "
+   @click="changeSelected(5)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/accounts'">
                 <img src="/img/i5.jpg" class="w-6 h-6"/>
 
                 <span class="mx-3">Accounts</span>
-            </a>
-    
+            </Link>
+
         </nav>
     </div>
 </template>
+<style scoped>
+.selected {
+      background-color: #f6f8f8 !important;
+      color:rgb(39, 128, 201);
+    }
+.select-highlight {
+  position: absolute;
+  right: 0;
+  top: 135px;
+  height: 30px;
+  width: 4px;
+  background-color: #f6f8f8;
+  transition: 0.1s top ease-out;
+}
+</style>

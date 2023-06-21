@@ -30,6 +30,7 @@ function listpronoun() {
     showpronoun.value = !showpronoun.value;
     showsubmissions.value = false;
 }
+
 </script>
 <template>
     <Head title="Pronounciations" />
@@ -45,7 +46,7 @@ function listpronoun() {
                     <Transition name="fade" mode="out-in">
                         <div
                             v-if="$page.props.flash.successmessage"
-                            class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -92,7 +93,7 @@ function listpronoun() {
                         <div
                             v-if="$page.props.flash.errormessage"
                             id="toast-simple"
-                            class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -146,7 +147,7 @@ function listpronoun() {
                                         href="/admin/pronounciation"
                                         class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
                                     >
-                                        Pronounciation
+                                        Pronunciation
                                     </a>
                                 </div>
                             </li>
@@ -187,13 +188,13 @@ function listpronoun() {
                                         href="/admin/create_pronounciation"
                                         class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                     >
-                                        Add Pronounciation
+                                        Add Pronunciation
                                     </a>
                                     <Button
                                         @click="listsubmissions"
                                         class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                     >
-                                        Submissions/Pronounciation
+                                        Submissions/Pronunciation
                                     </Button>
                                 </div>
                             </div>
@@ -219,7 +220,7 @@ function listpronoun() {
                                                 scope="col"
                                                 class="px-4 py-3 border"
                                             >
-                                                Pronounciation Title
+                                                Pronunciation Title
                                             </th>
                                             <th
                                                 scope="col"
@@ -290,13 +291,13 @@ function listpronoun() {
                                                 scope="col"
                                                 class="px-4 py-3 border"
                                             >
-                                                Pronounciation Title
+                                                Pronunciation Title
                                             </th>
                                             <th
                                                 scope="col"
                                                 class="px-4 py-3 border"
                                             >
-                                                Pronounciation Audio
+                                                Pronunciation Audio
                                             </th>
                                             <th
                                                 scope="col"
@@ -378,7 +379,20 @@ function listpronoun() {
     </div>
 </template>
 <style scoped>
-.toast-right {
-    float: right;
+
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

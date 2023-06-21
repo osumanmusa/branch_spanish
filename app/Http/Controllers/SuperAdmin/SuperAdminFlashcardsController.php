@@ -67,6 +67,7 @@ class SuperAdminFlashcardsController extends Controller
            'flashcard_backcontent' => $value['backcontent'],
            'flashcard_frontcontent' => $value['frontcontent'],     
            ]);
+
     }
        if($flashcard ){
         $successmessage = 'Created Successsfully';

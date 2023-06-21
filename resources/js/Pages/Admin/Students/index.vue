@@ -27,7 +27,7 @@ const props = defineProps({
                     <Transition name="fade" mode="out-in">
                         <div
                             v-if="$page.props.flash.successmessage"
-                            class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -74,7 +74,7 @@ const props = defineProps({
                         <div
                             v-if="$page.props.flash.errormessage"
                             id="toast-simple"
-                            class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+                            class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
                             role="alert"
                         >
                             <svg
@@ -204,12 +204,9 @@ const props = defineProps({
                                             >
                                                 Student Email
                                             </th>
-                                            <th
-                                                scope="col"
-                                                class="lg:px-4 lg:py-3 border"
-                                            >
-                                                Action
-                                            </th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Account Info</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Quizes</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Pronounciation</th>
                                         </tr>
                                     </thead>
                                     <tbody
@@ -220,55 +217,54 @@ const props = defineProps({
                                             :key="s.id"
                                             class="hover:bg-gray-100"
                                         >
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{
-                                                    s.child_firstname +
-                                                    " " +
-                                                    s.child_lastname
-                                                }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ s.student_id }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ s.email }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                            
-                            <a
-                                class="p-3 text-blue-500 hover:text-blue-200"
-                                v-bind:href="
-                                    route('admin.studentdetails', s.id
-                                    )
-                                "
-                            >
-                                <i
-                                    class="fa fa-sticky-note fa-solid"
-                                    aria-hidden="true"
-                                ></i>
-                                Details
-                            </a> 
-                            <a
-                                class="p-3 text-blue-500 hover:text-blue-200"
-                                v-bind:href="
-                                    route('admin.viewstudent', s.id
-                                    )
-                                "
-                            >
-                                <i
-                                    class="fa fa-eye fa-solid"
-                                    aria-hidden="true"
-                                ></i>
-                                View
-                            </a>
+        
+        <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"> {{s.child_firstname +' ' + s.child_lastname}} </td>
+        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.student_id}} </td>
+        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.email}} </td>
+        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
+            
+ 
+                                <a
+                                    class="p-3 text-blue-500 hover:text-blue-200"
+                                    v-bind:href="
+                                        route('admin.studentdetails', s.id
+                                        )
+                                    "
+                                >
+                                    <i
+                                        class="fa fa-eye fa-solid"
+                                        aria-hidden="true"
+                                    ></i>
+                                    View
+                                </a>
+        </td>
+        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
+            
+                                <a
+                                    class="p-3 text-blue-500 hover:text-blue-200"
+                                    v-bind:href="route('admin.viewstudent', s.id)
+                                    "
+                                >
+                                    <i
+                                        class="fa fa-eye fa-solid"
+                                        aria-hidden="true"
+                                    ></i>
+                                    View
+                                </a>
+        </td>
+        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
+ 
+                                <a
+                                    class="p-3 text-blue-500 hover:text-blue-200"
+                                    v-bind:href="route('admin.showpronounciation', s.id)
+                                    "
+                                >
+                                    <i
+                                        class="fa fa-eye fa-solid"
+                                        aria-hidden="true"
+                                    ></i>
+                                    View
+                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -286,7 +282,19 @@ const props = defineProps({
     </div>
 </template>
 <style scoped>
-.toast-right {
-    float: right;
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

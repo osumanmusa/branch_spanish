@@ -51,6 +51,9 @@
         img {
             -ms-interpolation-mode:bicubic;
         }
+        .email-logo{
+            width:190px;
+        }
     </style>
 
 </head>
@@ -65,7 +68,7 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 15px 30px;">
-                                    <img src="{{asset('img/logo.png')}}"/>
+                                    <img src="{{asset('img/logo2.jpg')}}" class="email-logo"/>
                                  </td>
                             </tr>
                             <tr>
@@ -75,9 +78,9 @@
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
-                                    <p style="margin-bottom: 10px;">Dear {{$parent_firstname}}, </p>
-                                    <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal. </p>
-                                    <p style="margin-bottom: 25px;">Below is the information provided in creating your account.</p>
+                                    <p style="margin-bottom: 10px;">Hello, {{$parent_firstname}}, </p>
+                                    <p style="margin-bottom: 10px;">We appreciate your registration at the BranchoutwithSpanish website. </p>
+                                    <p style="margin-bottom: 25px;">The details you provided when setting up your account are listed below.</p>
                                     <br>
                                     <p style="margin-bottom: 10px;">Parent Details</p>
 
@@ -89,17 +92,17 @@
                                     <p style="margin-bottom: 10px;">Email: {{$child_email}}</p>
                                     <p style="margin-bottom: 10px;">Password: {{$child_password}}</p>
                                     <br>
-                                    <p style="margin-bottom: 25px;">Account Activation Mail will be sent to you within the day.</p>
-                                    <p style="margin-bottom: 25px;">You can also contact our administrator for your account activation should in a case you do not receive any mail.</p>
+                                    <p style="margin-bottom: 25px;">You will receive an account activation email within the day.</p>
+                                    <p style="margin-bottom: 25px;">If you don't get any mail and need to activate your account, you can also get in touch with our administrator.</p>
                                 
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;"> Kind regards,</p>
-                                    <p style="margin-bottom: 10px;">Administrator - Branch Out With Spanish</p>
+                                    <p style="margin-bottom: 10px;">Administrator: Branch Out With Spanish</p>
                                     <p style="margin-bottom: 10px;">Email: admin@branchoutwithspanish.com</p>
-                                    <p style="margin-bottom: 10px;">branchoutwithspanish.com</p>
+                                    <p style="margin-bottom: 10px;">https://branchoutwithspanish.com</p>
                                 </td>
                             </tr>
                             

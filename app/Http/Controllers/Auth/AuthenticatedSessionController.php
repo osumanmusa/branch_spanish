@@ -40,7 +40,8 @@ class AuthenticatedSessionController extends Controller
         {
 
         if (auth()->user()->role == 'parent') {
-                return redirect()->route('parent.home');
+            $successmessage = 'Welcome! Login Successful ';
+                return redirect()->route('parent.home')->with('successmessage',$successmessage);
             
 
         }elseif(auth()->user()->role == 'user') {

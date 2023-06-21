@@ -45,7 +45,7 @@ const submit = () => {
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
                 <div class="container mx-auto px-6 py-8">
 <Transition name="fade" mode="out-in">
-    <div v-if="$page.props.flash.successmessage"  class="toast-right flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.successmessage"  class="tostr flex mt-2 items-center w-full max-w-xs p-4 space-x-4 text-green-500 bg-gray-100 divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-green-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -67,7 +67,7 @@ const submit = () => {
   </Transition>
 
   <Transition name="Efade"> 
-    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="toast-right flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <div v-if="$page.props.flash.errormessage" id="toast-simple" class="tostr flex mt-2 mr-3 items-center w-full max-w-xs p-4 space-x-4 text-red-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
         <svg class="w-7 h-7 text-red-600 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -166,37 +166,50 @@ const submit = () => {
                                     <tbody
                                         class="divide-y divide-gray-200 dark:divide-gray-700"
                                     >
-                                        <tr v-for="p in parents.data" :key="p.id" class="hover:bg-gray-100">
+                                        <tr v-for="p in parents.data" :key="p.id" class="hover:bg-gray-100 " >
+                                           
                                             <td
                                                 class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
                                             >
-                                                {{p.child_firstname +' ' + p.child_lastname}}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{p.child_firstname +' ' + p.child_lastname}}</a>
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ p.student_id }}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{ p.student_id }}</a>
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
                                             >
-                                                {{p.parent_firstname +' ' + p.parent_lastname}}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{p.parent_firstname +' ' + p.parent_lastname}}</a>
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ p.child_school }}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{ p.child_school }}</a>
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
                                                 <!-- {{ p.created_at}} -->
-                                                {{ moment(p.created_at).format("DD-MM-YYYY") }}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{ moment(p.created_at).format("DD-MM-YYYY") }}</a>
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ p.student_status }}
+                                                <a :href="
+                                                        route('superadmin.studentdetails', p.id
+                                                        )">{{ p.student_status }}</a>
                                             </td>
 
                                             <td
@@ -211,6 +224,7 @@ const submit = () => {
                                                     <i class="fa fa-trash fa-solid" aria-hidden="true"></i> De-activate
                                                 </a>
                                             </td>
+                                        
                                         </tr>
                                     </tbody>
                                 </table>
@@ -233,7 +247,19 @@ const submit = () => {
 .hr{
     border: 2px solid rgb(184, 181, 181);
 }
-.toast-right{
-    float:right;
-}  
+.tostr{
+  
+  position:fixed;
+  right:1rem;
+  top:1rem;
+  z-index: 1000;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 2.5s ease-out;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
 </style>

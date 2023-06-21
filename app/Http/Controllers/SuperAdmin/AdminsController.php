@@ -45,7 +45,18 @@ class AdminsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {        
+        $users=User::select('*')
+        ->whereIn('email',[$request->email])
+        ->get();
+
+
+    if($users->isNotEmpty()){
+        $errormessage = 'Error!, user exist. Please use a different credential';
+        return back()->with('errormessage',$errormessage);
+        
+
+    }
       
         $request->validate([
             'username' => 'required',
@@ -116,6 +127,11 @@ class AdminsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deluser=User::findOrFail($id);
+        
+        $deluser->delete();
+        
+        $successmessage = 'Deleted Successsfully';
+        return redirect()->route('superadmin.admin')->with('successmessage',$successmessage);
     }
 }

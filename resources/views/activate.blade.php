@@ -51,6 +51,9 @@
         img {
             -ms-interpolation-mode:bicubic;
         }
+        .email-logo{
+            width:190px;
+        }
     </style>
 
 </head>
@@ -65,7 +68,7 @@
                         <tbody>
                             <tr>
                                 <td style="padding: 30px 30px 15px 30px;">
-                                    <img src="{{asset('img/logo.png')}}"/>
+                                    <img src="{{asset('img/logo2.jpg')}}" class="email-logo"/>
                                  </td>
                             </tr>
                             <tr>
@@ -75,11 +78,11 @@
                             </tr>
                             <tr>
                                 <td style="padding: 0 30px 20px">
-                                    <p style="margin-bottom: 10px;">Dear {{$parent_firstname}}, </p>
-                                    <p style="margin-bottom: 10px;">Thank you for registering at the Branch Out With Spanish portal.</p>
-                                    <p style="margin-bottom: 25px;">Your Account and any has been succesfully Activated.</p>
+                                    <p style="margin-bottom: 10px;">Hello, {{$parent_firstname}} </p>
+                                    <p style="margin-bottom: 10px;">We appreciate your registration at the BranchoutwithSpanish website.</p>
+                                    <p style="margin-bottom: 25px;">The activation of your account has been completed.</p>
                                     <br>
-                                    <p style="margin-bottom: 25px;">You can now login and use our Platform</p>
+                                    <p style="margin-bottom: 25px;">You can now access our platform by logging in.</p>
                                    
                                 
                                 </td>
@@ -87,9 +90,9 @@
                             <tr>
                                 <td style="padding: 0 30px 20px">
                                     <p style="margin-bottom: 10px;"> Kind regards,</p>
-                                    <p style="margin-bottom: 10px;">Administrator - Branch Out With Spanish</p>
+                                    <p style="margin-bottom: 10px;">Administrator: Branch Out With Spanish</p>
                                     <p style="margin-bottom: 10px;">Email: admin@branchoutwithspanish.com</p>
-                                    <p style="margin-bottom: 10px;">branchoutwithspanish.com</p>
+                                    <p style="margin-bottom: 10px;">https://branchoutwithspanish.com</p>
                                 </td>
                             </tr>
                             

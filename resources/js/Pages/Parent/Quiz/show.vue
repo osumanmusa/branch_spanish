@@ -24,7 +24,7 @@ const props = defineProps({
                 <div class="container mx-3 px-3 py-8">
                     <!-- Breadcrumb -->
                     <nav
-                        class="flex w-[25vw] px-5 py-3 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                        class="flex w-[25vw] px-5 py-3 mb-3 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
                         aria-label="Breadcrumb"
                     >
                         <ol
@@ -43,9 +43,9 @@ const props = defineProps({
                     </nav>
 
 
-                    <div class="flex flex-col lg:w-[70vw]  bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                    <div class="flex flex-col lg:w-[70vw] bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
               
-                        <div v-for="c in child" :key="c.id" class="grid grid-cols-2 gap-4 mt-3 mb-2">
+                        <div v-for="c in child" :key="c.id" class="grid lg:grid-cols-2 gap-4 mt-3 mb-2">
                             <div><span> <b>First Name :</b></span> {{c.child_firstname}}  </div>
                             <div><span> <b>Last Name :</b></span> {{c.child_lastname}} </div>
                             <div><span> <b>Parent First Name :</b></span> {{c.parent_firstname}}  </div>

@@ -54,12 +54,18 @@ class SuperAdminLoginController extends Controller
         {
 
         if (auth()->user()->role == 'superadmin') {
-                return redirect()->route('superadmin.home');
+            $successmessage = 'Welcome! Login Successful ';
+                return redirect()->route('superadmin.home')->with('successmessage',$successmessage);
             
 
         }else{
-            return redirect()->route('login');
+            
+        $errormessage = 'Error! User not Authorized';
+            return redirect()->route('login')->with('errormessage',$errormessage);
             }
+        }else{
+        $errormessage = 'Error! Email or password incorrect ';
+            return redirect()->back()->with('errormessage',$errormessage);
         }
     }
 

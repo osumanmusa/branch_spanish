@@ -61,6 +61,7 @@ class AdminPronounciationController extends Controller
      */
     public function store(Request $request)
     {
+       
             
         $request->validate([
             'category' => 'required',
@@ -72,11 +73,15 @@ class AdminPronounciationController extends Controller
     //    $request->file('audio')->move(public_path('audio/'), $record);
 
     //     }else
-    if($request->hasFile('recordfile')){
+    $record = '';
+    if($request->hasFile('audio')){
 
-            $record = time() . '-' . $request->recordfile->getClientOriginalName();
-           $request->recordfile->move(public_path('audio/'), $record);
+            $record = time() . '-' . $request->audio->getClientOriginalName();
+           $request->audio->move(public_path('audio/'), $record);
 
+        }else{
+            echo json_encode(['status' => 'error' , 'message' =>'No audio file found']);
+            die();
         }
 
         $pronounciation = Pronounciation::create([
@@ -87,14 +92,14 @@ class AdminPronounciationController extends Controller
         ]);
     
         if ($pronounciation) {
-            $successmessage = 'Created Successfully';
-            return back()->with('successmessage', $successmessage);
-        } else {
-            $errormessage = '!Error Something Happened';
-            return back()->with('errormessage', $errormessage);
+            $successmessage = 'Created Successsfully';
+            echo json_encode(['status' => 'success' , 'message' => $successmessage]);
         }
-        $errormessage = '!Error Something Happened';
-        return back()->with('errormessage', $errormessage);
+        else{
+            $errormessage = '!Error Something Happened';
+            
+            echo json_encode(['status' => 'error' , 'message' => $errormessage]);
+        }
     //     dd($request);
     //     $request->validate([
     //         'category' => 'required',
@@ -122,11 +127,29 @@ class AdminPronounciationController extends Controller
     //     //
     }
 
+    public function verify()
+    {
+        
+        $successmessage = 'Created Successsfully';
+      return redirect()->route('admin.pronounciation')->with('successmessage',$successmessage);
+      
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function showpronounciation(string $id)
     {
+        
+        $submissions = DB::table('categories')  
+        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
+        ->where('user_record.user_id','=',$id)->paginate(15);
+        return Inertia::render('Admin/Pronounciations/show',[
+            'submissions'=> $submissions,
+
+        ]);
         //
     }
 

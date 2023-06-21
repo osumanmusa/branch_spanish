@@ -28,6 +28,8 @@ class AdminController extends Controller
         $flashcard= Flashcard::select('*')->count();
         $quiz= Quiz::select('*')->count();
         $voice= Pronounciation::select('*')->count();
+        $liststudents= User::where('role','=','user')->where('account_status','=',null)->where('student_status','=',null)->paginate(12);
+
         return Inertia::render('Admin/dashboard',[
             'total_students'=> $total_students,
             'parents' => $parents,
@@ -36,6 +38,7 @@ class AdminController extends Controller
             'quiz' => $quiz,
             'parents' => $parents,
             'voice' => $voice,
+            'liststudents' => $liststudents,
             
         ]);
         //

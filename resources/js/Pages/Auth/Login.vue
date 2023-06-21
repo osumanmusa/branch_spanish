@@ -255,7 +255,7 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
     <!-- component -->
 
     <!-- component -->
-    <div class="flex items-center lg:ml-24 pt-12 pb-4 px-8">
+    <div class="flex items-center lg:ml-32 pt-12 pb-4 px-8">
             <h1 class="text-white text-2xl lg:px-6 sm:text-center">
                 <b>SIGN IN </b>
             </h1>

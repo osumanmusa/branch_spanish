@@ -19,6 +19,7 @@ class Score extends Model
         'q_total' ,
         'grade' ,
         'user_quiz_id' ,
+        'score' ,
 
     ];
 }

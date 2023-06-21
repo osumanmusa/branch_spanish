@@ -2,11 +2,13 @@
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
 import Navbar from "../Components/Navbar.vue";
+import paginate from "../Components/paginate.vue";
 import { shuffle as _shuffle } from "lodash-es";
 import { Modal } from "flowbite";
 const props = defineProps({
     flashcards: Object,
     flashcard: Object,
+    category:Object,
     successmessage: Object,
     errormessage: Object,
 });
@@ -64,91 +66,146 @@ function playSound(sound) {
         audio.play();
     }
 }
-
-let audiofile = null;
+let audiofile = new FormData();
 let delfile = null;
+let mediaRecorder; 
+
+
+// function startRecording() {
+//     navigator.mediaDevices
+//         .getUserMedia({ audio: true })
+//         .then(function (stream) {
+//             const mediaRecorder = new MediaRecorder(stream);
+//             const chunks = [];
+
+//             mediaRecorder.start();
+
+//             mediaRecorder.addEventListener("dataavailable", function (e) {
+//                 chunks.push(e.data);
+//             });
+//             mediaRecorder.addEventListener("start", function () {
+//                 // window.alert('Started')
+
+//                 isRecording.value = true;
+//             });
+//             mediaRecorder.addEventListener("stop", function () {
+//                 isRecording.value = false;
+//                 const audioBlob = new Blob(chunks, { type: "audio/mp3" });
+//                 //------new--------
+//                 audioUrl.value = URL.createObjectURL(audioBlob);
+//                 // audiofile = new FormData();
+
+//                 //-----old-----------
+//                 //           const audioUrl = URL.createObjectURL(audioBlob);
+
+//                 // audiofile = new FormData();
+//                 audiofile.append("audio", audioBlob);
+
+//                 //  const audio = document.createElement('audio');
+//                 // audio.type='file';
+//                 // audio.controls = true;
+//                 // audio.id='recordedaudio';
+//                 // audio.src = audioUrl;
+//                 // audio.value= audioUrl;
+//                 // var wrap = document.getElementById("audioPlayer");
+//                 // wrap.appendChild(audio);
+
+//                 //   blobFile.value = audioBlob;
+//                 //      var formData = new FormData();
+//                 //  formData.append('audio',audioBlob);
+//                 // formData.append('voiceid',props.flashcard.data[0].id);
+
+//                 //     // blobFile.value = formData;
+//                 //         audiofile = formData;
+//             });
+
+//             // Stop recording after 10 seconds
+//             setTimeout(function () {
+//                 mediaRecorder.stop();
+//             }, 5000);
+//         })
+//         .catch(function (err) {
+//             console.log("The following error occurred: " + err);
+//         });
+// }
+
+const chunks = [];
 
 function startRecording() {
-    navigator.mediaDevices
-        .getUserMedia({ audio: true })
+    navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function (stream) {
-            const mediaRecorder = new MediaRecorder(stream);
-            const chunks = [];
+            mediaRecorder = new MediaRecorder(stream); // Assign MediaRecorder to the global variable
 
-            mediaRecorder.start();
-
+            mediaRecorder.start(); 
             mediaRecorder.addEventListener("dataavailable", function (e) {
                 chunks.push(e.data);
             });
+
             mediaRecorder.addEventListener("start", function () {
                 // window.alert('Started')
-
                 isRecording.value = true;
             });
-            mediaRecorder.addEventListener("stop", function () {
-                isRecording.value = false;
-                const audioBlob = new Blob(chunks, { type: "audio/mp3" });
-                //------new--------
-                audioUrl.value = URL.createObjectURL(audioBlob);
-                audiofile = new FormData();
+            
 
-                //-----old-----------
-                //           const audioUrl = URL.createObjectURL(audioBlob);
+// Start recording immediately
 
-                audiofile = new FormData();
-                audiofile.append("audio", audioBlob);
-                audiofile.append("voiceid", props.flashcard.data[0].id);
+            // You can remove the setTimeout function to stop recording manually
 
-                //  const audio = document.createElement('audio');
-                // audio.type='file';
-                // audio.controls = true;
-                // audio.id='recordedaudio';
-                // audio.src = audioUrl;
-                // audio.value= audioUrl;
-                // var wrap = document.getElementById("audioPlayer");
-                // wrap.appendChild(audio);
-
-                //   blobFile.value = audioBlob;
-                //      var formData = new FormData();
-                //  formData.append('audio',audioBlob);
-                // formData.append('voiceid',props.flashcard.data[0].id);
-
-                //     // blobFile.value = formData;
-                //         audiofile = formData;
-            });
-
-            // Stop recording after 10 seconds
-            setTimeout(function () {
-                mediaRecorder.stop();
-            }, 5000);
         })
         .catch(function (err) {
             console.log("The following error occurred: " + err);
         });
 }
 
+
+
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        
+        mediaRecorder.addEventListener("stop", function () {
+                isRecording.value = false;
+                const audioBlob = new Blob(chunks, { type: "audio/mp3" });
+                audioUrl.value = URL.createObjectURL(audioBlob);
+                audiofile.append("audio", audioBlob);
+            });
+        mediaRecorder.stop();
+    }
+}
+
 const submit = () => {
-    const csrf_token = document
+
+ audiofile.append("voiceid", props.flashcard.data[0].id);
+        
+const csrf_token = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
     fetch("/storevoice", {
         method: "POST",
-        headers: {
-            "X-CSRFToken": csrf_token,
-            // 'Content-Type': 'application/json',
-            url: "/storevoice",
-            // 'Content-Type': undefined,
-            // 'Accept': 'application/json',
-            Authorization: "Bearer ",
-            "Access-Control-Allow-Methods": "POST",
-            "Access-Control-Allow-Headers":
-                "origin,X-Requested-With,content-type,accept",
-            "Access-Control-Allow-Credentials": "true",
-        },
+        // headers: {
+        //     "X-CSRFToken": csrf_token,
+        //     // 'Content-Type': 'application/json',
+        //     url: "/storevoice",
+        //     // 'Content-Type': undefined,
+        //     // 'Accept': 'application/json',
+        //     Authorization: "Bearer ",
+        //     "Access-Control-Allow-Methods": "POST",
+        //     "Access-Control-Allow-Headers":
+        //         "origin,X-Requested-With,content-type,accept",
+        //     "Access-Control-Allow-Credentials": "true",
+        // },
 
         body: audiofile,
-    });
+    }).then(res => res.json())
+    .then((res) =>{
+        
+       if(res.status == 'success'){
+        
+            window.location.href=('/verifypronounciation')
+        
+       }
+
+    })
 };
 
 function deleteAudio() {
@@ -258,9 +315,16 @@ function deleteAudio() {
 
             <div class="container my-12 mx-auto px-4 md:px-12">
                 <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
+                            
+                            <div class="w-full md:w-8/12 lg:w-12/12 lg:px-16">
+                                <!-- Header -->
+                                <h1 class="lg:px-16 text-white text-4xl font-bold">
+                                    {{category.category_name}}
+                                </h1>
+                            </div>
                     <div class="lg:grid lg:grid-cols-8 gap-4">
-                        <div class="col-span-2 mt-6">
-                            <div class="">
+                        <div class="col-span-2 mt-8">
+                            <div class="flex-col">
                                 <Link
                                     v-if="flashcard.prev_page_url != NULL"
                                     :href="flashcard.prev_page_url"
@@ -272,7 +336,7 @@ function deleteAudio() {
                                 <button
                                     @click="Shuffle"
                                     type="button"
-                                    class="py-4 px-5 mr-2 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
+                                    class="py-4 px-5 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
                                 >
                                     <i class="fa fa-shuffle"></i>
                                     Shuffle Deck
@@ -331,7 +395,6 @@ function deleteAudio() {
                         <div class="col-span-4">
                             <div class=" ">
                                 <div class="flip-card mt-6">
-                                    <div class="flip-card-inner">
                                         <transition name="flip" mode="out-in">
                                             <div
                                                 :key="cardKey"
@@ -345,12 +408,12 @@ function deleteAudio() {
                                                     >
                                                         <div class="px-6 py-4">
                                                 <h1 v-if="cardKey.length <5"
-                                                    class="text-gray-700 text-7xl text-2xl"
+                                                    class="text-gray-700 normal-case text-6xl text-center"
                                                 >
                                                     {{ cardKey }}
                                                 </h1>
                                                 <h1 v-else
-                                                    class="text-gray-700 text-2xl text-2xl"
+                                                    class="text-gray-700 normal-case text-6xl text-center"
                                                 >
                                                     {{ cardKey }}
                                                 </h1>
@@ -359,7 +422,6 @@ function deleteAudio() {
                                                 </article>
                                             </div>
                                         </transition>
-                                    </div>
                                 </div>
                                 <div class="flex flex-wrap justify-center my-4">
                                     <p class="text-white text-2xl">
@@ -530,29 +592,27 @@ function deleteAudio() {
         <section>
             <!-- Page Container -->
             <div class="container my-10 mx-auto px-4 md:px-12">
-                <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                <div class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
                     <TransitionGroup name="shuffle">
-                        <!-- Column -->
+             
+                    <!--Componen end-->
                         <div
                             v-for="f in flashcards"
                             :key="f.id"
-                            class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4"
+                            class="my-1 wrap-items  px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:px-4 lg:w-1/4  "
                         >
                             <!-- Article -->
                             <article
-                                class="overflow-hidden rounded-lg shadow-lg bg-btn-color"
+                                class="overflow-hidden rounded-lg shadow-lg bg-btn-color "
                             >
-                                <header
-                                    class="flex items-center justify-center leading-tight p-2 md:p-4"
+                                <header :class="{
+                        'bg-gray-100': flashcard.data[0].id === f.id,
+                    }"
+                                    class="flex items-center justify-center leading-tight p-2 md:p-4 lg:h-[40vh]"
                                 >
                                     <div class="px-6 py-4">
-                                        <h1 v-if="f.flashcard_title.length <5"
-                                            class="text-black text-2xl uppercase text-6xl text-center px-1"
-                                        >
-                                            {{ f.flashcard_title }}
-                                        </h1>
-                                        <h1 v-else
-                                            class="text-black text-xl uppercase text-center px-1"
+                                        <h1 
+                                            class="text-black font-large object-scale-down normal-case text-center px-1"
                                         >
                                             {{ f.flashcard_title }}
                                         </h1>
@@ -565,6 +625,7 @@ function deleteAudio() {
                     </TransitionGroup>
                 </div>
             </div>
+
         </section>
 
         <div class="">
@@ -574,6 +635,15 @@ function deleteAudio() {
                     Copyright <span>&copy;</span>
                     <a href="https://branchoutwithspanish.com/"
                         > BranchoutwithSpanish.com 2023 </a
+                    >
+                </span>
+                <span
+                    class="inline-block justify-end text-white text-center p-4 mt-3 mb-3"
+                >
+                    <Link
+                        href="/admin/login"
+                        class="py-4 px-8 bg-adminbtn-color hover:bg-white hover:text-blue-500 hover:border border rounded-lg border-white"
+                        >Admin Login</Link
                     >
                 </span>
             </div>
@@ -650,38 +720,32 @@ function deleteAudio() {
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form @submit="submit" enctype="multipart/form-data">
+                <form @submit.prevent="submit" enctype="multipart/form-data">
                     <div class="p-6 justify-center flex items-center">
                         <!-- <input type="hidden" name="audio" id="audioInput" v-model="form.bolbFile"> -->
 
                         <button
                             v-if="!audioUrl"
                             type="button"
-                            :class="[isRecording ? 'greenbutton' : 'redbutton']"
                             @click="startRecording"
-                        >
-                            <svg
-                                class="w-11 h-11 m-4 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
-                                ></path>
-                            </svg>
+                        ><div class="w-20 h-20" 
+                            :class="[isRecording ? 'greenbutton' : 'redbutton']">
+                           <i class="fa fa-microphone pt-5 text-white text-3xl"></i> 
+                            </div>
+                            <span>{{ isRecording?'Recording' : 'Start'}}</span>
+                            
                         </button>
+<button  v-show="isRecording"
+                            v-if="!audioUrl" type="button" @click="stopRecording" class="p-4">
+    <svg class="w-11 h-11 m-4 text-white stop-button" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z"></path>
+</svg> Stop</button>
                     </div>
-
                     <div class="p-6 justify-center flex items-center">
                         <div
                             id="audioPlayer"
-                            class="justify-center items-center"
+                            class="justify-center items-center px-5 py-2.5 text-center "
                         >
                             <audio
                                 v-if="audioUrl"
@@ -700,10 +764,10 @@ function deleteAudio() {
                         >
                     </div>
                     <!-- Modal footer -->
-                    <div
+                    <div v-show="audioUrl"
                         class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
                     >
-                        <button
+                        <button 
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             Submit
@@ -717,9 +781,9 @@ function deleteAudio() {
     <!--Modal end-->
 </template>
 
-<style>
+<style >
 body {
-    background-color: rgb(59 130 246);
+    background: #007fff;
 }
 nav {
     z-index: 30;
@@ -849,4 +913,27 @@ nav {
     top: 1rem;
     z-index: 1000;
 }
+.stop-button{
+
+    background: #dd1b1b;
+    border-radius: 55px;
+}
+.font-large{
+    font-size: 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    font-weight: 400;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-indent: 0px;
+}
+@media (max-width: 768px) {
+      .wrap-items {
+        flex-wrap: wrap;
+      }
+    }
 </style>
