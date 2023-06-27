@@ -18,6 +18,7 @@ use DB;
 use Illuminate\Support\Facades\Hash;
 use Mail;
 
+
 class RoutesController extends Controller
 {
     /**
@@ -69,13 +70,11 @@ class RoutesController extends Controller
     public function voice(string $id)
     {
         $flashcard = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
-        ->where('flashcards.category_id','=',$id)->paginate(1);
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        ->where('pronounciations.category_id','=',$id)->paginate(1);
         $flashcards= DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
-        ->where('flashcards.category_id','=',$id)->get();
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        ->where('pronounciations.category_id','=',$id)->get();
         $category= Category::select('category_name')->where('id','=',$id)->first();
         return Inertia::render('voice', [
             'flashcard' =>$flashcard,
@@ -182,16 +181,43 @@ class RoutesController extends Controller
     public function storequiz(Request $request, string $id)
     {
         $user =  Auth::user()->id;
-        $userscore =Score::where('user_id','=',$user)->where('s_category_id','=',$id)->first();
+        // $userscore =Score::where('user_id','=',$user)->where('s_category_id','=',$id)->first();
         
-        if($userscore==null){
+        // if($userscore==null){
    
   // $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->get();
   $useranswer= $request->checkedanswer;
   $totalanswer= count($useranswer);
  $score = 0;
+ 
+$atempted= Score::max('quiz_attempt');
+
+if($atempted == null){
+   $quiz_attempt=1;
+
+}else{
+   $quiz_attempt= $atempted + 1;
+}
+
+
+$test_answer=null;
+if($useranswer == $test_answer){
+    $errormessage = '!Error, some questions are not answered';
+    return back()->with('errormessage',$errormessage);
+
+}
  foreach ($useranswer as $key => $value) {
-  $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->where('id','=',$value['questionId'])->get();
+    
+    if($value==$test_answer){
+
+        $errormessage = '!Error, some questions are not answered';
+        return back()->with('errormessage',$errormessage);
+    
+    }else{
+        $dbanswer= Quiz::select('id','answer')->where('category_id','=',$id)->where('id','=',$value['questionId'])->get();
+
+    }
+
  //  dd($dbanswer[0]['answer']. ' '.$value['chossenAnswer']);
   if ($value['chossenAnswer'] == $dbanswer[0]['answer'] ) {
   $score = $score + 1;
@@ -202,10 +228,17 @@ class RoutesController extends Controller
   'user_id' => $userid,
   'quiz_id' => $value['questionId'],
   'user_answer' => $value['chossenAnswer'],
+  'answer_attempt' => $quiz_attempt,
+
 ]);
 
  
 }
+
+
+
+
+
 $temp_grade= ($score/$totalanswer)*100;
 $t_grade= round($temp_grade);
 if ($t_grade >= '90' ) {
@@ -241,6 +274,7 @@ $storescore = Score::create([
   'score' => $score,
   'q_total' => $totalanswer,
   'grade' => $grade,
+  'quiz_attempt' => $quiz_attempt,
 ]);
 if($storescore){
   return redirect()->route('user.score');
@@ -257,17 +291,15 @@ else{
     return back()->with('errormessage',$errormessage);
 }
 
-       }else{
+    //    }else{
           
-        $errormessage = '!Error, can not take quiz twice';
-        return redirect()->back()->with('errormessage',$errormessage);
-       }
+    //     $errormessage = '!Error, can not take quiz twice';
+    //     return redirect()->back()->with('errormessage',$errormessage);
+    //    }
         
       
     
    
-       $errormessage = '!Error, can not take quiz twice';
-       return redirect()->back()->with('errormessage',$errormessage);
 
         
     }
@@ -355,8 +387,306 @@ else{
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    // public function profile()
+    // {
+    //     //
+    //     return Inertia::render('profile');
+    // }
+    // public function saveprofile(Request $request)
+    // {
+    //     $id =  Auth::user()->id;
+        
+    //     $profile_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
+    //     $request->file('image')->move(public_path('img/profile-img/'), $profile_image);
+    //          $profile = DB::table('users')
+    //           ->where('id', $id)
+    //           ->update(
+    //               [ 
+    //                 'profile_image' =>$profile_image,
+                 
+    //             ]);
+
+    //     if ($profile) {
+    //        $successmessage = 'Updated Successsfully';
+    //        return redirect()->back()->with('successmessage',$successmessage);
+    //        }
+    //        else{
+    //         $errormessage = 'Error! Something went wrong.';
+        
+    //                return back()->with('errormessage',$errormessage);
+    //            }
+    // }
+
+    public function userdash()
     {
+        
+        $id =  Auth::user()->id;
+        $voice = DB::table('categories')  
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
+        ->join('users', 'user_record.user_id', '=', 'users.id')
+        ->where('user_record.user_id','=',$id)->count();
+        
+        $quiz =  DB::table('categories')  
+        ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
+        ->join('users', 'userscore.user_id', '=', 'users.id')
+        ->where('users.student_status','=','enrolled')
+        ->where('users.id','=',$id)->count();
+        return Inertia::render('Users/dashboard',[
+            'voice'=> $voice,
+            'quiz'=> $quiz,
+
+
+        ]);
+    }
+
+    public function userpronounciation()
+    {
+        
+        $id =  Auth::user()->id;
+        $submissions = DB::table('categories')  
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
+        ->join('users', 'user_record.user_id', '=', 'users.id')
+        ->where('user_record.user_id','=',$id)->paginate(15);
+        return Inertia::render('Users/Pronounciations/index',[
+            'submissions'=> $submissions,
+
+
+        ]);
+    }
+
+    public function userquiz(Request $request)
+    {
+        
+        $id =  Auth::user()->id;
+        $child =  DB::table('categories')  
+        ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
+        ->join('users', 'userscore.user_id', '=', 'users.id')
+        ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+        'user_score','grade','s_category_id','user_id','quiz_attempt')
+    ->where('userscore.user_id', '=', $id)
+    ->paginate(15);
+
+        // dd($child);
+        return Inertia::render('Users/Quiz/index',[
+            'child'=> $child,
+
+
+        ]);    
+    }
+
+    public function userreg()
+    {
+        return Inertia::render('Auth/Userreg');    
+    }
+    public function reguser(Request $request)
+    {
+        
+        
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $users=User::select('*')->where('role','!=','admin')
+        ->whereIn('email',[$request->email])
+        ->get();
+
+
+    if($users->isNotEmpty()){
+        $errormessage = 'Error!, user exist. Please use a different credential';
+        return redirect('login')->with('errormessage',$errormessage);
+        
+
+    }
+    $profile_parent = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
+    $request->file('image')->move(public_path('img/profile-img/'), $profile_parent);
+
+
+        $role='user';
+        $code=User::max('student_id');
+        if($code == ""){
+         $alphagen = "S0001";
+         $student_id = $alphagen;
+        }
+        else{
+         $student_id= ++$code;
+        }
+        
+        $user = User::create([
+            'child_firstname' => $request->firstname,
+            'child_lastname' => $request->lastname,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'profile_image'=>$profile_parent,
+            'role' => $role,
+            'student_id' => $student_id,
+        ]);
+
+        if($user){
+            $subject="Branch Spanish - Account Created Successfully";
+            $data["parent_email"]=$request->email;
+            $data["parent_firstname"]=$request->firstname;
+            $data["parent_lastname"]=$request->lastname;
+            $data["subject"]=$subject;
+            $data["parent_password"]=$request->password;
+             Mail::send('registermail', $data, function($message)use($data)  {
+                $message->to($data["parent_email"], $data["parent_firstname"],$data["parent_lastname"],
+                $data["parent_password"])
+                ->subject('Branch Spanish - Account Created Successfully');
+                });
+            $successmessage = 'Great!,Acccount Created Successfully. A confirmation mail will be sent shortly';
+            return redirect('login')->with('successmessage',$successmessage);
+        }
+        else{
+            $errormessage = '!Error, Something went wrong. Please try again';
+            return redirect('login')->with('errormessage',$errormessage);
+
+        }
+
+
+    }
+    public function profile()
+    {
+        $user_id=Auth::user()->id;
+        $user=User::where('id','=',$user_id)->get();
+            // dd($user);
+        return Inertia::render('Users/Profile/edit',[
+            'user'=>$user,
+        ]);
         //
     }
+
+    public function storeprofile(Request $request)
+    {
+        $id=Auth::user()->id;
+        if($request->image == ""){
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+            ]);
+    
+    
+                $profile = DB::table('users')
+                  ->where('id', $id)
+                  ->update(
+                      [ 
+                        'name' => $request->name,
+                        'email' => $request->email,
+                    ]);
+    
+            if ($profile) {
+                $successmessage = 'Updated Successsfully';
+                return redirect()->route('user.dashboard')->with('successmessage',$successmessage);
+                   }
+        }else{
+         $request->validate([
+             'name' => 'required',
+             'email' => 'required',
+         ]);
+ 
+         $profile_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
+         $request->file('image')->move(public_path('img/profile-img/'), $profile_image);
+              $profile = DB::table('users')
+               ->where('id', $id)
+               ->update(
+                   [ 
+                     'name' => $request->name,
+                     'email' => $request->email,
+                     'profile_image' =>$profile_image,
+                  
+                 ]);
+ 
+         if ($profile) {
+            $successmessage = 'Updated Successsfully';
+            return redirect()->route('user.dashboard')->with('successmessage',$successmessage);
+            }
+            else{
+         
+                    return back();
+                }
+ 
+         }
+
+         return back();
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function passstore(Request $request)
+    {
+        $id=Auth::user()->id;
+        $request->validate([
+            'password' =>'required',
+        ]);
+
+        $profile = DB::table('users')
+              ->where('id', $id)
+              ->where('role', 'user')
+              ->update(
+                  [ 
+                    'password' => Hash::make($request->password),
+                 
+                ]);
+
+        if ($profile) {
+            $successmessage = 'Updated Successsfully';
+            return redirect()->route('user.dashboard')->with('successmessage',$successmessage);
+               }
+               else{
+        
+                   return back();
+               }
+
+        
+        //
+    }
+    public function viewquiz(string $id,string $btntype,string $user_id,string $att)
+    { 
+        $us_id=Auth::user()->id;
+        
+        $child =  DB::table('categories')  
+        ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
+        ->join('users', 'userscore.user_id', '=', 'users.id')
+            ->join('useranswers', 'users.id', '=', 'useranswers.user_id')
+            ->join('quiz','useranswers.quiz_id','quiz.id')
+    // ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+    // 'user_score','s_category_id','user_score','score','q_total','grade','email',
+    // 'student_status','account_status','name')
+        ->where('userscore.id','=', $id)
+        ->where('users.student_status','=','enrolled')
+        ->where('users.id','=',$user_id)
+        ->where('userscore.s_category_id','=',$btntype)
+            ->where('userscore.quiz_attempt' ,'=',$att)
+            ->where('useranswers.answer_attempt' ,'=',$att)->get();
+        // dd($child);
+        return Inertia::render('Users/Quiz/show',[
+            'child'=> $child,
+        ]);
+        
+    //     //
+    //     $child =   DB::table('quiz')  
+    //     ->join('categories', 'quiz.category_id', '=', 'categories.id')
+    //     ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
+    //     ->join('users', 'userscore.user_id', '=', 'users.id')
+    //     ->join('useranswers', 'users.id', '=', 'useranswers.user_id')
+    // ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+    // 'user_score','s_category_id','user_score','score','q_total','grade','email',
+    // 'student_status','account_status','name')
+    //     ->where('userscore.id','=', $id)
+    //     ->where('users.student_status','=','enrolled')
+    //     ->where('userscore.user_id','=',$user_id)
+    //     ->where('userscore.s_category_id','=',$btntype)
+    //     ->where('userscore.quiz_attempt' ,'=',$att)
+    //     ->where('useranswers.answer_attempt' ,'=',$att)->get();
+    }
+
+
+
 }

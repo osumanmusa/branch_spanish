@@ -41,7 +41,41 @@ class SuperAdminUsersController extends Controller
         
     $parent=User::where('parent_index','=',$user->parent_index)
     ->where('role','=','parent')->first();
-   if($parent->account_status == 'active'){
+  
+    if($user->parent_index == null){
+    
+        $enroll_user = DB::table('users')
+        ->where('id','=' ,$user->id)
+        ->update(
+            [ 
+              'account_status' => 'active',
+              'student_status' => 'enrolled',
+          ]);
+    
+          if ($enroll_user) {
+                
+                $subject="Branch Spanish - Account Activated";
+                $data["parent_email"]=$user->email;
+                $data["parent_firstname"]=$user->child_firstname;
+                $data["parent_lastname"]=$user->child_lastname;
+                $data["subject"]=$subject;
+                 Mail::send('activate', $data, function($message)use($data)  {
+                    $message->to($data["parent_email"], $data["parent_firstname"],$data["parent_lastname"])
+                    ->subject('Branch Spanish - Account Activated Successfully');
+                    });
+        
+              $successmessage = 'Updated Successsfully';
+              return redirect()->back()->with('successmessage',$successmessage);
+                 }else{
+                    $errormessage = '!Error Smething happend';
+                    return back()->with('errormessage',$errormessage);
+        
+                 }
+        
+                 $errormessage = '!Error';
+                 return back()->with('errormessage',$errormessage);
+    
+       }elseif($parent->account_status == 'active'){
     
     $enroll_user = DB::table('users')
     ->where('id','=' ,$user->id)

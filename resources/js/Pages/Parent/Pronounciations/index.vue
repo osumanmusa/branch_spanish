@@ -189,7 +189,7 @@ function submit() {
                                                 Category name
                                             </th>
                                             <th scope="col" class="px-4 py-3">
-                                                Flashcard
+                                                Student Name
                                             </th>
                                             <th
                                                 scope="col"
@@ -221,7 +221,11 @@ function submit() {
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ s.flashcard_title }}
+                                                {{
+                                                    s.child_firstname +
+                                                    " " +
+                                                    s.child_lastname
+                                                }}
                                             </td>
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
@@ -238,6 +242,7 @@ function submit() {
                                                     "
                                                     controls
                                                     type="audio/mp3"
+                                                    class="mx-auto"
                                                 ></audio>
                                             </td>
                                         </tr>
@@ -245,7 +250,7 @@ function submit() {
                                 </table>
                             </div>
 
-                            <pagination :Links="submissions.links" />
+                            <pagination :links="submissions.links" />
                         </div>
                     </div>
 

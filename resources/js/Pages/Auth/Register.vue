@@ -20,11 +20,13 @@ const form = useForm({
     parent_name: "",
     parent_email: "",
     parent_password: "",
+    parent_image:"",
     child_firstname: "",
     child_lastname: "",
     child_school: "",
     child_email: "",
     child_password: "",
+    child_image:"",
 });
 
 function validateStep1() {
@@ -46,7 +48,12 @@ function validateStep2() {
         errormsg2.value = "Please fill in all required fields.";
     }
 }
-
+function parentFile($event) {
+            form.parent_image = $event.target.files[0];
+        }
+function childFile($event) {
+            form.child_image = $event.target.files[0];
+        }
 function submit() {
     if (
         form.child_firstname &&
@@ -230,7 +237,7 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
                 <div
                     class="bg-color border-indigo-300 rounded-lg w-[77vw] mx-auto"
                 >
-                    <form @submit.prevent="submit" class="mb-10">
+                    <form @submit.prevent="submit" class="mb-10" enctype="multipart/form-data">
                         <TransitionGroup name="list">
                     <div
                         id="step1"
@@ -317,13 +324,35 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
                             <div class="py-3">
                                 <p class="text-white"> Already have an account? <a href="login" class="text-yellow-200"> Click here to login</a></p>
                             </div>
-                            <div>
+                            <!-- <div class=" flex-wrap">
                                 <button
                                     @click.prevent="validateStep1"
                                     class="px-8 py-3 btn-log text-black rounded hover:bg-white hover:text-yellow-700 text-xl"
                                 >
                                     <b>Next</b>
                                 </button>
+                                <Link href="/register_user"
+                                    class="px-6 py-3 btn-log justify-end text-black rounded hover:bg-white hover:text-yellow-700 text-xl"
+                                >
+                                    <b>Register for myself</b>
+                                </Link>
+                            </div> -->
+                            
+                            <div class="lg:right-0 mb-3 pt-2">
+                                <Button
+                                    type="button"
+                                    @click.prevent="validateStep1"
+                                    class="py-4 px-5 text-right btn-log text-black  hover:bg-white hover:text-yellow-700 gap-2 rounded-md border border-transparent font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                    Next
+                                </Button>
+                                <Link
+                                    href="/register_user"
+
+                                    class="card-submit py-4 px-4 text-right btn-log text-black hover:bg-white hover:text-yellow-700 gap-2 rounded-md border border-transparent font-semibold  focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                >
+                                Register for myself
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -405,6 +434,13 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
                                     }}<span class="text-red-700">*</span></span
                                 >
                             </div>
+
+                                <div>
+                                    <label for="email" class="text-lg text-white block mb-1 font-medium">
+                                        Parent Image:</label>
+                                    <input type="file" id="image"  v-on:change="parentFile" class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 text-gray-700 w-full" />
+                                  
+                                </div>
                             <div>
                                 <button
                                     @click.prevent="validateStep2"
@@ -488,6 +524,14 @@ const toggleNav = () => (showMenu.value = !showMenu.value);
                                     required
                                 />
                             </div>
+                            
+
+                            <div>
+                                    <label for="email" class="text-lg text-white block mb-1 font-medium">
+                                        Child Image:</label>
+                                    <input type="file" id="image"  v-on:change="childFile" class="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 text-gray-700 w-full"/>
+                              
+                                </div>
 
                             <div>
                                 <label
@@ -534,6 +578,9 @@ nav {
 .logo {
     width: 120px;
     margin-left: 20px;
+}
+.card-submit {
+    float: right;
 }
 .logo2 {
     width: 220px;

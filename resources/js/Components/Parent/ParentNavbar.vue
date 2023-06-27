@@ -50,7 +50,7 @@ function selectFile($event) {
 
         
         <div class="relative mx-4 lg:mx-0">
-                <Link  class="relative lg:px-4 border border-primary-100 py-3 px-6  rounded rounded-lg bg-blue-500 text-white" :href="'/'">
+                <Link  class="relative lg:px-4 border border-primary-100 py-3 lg:px-6 px-1  rounded rounded-lg bg-blue-500 text-white" :href="'/'">
                    <i class="fa fa-home text-white"></i> Homepage
                 </Link>
         </div>
@@ -60,9 +60,12 @@ function selectFile($event) {
     <div class="flex items-center">
         
         <div  class="relative">
-            <button class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
-                <img class="object-cover w-full h-full" src="/img/avatar.png" alt="Your avatar">
-            </button>
+            <Link :href="'/parent/editprofile'" class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
+
+
+                <img v-if="$page.props.auth.user.profile_image==null" class="object-cover w-full h-full" src="/img/avatar.png"  alt="Your avatar">
+    <img v-else class="object-cover w-full h-full" :src="'/img/profile-img/'+ $page.props.auth.user.profile_image"  alt="Your avatar">
+            </Link>
 
   
         </div>

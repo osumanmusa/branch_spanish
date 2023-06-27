@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         
+        
         $request->validate([
             'parent_name' => 'required',
             'parent_email' => 'required',
@@ -60,6 +61,12 @@ class RegisteredUserController extends Controller
         
 
     }
+    $profile_parent = time() . '-' . $request->file('parent_image')->getClientOriginalName() . '.' . $request->file('parent_image')->extension();
+    $request->file('parent_image')->move(public_path('img/profile-img/'), $profile_parent);
+
+    $profile_child = time() . '-' . $request->file('child_image')->getClientOriginalName() . '.' . $request->file('child_image')->extension();
+    $request->file('child_image')->move(public_path('img/profile-img/'), $profile_child);
+
         $role='parent';
         $code=User::max('student_id');
         if($code == ""){
@@ -81,6 +88,7 @@ class RegisteredUserController extends Controller
             'child_firstname' => $request->child_firstname,
             'child_lastname' => $request->child_lastname,
             'child_school' => $request->child_school,
+            'profile_image'=>$profile_parent,
             'role' => $role,
             'parent_index' => $c_index,
         ]);
@@ -96,6 +104,7 @@ class RegisteredUserController extends Controller
             'child_firstname' => $request->child_firstname,
             'child_lastname' => $request->child_lastname,
             'child_school' => $request->child_school,
+            'profile_image'=>$profile_child,
             'role' => $role,
             'student_id' => $student_id,
             'parent_index' => $c_index,

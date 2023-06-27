@@ -10,7 +10,6 @@ const isRecording = ref(false);
 
 const props=defineProps({
     categories: Object,
-    flashcards: Object,
     message:String,
     successmessage: Object,
     errormessage: Object,
@@ -266,27 +265,70 @@ function deleteAudio() {
 <div class="flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
 <form @submit.prevent="submit" enctype="multipart/form-data" id="form" class="form">
     <div class="grid gap-4 mb-3 md:grid-cols-2 p-3">
-        <div>
-         <label for="input-label" class=" text-sm mb-2 dark:text-white">Flash Cards Category</label>
+        <div class="p-3">
+         <label for="input-label" class=" text-sm mb-2 dark:text-white">Pronunciations Category</label>
          <select  id="category" name="category" class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
             <option v-for="c in categories" :key="c.id" :value="c.id ">{{ c.category_name }}</option>
          </select>
          </div>
-        <div>
-            
-         <label for="input-label" class=" text-sm mb-2 dark:text-white">Flash Cards</label>
-         <select  id="flashcard" name="flashcard" class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
-            <option v-for="f in flashcards" :key="f.id" :value="f.id ">{{ f.flashcard_title }}</option>
-         </select>
+         <div class="p-3" >
+            <label for="input-label" class="block text-sm mb-2 dark:text-white" >
+                Pronunciation Title</label> 
+                <input type="text" id="flash_title" name="flash_title"
+                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                        placeholder="Enter Title" required/>
         </div>
-    </div>
-
-    <div class="p-3">
+                                <div class="p-3">
+                                    <label
+                                        for="input-label"
+                                        class="block text-sm mb-2 dark:text-white"
+                                        >Say it in a Sentence</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="flashcard"
+                                        name="flashcard"
+                                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                        placeholder="" required
+                                    />
+                                </div>
+                                <div class="p-3">
+                                    <label
+                                        for="input-label"
+                                        class="block text-sm mb-2 dark:text-white"
+                                        >Pronunciation Front Content</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="frontcontent"
+                                        name="frontcontent"
+                                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                        placeholder="" required
+                                    />
+                                </div>
+                                <div class="p-3">
+                                    <label
+                                        for="input-label"
+                                        class="block text-sm mb-2 dark:text-white"
+                                        >Pronunciation Back Content</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="backcontent"
+                                        name="backcontent"
+                                        class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                                        placeholder="" required
+                                    />
+                                </div>
+                                <!-- <div class="p-3">
          <label for="input-label" class="block text-sm  mb-2 dark:text-white">Pronunciation Title</label>
          <input type="text" id="title" name="title" class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" placeholder="Enter Title" required>
+    </div> -->
     </div>
+
+
     <div class="p-3">
-         <label for="input-label" class="block text-sm  mb-2 dark:text-white">Record Audio</label>
+         <label for="input-label" class="block text-sm px-3 mb-2 dark:text-white">Record Audio</label>
                     <div class="p-6 justify-center flex items-center mt-6">
                         <!-- <input type="hidden" name="audio" id="audioInput" v-model="form.bolbFile"> -->
 

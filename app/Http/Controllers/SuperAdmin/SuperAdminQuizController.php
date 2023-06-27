@@ -90,6 +90,7 @@ class SuperAdminQuizController extends Controller
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
         ->where('s_category_id','=',$id)->paginate(15);
+
         
         $quizes = DB::table('categories')  
         ->join('quiz', 'categories.id', '=', 'quiz.category_id')

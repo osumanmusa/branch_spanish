@@ -13,17 +13,18 @@ const props = defineProps({
 });
 
 
+let QNo=1;
+const adding=1
 const questionslist = ref(true);
 const gradeslist = ref(false);
-function listquestions(){
+function listquestions() {
     questionslist.value = !questionslist.value;
     gradeslist.value = false;
 }
-function listgrades(){
+function listgrades() {
     questionslist.value = false;
     gradeslist.value = !gradeslist.value;
 }
-
 
 </script>
 <template>
@@ -95,7 +96,6 @@ function listgrades(){
                     </div>
                     </div>
                     </div>
-
 <div v-if="gradeslist">
 
     <div class="overflow-x-auto">
@@ -116,7 +116,7 @@ function listgrades(){
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{g.user_score + '% ' +'/ '+g.grade}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
                             
-                         <Link class="p-2 text-blue-500 hover:text-blue-300 flex justify-center inline-block" v-bind:href="route('superadmin.viewstudent', g.id)">
+                         <Link class="p-2 text-blue-500 hover:text-blue-300 flex justify-center inline-block" v-bind:href="route('superadmin.getstudentdetails', [g.id, g.s_category_id])">
                             <svg class="w-5 h-5 " fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

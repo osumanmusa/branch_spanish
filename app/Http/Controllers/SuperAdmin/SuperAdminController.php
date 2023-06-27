@@ -74,7 +74,7 @@ class SuperAdminController extends Controller
     
             if ($profile) {
                 $successmessage = 'Updated Successsfully';
-                return redirect()->route('admin.home')->with('successmessage',$successmessage);
+                return redirect()->route('superadmin.home')->with('successmessage',$successmessage);
                    }
         }else{
          $request->validate([

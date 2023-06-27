@@ -13,8 +13,11 @@ class Pronounciation extends Model
 
     protected $fillable = [
         'category_id' ,
-        'flashcard_id' ,
-        'pronounciation_title' ,
+        'flashcard_title' ,
+        'flashcard' ,
+        'flashcard_frontcontent' ,
+        'flashcard_backcontent' ,
+        // 'pronounciation_title' ,
         'pronounciation_voice' ,
 
     ];

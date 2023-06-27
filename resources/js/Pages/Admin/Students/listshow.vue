@@ -179,7 +179,7 @@ const props = defineProps({
                                                             'admin.getstudentdetails',
                                                             [
                                                                 s.id,
-                                                                s.s_category_id,
+                                                                s.s_category_id,s.user_id,s.quiz_attempt
                                                             ]
                                                         )
                                                     "

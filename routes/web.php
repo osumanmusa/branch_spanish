@@ -51,6 +51,8 @@ Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name
 
 Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show')->middleware(Authenticate::class);
 
+Route::get("/register_user", [RoutesController::class, "userreg"])->name('user_register');
+Route::post("/user_register", [RoutesController::class, "reguser"])->name('user.reg');
 
 Route::get("/", [RoutesController::class, "index"])->name('welcome');
 Route::get("/flashcards", [RoutesController::class, "flashcard"])->name('flashcards');
@@ -88,6 +90,7 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
 
     Route::post("/superadmin/store_category", [SuperAdminCategoryController::class, "store"])->name('superadmin.category.store');
 
+    Route::get("/superadmin/submissions", [SuperAdminPronounciationController::class, "main"])->name('superadmin.show.submissions');
     Route::get("/superadmin/pronounciation", [SuperAdminPronounciationController::class, "index"])->name('superadmin.pronounciation');
     Route::get("/superadmin/verifypronounciation", [SuperAdminPronounciationController::class, "verify"])->name('superadmin.verifypronounciation');
     Route::get("/superadmin/create_pronounciation", [SuperAdminPronounciationController::class, "create"])->name('superadmin_create_pronounciation');;
@@ -112,7 +115,7 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     Route::get("/superadmin/students", [SuperAdminStudentController::class, "index"])->name('superadmin.students');
     Route::get("/superadmin_show_student/{id}", [SuperAdminStudentController::class, "show"])->name('superadmin.viewstudent');
     Route::get("/superadmin_student_detail/{id}", [SuperAdminStudentController::class, "view"])->name('superadmin.studentdetails');
-    Route::get("/superadmin_student_detail/{id}/{btntype}", [SuperAdminStudentController::class, "details"])->name('superadmin.getstudentdetails');
+    Route::get("/superadmin_student_detail/{id}/{btntype}/{user_id}/{att}", [SuperAdminStudentController::class, "details"])->name('superadmin.getstudentdetails');
     
     Route::get("/superadmin/admins", [AdminsController::class, "index"])->name('superadmin.admin');
     Route::get("/superadmin/addadmin", [AdminsController::class, "create"])->name('superadmin.addadmin');
@@ -142,6 +145,8 @@ All Admin Routes List
         Route::post("/admin/store_category", [AdminCategoryController::class, "store"])->name('admin.category.store');
 
         Route::get("/admin/pronounciation", [AdminPronounciationController::class, "index"])->name('admin.pronounciation');
+        Route::get("/admin/submissions", [AdminPronounciationController::class, "main"])->name('admin.show.submissions');
+
         Route::get("/admin/verifypronounciation", [AdminPronounciationController::class, "verify"])->name('admin.verifypronounciation');
         Route::get("/admin/create_pronounciation", [AdminPronounciationController::class, "create"])->name('admin_create_pronounciation');;
         Route::post("/admin/store_pronounciation", [AdminPronounciationController::class, "store"])->name('admin.pronounciation.store');
@@ -165,13 +170,13 @@ All Admin Routes List
         Route::get("/admin/students", [AdminStudentController::class, "index"])->name('admin.students');
         Route::get("/admin_show_student/{id}", [AdminStudentController::class, "show"])->name('admin.viewstudent');
         Route::get("/admin_student_detail/{id}", [AdminStudentController::class, "view"])->name('admin.studentdetails');
-        Route::get("/admin_student_detail/{id}/{btntype}", [AdminStudentController::class, "details"])->name('admin.getstudentdetails');
+        Route::get("/admin_student_detail/{id}/{btntype}/{user_id}/{att}", [AdminStudentController::class, "details"])->name('admin.getstudentdetails');
         // Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme');
         // Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show');
         // Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show');
         // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
 
-
+ 
     });
 
 
@@ -195,7 +200,16 @@ All Normal Users Routes List
         // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
         Route::post("/storequiz/{id}", [RoutesController::class, "storequiz"])->name('quiz.store');
         Route::get("/getscore", [RoutesController::class, "showscore"])->name('user.score');
+        // Route::get("/userprofile", [RoutesController::class, "profile"])->name('user.profile');
+        // Route::post("/user_store_profile", [RoutesController::class, "saveprofile"])->name('user.profile.store');
         // Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show');
+        Route::get("/user_dashboad", [RoutesController::class, "userdash"])->name('user.dashboard');
+        Route::get("/user_pronounciation", [RoutesController::class, "userpronounciation"])->name('user.pronounciation');
+        Route::get("/user_quiz", [RoutesController::class, "userquiz"])->name('user.quiz');
+        Route::get("/student/editprofile", [RoutesController::class, "profile"])->name('user.profile');
+        Route::post("/student/storeprofile", [RoutesController::class, "storeprofile"])->name('user.profile.store');
+        Route::post("/student/storepass", [RoutesController::class, "passstore"])->name('user.profile.storepass');
+        Route::get("/user_viewquiz/{id}/{btntype}/{user_id}/{att}", [RoutesController::class, "viewquiz"])->name('user.viewquiz');
 
     });
 
@@ -212,8 +226,11 @@ All Parent Routes List
         Route::get("/parent_addstudent", [ParentController::class, "addstudent"])->name('parent.addstudent');
         Route::post("/parent_store_student", [ParentController::class, "storestudent"])->name('parent.storestudent');
         Route::get("/parent_student_quiz/{id}", [ParentController::class, "quiz"])->name('parent.studentquiz');
-        Route::get("/parent_viewquiz/{id}/{btntype}", [ParentController::class, "showquiz"])->name('parent.viewquiz');
+        Route::get("/parent_viewquiz/{id}/{btntype}/{user_id}/{att}", [ParentController::class, "showquiz"])->name('parent.viewquiz');
         Route::get("/parent_viewstudent/{id}", [ParentController::class, "showstudent"])->name('parent.viewstudent');
+        Route::get("/parent/editprofile", [ParentController::class, "profile"])->name('parent.profile');
+        Route::post("/parent/storeprofile", [ParentController::class, "storeprofile"])->name('parent.profile.store');
+        Route::post("/parent/storepass", [ParentController::class, "storepass"])->name('parent.profile.storepass');
 
     });
 });

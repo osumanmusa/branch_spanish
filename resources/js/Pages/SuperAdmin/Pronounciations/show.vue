@@ -111,7 +111,6 @@ function listsubmissions(){
                     <thead class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-4 py-3 border ">Category name</th>
-                            <th scope="col" class="px-4 py-3">Flashcard</th>
                             <th scope="col" class="px-4 py-3 border ">Pronunciation Title</th>
                             <th scope="col" class="px-4 py-3 border ">Pronunciation Audio</th>
                         </tr>
@@ -121,8 +120,7 @@ function listsubmissions(){
         
                         <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200">{{ p.category_name }}</td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"> {{ p.flashcard_title }} </td>
-                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"> {{ p.pronounciation_title }} </td>
-                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"><audio ref="player" :src="'/audio/'+ p.user_voice" controls type="audio/mp3"  ></audio> </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"><audio ref="player" :src="'/audio/'+ p.user_voice" controls type="audio/mp3" class="mx-auto"  ></audio> </td>
         
                         <!-- <td class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium">
                          <Link class="p-2 text-blue-500 hover:text-blue-200" v-bind:href="route('admin.editflashcards', f.id)">
@@ -137,7 +135,7 @@ function listsubmissions(){
                     </tbody>
                 </table>
             </div>
-            <pagination />
+        <pagination  :links="submissions.links" />
             
 
         </div>

@@ -182,12 +182,7 @@ function listgrades() {
                                         >
                                             <Link
                                                 class="p-2 text-blue-500 hover:text-blue-300 flex justify-center inline-block"
-                                                v-bind:href="
-                                                    route(
-                                                        'admin.viewstudent',
-                                                        g.id
-                                                    )
-                                                "
+                                                v-bind:href="route('admin.getstudentdetails', [g.id, g.s_category_id])"
                                             >
                                                 <svg
                                                     class="w-5 h-5"

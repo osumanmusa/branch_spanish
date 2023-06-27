@@ -20,6 +20,7 @@ class Score extends Model
         'grade' ,
         'user_quiz_id' ,
         'score' ,
+        'quiz_attempt' ,
 
     ];
 }

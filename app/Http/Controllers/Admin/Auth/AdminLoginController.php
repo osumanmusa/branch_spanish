@@ -50,7 +50,7 @@ class AdminLoginController extends Controller
             'password' => 'required',
         ]);
      
-        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'],'role' => 'admin')))
+        if(auth()->attempt(array('email' => $request['email'], 'password' => $request['password'])))
         {
 
         if (auth()->user()->role == 'admin') {
@@ -58,6 +58,10 @@ class AdminLoginController extends Controller
                 return redirect()->route('admin.home')->with('successmessage',$successmessage);
             
 
+        }elseif (auth()->user()->role == 'superadmin') {
+            $successmessage = 'Welcome! Login Successful ';
+                return redirect()->route('superadmin.home')->with('successmessage',$successmessage);
+            # code...
         }else{
             $errormessage = 'Error! User not Authorized';
                 return redirect()->route('login')->with('errormessage',$errormessage);

@@ -29,7 +29,7 @@ class ParentController extends Controller
         $child =User::where('users.parent_index','=',$parent_id)->where('role','=','user')
         ->when($request->search, function ($query, $search) {
             $query->where('child_firstname', 'like', '%' . $search . '%');
-        })->get();
+        })->paginate(15);
         
         $successmessage='Welcome';
         return Inertia::render('Parent/dashboard',[
@@ -47,7 +47,7 @@ class ParentController extends Controller
         $child =User::where('users.parent_index','=',$parent_id)->where('role','=','user')
         ->when($request->search, function ($query, $search) {
             $query->where('child_firstname', 'like', '%' . $search . '%');
-        })->get();
+        })->paginate(15);
         return Inertia::render('Parent/Quiz/listindex',[
             'child'=> $child,
         ]);
@@ -58,11 +58,14 @@ class ParentController extends Controller
         $child =  DB::table('categories')  
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
+        ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+        'user_score','s_category_id','user_id','quiz_attempt')
         ->where('users.parent_index','=',$parent_id)
-        ->where('users.id','=',$id)
+        ->where('userscore.user_id','=',$id)
         ->when($request->search, function ($query, $search) {
             $query->where('child_firstname', 'like', '%' . $search . '%');
-        })->get();
+        })->paginate(15);
+     
         return Inertia::render('Parent/Quiz/index',[
             'child'=> $child,
         ]);
@@ -90,6 +93,7 @@ class ParentController extends Controller
     {  
         $parent_id =Auth::user()->parent_index;
         $child =User::where('users.parent_index','=',$parent_id)->where('users.id','=',$id)->get();
+       
         return Inertia::render('Parent/Student/show',[
             'child'=> $child,
         ]);
@@ -98,17 +102,25 @@ class ParentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showquiz(string $id,string $btntype)
+    public function showquiz(string $id,string $btntype, string $user_id,string $att)
     { 
         $parent_id =Auth::user()->parent_index;
         $child =  DB::table('categories')  
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
+        ->join('useranswers', 'users.id', '=', 'useranswers.user_id')
+        ->join('quiz','useranswers.quiz_id','quiz.id')
+    // ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+    // 'user_score','s_category_id','user_id','user_score','score','q_total','grade','email',
+    // 'student_status','account_status','name')
         ->where('users.parent_index','=',$parent_id)
+        ->where('userscore.id','=', $id)
         ->where('users.student_status','=','enrolled')
-        ->where('users.id','=',$id)
-        ->where('userscore.s_category_id','=',$btntype)->get();
-        
+        ->where('users.id','=',$user_id)
+        ->where('userscore.s_category_id','=',$btntype)
+            ->where('userscore.quiz_attempt' ,'=',$att)
+            ->where('useranswers.answer_attempt' ,'=',$att)->get();
+
         return Inertia::render('Parent/Quiz/show',[
             'child'=> $child,
         ]);
@@ -209,8 +221,7 @@ class ParentController extends Controller
     {
         $parent_id =Auth::user()->parent_index;
         $submissions = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
         ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
         ->join('users', 'user_record.user_id', '=', 'users.id')
         ->where('users.parent_index','=',$parent_id)
@@ -221,7 +232,101 @@ class ParentController extends Controller
         ]);
         //
     }
+    
+    public function profile()
+    {
+        $user_id=Auth::user()->id;
+        $user=User::where('id','=',$user_id)->get();
+            // dd($user);
+        return Inertia::render('Parent/Profile/edit',[
+            'user'=>$user,
+        ]);
+        //
+    }
 
+    public function storeprofile(Request $request)
+    {
+        $id=Auth::user()->id;
+        if($request->image == ""){
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+            ]);
+    
+    
+                $profile = DB::table('users')
+                  ->where('id', $id)
+                  ->update(
+                      [ 
+                        'name' => $request->name,
+                        'email' => $request->email,
+                    ]);
+    
+            if ($profile) {
+                $successmessage = 'Updated Successsfully';
+                return redirect()->route('parent.home')->with('successmessage',$successmessage);
+                   }
+        }else{
+         $request->validate([
+             'name' => 'required',
+             'email' => 'required',
+         ]);
+ 
+         $profile_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
+         $request->file('image')->move(public_path('img/profile-img/'), $profile_image);
+              $profile = DB::table('users')
+               ->where('id', $id)
+               ->update(
+                   [ 
+                     'name' => $request->name,
+                     'email' => $request->email,
+                     'profile_image' =>$profile_image,
+                  
+                 ]);
+ 
+         if ($profile) {
+            $successmessage = 'Updated Successsfully';
+            return redirect()->route('parent.home')->with('successmessage',$successmessage);
+            }
+            else{
+         
+                    return back();
+                }
+ 
+         }
+
+         return back();
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function storepass(Request $request)
+    {
+        $request->validate([
+            'password' =>'required',
+        ]);
+
+        $profile = DB::table('users')
+              ->where('id', $id)
+              ->update(
+                  [ 
+                    'password' => Hash::make($request->password),
+                 
+                ]);
+
+        if ($profile) {
+            return redirect()->route('parent.home');
+               }
+               else{
+        
+                   return back();
+               }
+
+        
+        //
+    }
     /**
      * Remove the specified resource from storage.
      */

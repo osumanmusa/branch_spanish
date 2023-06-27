@@ -55,6 +55,8 @@ class AdminStudentController extends Controller
         $studentquiz =  DB::table('categories')  
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
+        ->select('userscore.id as id', 'category_name','child_firstname','child_lastname','student_id',
+        'user_score','grade','s_category_id','user_id','quiz_attempt')
         ->where('users.id','=',$id)->paginate(10);
 
         return Inertia::render('Admin/Students/listshow',[
@@ -63,17 +65,19 @@ class AdminStudentController extends Controller
         ]);
         //
     }
-    public function details(string $id,string $btntype)
+    public  function details(string $id,string $btntype,string $user_id,string $att)
     {
-        $studentquiz=  DB::table('categories')  
+        $studentquiz=  DB::table('quiz')  
+        ->join('categories', 'quiz.category_id', '=', 'categories.id')
         ->join('userscore', 'categories.id', '=', 'userscore.s_category_id')
         ->join('users', 'userscore.user_id', '=', 'users.id')
         ->join('useranswers', 'users.id', '=', 'useranswers.user_id')
-        ->join('quiz', 'useranswers.quiz_id', '=', 'quiz.id')
-        ->where('users.id','=',$id)
+            ->where('userscore.id','=', $id)
+        ->where('users.student_status','=','enrolled')
         ->where('categories.id' ,'=',$btntype)
-        ->where('userscore.s_category_id' ,'=',$btntype)
-        ->where('quiz.category_id' ,'=',$btntype)->get();
+        ->where('userscore.quiz_attempt' ,'=',$att)
+        ->where('useranswers.answer_attempt' ,'=',$att)
+            ->where('userscore.user_id','=',$user_id)->get();
     
         return Inertia::render('Admin/Students/show',[
             'studentquiz' => $studentquiz,
@@ -88,9 +92,14 @@ class AdminStudentController extends Controller
     public function view(string $id)
     {
 
-        $child =User::where('id','=',$id)->get();
+        $child =User::select('*')->where('role','=','user')->where('id','=',$id)->get();
+        $user =User::select('*')->where('role','=','user')->where('id','=',$id)->first();
+      
+        $parent = User::where('role','=','parent')->where('parent_index','=',$user->parent_index)->get();
+       
         return Inertia::render('Admin/Students/view',[
             'child' => $child,
+            'parent' => $parent,
             
         ]);
     }

@@ -26,36 +26,28 @@ const changeSelected = (i) => {
         </div>
     
         <nav class="mt-10 ">
-            <Link
-   :class=" { 'selected': selected === 0 } "
-   @click="changeSelected(0)" class="flex items-center px-6 py-2 mt-4  text-gray-100 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" href="/parenthome">
+            <Link class="flex items-center px-6 py-2 mt-4  text-gray-100 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" href="/parenthome" :class="{ 'selected': $page.url === '/parenthome' }">
                 <img src="/img/dashboard/1.png"/>
     
                 <span class="mx-3">Dashboard</span>
             </Link>
 
     
-            <Link
-   :class=" { 'selected': selected === 1 } "
-   @click="changeSelected(1)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_student">
+            <Link class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_student" :class="{ 'selected': $page.url === '/parent_student' }">
                 <img src="/img/dashboard/5.png"/>
     
                 <span class="mx-3">Quiz me</span>
             </Link>
 
     
-             <Link
-   :class=" { 'selected': selected === 2 } "
-   @click="changeSelected(2)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_pronounciation">
+             <Link class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_pronounciation" :class="{ 'selected': $page.url === '/parent_pronounciation' }">
                  <img src="/img/dashboard/4.png" class="w-5 h-5"/>
 
                  <span class="mx-4"> Pronounciations</span>
              </Link>
 
     
-            <Link
-   :class=" { 'selected': selected === 3 } "
-   @click="changeSelected(3)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_addstudent">
+            <Link class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/parent_addstudent" :class="{ 'selected': $page.url === '/parent_addstudent' }">
                 <img src="/img/i5.jpg" class="w-5 h-5"/>
 
                 <span class="mx-4"> Add New Account</span>

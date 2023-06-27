@@ -24,19 +24,25 @@ class SuperAdminPronounciationController extends Controller
      */
     public function index(Request $request)
     {
-        $pronounciation = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        $pronounciation =  DB::table('categories')  
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
         ->when($request->search, function ($query, $search) {
             $query->where('flashcard_title', 'like', '%' . $search . '%')
             ->orwhere('category_name', 'like', '%' . $search . '%');
         })->paginate(15);
-        $submissions = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
-        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')->paginate(15);
         return Inertia::render('SuperAdmin/Pronounciations/index',[
             'pronounciation'=> $pronounciation,
+
+        ]);
+    }
+    public function main(Request $request)
+    {
+        $submissions = DB::table('categories')  
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
+        ->join('users', 'user_record.user_id', '=', 'users.id')->paginate(15);
+        
+        return Inertia::render('SuperAdmin/Pronounciations/index2',[
             'submissions'=> $submissions,
 
         ]);
@@ -47,11 +53,9 @@ class SuperAdminPronounciationController extends Controller
      */
     public function create()
     {
-        $flashcards = Flashcard::select('id','flashcard_title')->get();
         $categories= Category::select('id','category_name')->get();
         return Inertia::render('SuperAdmin/Pronounciations/create',[
             'categories'=>$categories,
-            'flashcards' => $flashcards
         ]);
         //
     }
@@ -61,12 +65,14 @@ class SuperAdminPronounciationController extends Controller
      */
     public function store(Request $request)
     {
-       
             
         $request->validate([
             'category' => 'required',
+            // 'title' => 'required',
+            'flash_title' => 'required',
             'flashcard' => 'required',
-            'title' => 'required',
+            'backcontent' => 'required',
+            'frontcontent' => 'required', 
         ]);
     //     if($request->hasFile('audio') ){
     //     $record = time() . '-' . $request->file('audio')->getClientOriginalName();
@@ -85,10 +91,13 @@ class SuperAdminPronounciationController extends Controller
 
 
         $pronounciation = Pronounciation::create([
-            'flashcard_id' => $request->flashcard,
             'category_id' => $request->category,
-            'pronounciation_title' => $request->title,
+            // 'pronounciation_title' => $request->title,
             'pronounciation_voice' => $record,
+            'flashcard_title' => $request->flash_title,
+            'flashcard' => $request->flashcard,
+            'flashcard_backcontent' => $request->backcontent,
+            'flashcard_frontcontent' => $request->frontcontent, 
         ]);
     
         if ($pronounciation) {
@@ -141,8 +150,7 @@ class SuperAdminPronounciationController extends Controller
     {
         
         $submissions = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->join('pronounciations', 'flashcards.id', '=', 'pronounciations.flashcard_id')
+        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
         ->join('user_record', 'pronounciations.id', '=', 'user_record.pronounciation_id')
         ->where('user_record.user_id','=',$id)->paginate(15);
         return Inertia::render('SuperAdmin/Pronounciations/show',[

@@ -18,11 +18,7 @@ const form = useForm({
     search: '',
 
 });
-const submit = () => {
-    form.get(route('parent.studentquiz'));
-	
 
-};
 </script>
 <template>
     <Head title="Flashcards" />
@@ -146,9 +142,8 @@ const submit = () => {
                                     <TransitionGroup
                                      @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
                                         <tr
-                                            v-for=" (c, index) in child"
+                                            v-for=" c in child.data"
                                             :key="c.id"
-      :data-index="index"
                                             class="hover:bg-gray-100"
                                         >
                                             <td
@@ -179,7 +174,7 @@ const submit = () => {
                                             <td
                                                 class="px-6 py-4 border whitespace-nowrap text-center text-sm font-medium"
                                             >
-                                                <Link v-bind:href="route('parent.viewquiz', [c.id,c.s_category_id])"
+                                                <Link v-bind:href="route('parent.viewquiz', [c.id,c.s_category_id,c.user_id, c.quiz_attempt])"
                                                     class="p-2 text-blue-500 hover:text-blue-200"
                                                 >
                                                     <i
@@ -195,7 +190,8 @@ const submit = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <pagination />
+                            
+                            <pagination :links="child.links" />
                         </div>
                     </div>
 

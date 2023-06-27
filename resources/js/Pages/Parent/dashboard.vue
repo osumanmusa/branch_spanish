@@ -224,7 +224,7 @@ const submit = () => {
                                         class="divide-y divide-gray-200 dark:divide-gray-700"
                                     >
                                         <tr
-                                            v-for="c in child"
+                                            v-for="c in child.data"
                                             :key="c.id"
                                             class="hover:bg-gray-100"
                                         >
@@ -281,7 +281,7 @@ const submit = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <pagination />
+                            <pagination :links="child.links"/>
                         </div>
                     </div>
 

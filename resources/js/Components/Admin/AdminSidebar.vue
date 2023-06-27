@@ -29,52 +29,41 @@ const changeSelected = (i) => {
         </div>
     
         <nav class="mt-10">
-            <Link
-   :class=" { 'selected': selected === 0 } "
-   @click="changeSelected(0)" class=" flex items-center px-6 py-2 mt-4 text-gray-100 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" :href="'/adminhome'">
+            <Link class="flex items-center px-6 py-2 mt-4 text-gray-100 font-bold hover:text-gray-100 hover:bg-gray-700 hover:bg-opacity-25" href="/adminhome" :class="{ 'selected': $page.url === '/adminhome' }">
                 <img src="/img/dashboard/1.png"/>
     
                 <span class="mx-3">Dashboard</span>
             </Link>
     
-            <Link 
-   :class=" { 'selected': selected === 1 } "
-   @click="changeSelected(1)"  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/flashcards'">
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/flashcards" :class="{ 'selected': $page.url === '/admin/flashcards' }">
                 <img src="/img/dashboard/2.png"/>
     
                 <span class="mx-3">Flash Cards</span>
             </Link>
     
-            <Link
-   :class=" { 'selected': selected === 2 } "
-   @click="changeSelected(2)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/pronounciation'">
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/pronounciation" :class="{ 'selected': $page.url === '/admin/pronounciation' }">
                 <img src="/img/dashboard/3.png"/>
     
                 <span class="mx-3">Pronunciation</span>
             </Link>
     
-            <Link
-   :class=" { 'selected': selected === 3 } "
-   @click="changeSelected(3)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/quiz'">
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/quiz" :class="{ 'selected': $page.url === '/admin/quiz' }">
                 <img src="/img/dashboard/4.png"/>
     
                 <span class="mx-3">Quiz me</span>
             </Link>
-            <Link
-   :class=" { 'selected': selected === 4 } "
-   @click="changeSelected(4)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/students'">
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/students" :class="{ 'selected': $page.url === '/admin/students' }">
                 <img src="/img/i6.png" class="w-6 h-6"/>
 
                 <span class="mx-3">Students</span>
             </Link>
     
-            <Link
-   :class=" { 'selected': selected === 5 } "
-   @click="changeSelected(5)" class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" :href="'/admin/accounts'">
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/accounts" :class="{ 'selected': $page.url === '/admin/accounts' }">
                 <img src="/img/i5.jpg" class="w-6 h-6"/>
 
                 <span class="mx-3">Accounts</span>
             </Link>
+    
 
         </nav>
     </div>

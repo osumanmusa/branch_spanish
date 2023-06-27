@@ -190,16 +190,14 @@ function listpronoun() {
                                     >
                                         Add Pronunciation
                                     </a>
-                                    <Button
-                                        @click="listsubmissions"
+                                    <a href="/admin/submissions" 
                                         class="flex py-3 px-4 inline-flex text-right gap-2 items-center justify-center rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                     >
                                         Submissions/Pronunciation
-                                    </Button>
+                                    </a>
                                 </div>
                             </div>
-
-                            <div v-if="showsubmissions" class="overflow-x-auto">
+                            <div class="overflow-x-auto">
                                 <table
                                     class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400"
                                 >
@@ -212,80 +210,6 @@ function listpronoun() {
                                                 class="px-4 py-3 border"
                                             >
                                                 Category name
-                                            </th>
-                                            <th scope="col" class="px-4 py-3">
-                                                Flashcard
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Pronunciation Title
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Submission Audio
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody
-                                        class="divide-y divide-gray-200 dark:divide-gray-700"
-                                    >
-                                        <tr
-                                            v-for="s in submissions.data"
-                                            :key="s.id"
-                                            class="hover:bg-gray-100"
-                                        >
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ s.category_name }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ s.flashcard_title }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                {{ s.pronounciation_title }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
-                                                <audio
-                                                    ref="player"
-                                                    :src="
-                                                        '/audio/' + s.user_voice
-                                                    "
-                                                    controls
-                                                    type="audio/mp3"
-                                                ></audio>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div v-else class="overflow-x-auto">
-                                <table
-                                    class="w-full text-sm text-left border border-b text-gray-500 dark:text-gray-400"
-                                >
-                                    <thead
-                                        class="text-xs text-center text-gray-700 items-center border border-b uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                                    >
-                                        <tr>
-                                            <th
-                                                scope="col"
-                                                class="px-4 py-3 border"
-                                            >
-                                                Category name
-                                            </th>
-                                            <th scope="col" class="px-4 py-3">
-                                                Flashcard
                                             </th>
                                             <th
                                                 scope="col"
@@ -328,11 +252,6 @@ function listpronoun() {
                                             <td
                                                 class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
                                             >
-                                                {{ p.pronounciation_title }}
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200"
-                                            >
                                                 <audio
                                                     ref="player"
                                                     :src="
@@ -340,7 +259,7 @@ function listpronoun() {
                                                         p.pronounciation_voice
                                                     "
                                                     controls
-                                                    type="audio/mp3"
+                                                    type="audio/mp3" class="mx-auto "
                                                 ></audio>
                                             </td>
 
@@ -370,7 +289,8 @@ function listpronoun() {
                                     </tbody>
                                 </table>
                             </div>
-                            <pagination />
+            
+            <pagination  :links="pronounciation.links" />
                         </div>
                     </div>
                 </div>

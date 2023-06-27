@@ -309,12 +309,12 @@ function deleteAudio() {
                 </button>
             </div>
         </Transition>
-
+ 
         <section>
             <!-- Page Container -->
 
             <div class="container my-12 mx-auto px-4 md:px-12">
-                <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
+                <div class="flex flex-wrap  justify-center mx-1 lg:-mx-4">
                             
                             <div class="w-full md:w-8/12 lg:w-12/12 lg:px-16">
                                 <!-- Header -->
@@ -322,44 +322,87 @@ function deleteAudio() {
                                     {{category.category_name}}
                                 </h1>
                             </div>
-                    <div class="lg:grid lg:grid-cols-8 gap-4">
-                        <div class="col-span-2 mt-8">
-                            <div class="flex-col">
+                    <div class="grid lg:grid-cols-12 gap-3">
+                        <div class="col-span-3 mt-8">
+                            
+
+                            <article 
+                                    v-if="flashcard.prev_page_url != NULL"
+                                class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
+                            >
+                                <header
+                                    class="flex items-center justify-center leading-tight py-2 md:p-2"
+                                >
+                                    <div class="px-2 py-4">
                                 <Link
                                     v-if="flashcard.prev_page_url != NULL"
                                     :href="flashcard.prev_page_url"
-                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
+                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
                                     <i class="fa fa-arrow-left"></i>
                                     Previous Card</Link
                                 >
-                                <button
+                                    </div>
+                                </header>
+                            </article>
+                            <article  
                                     @click="Shuffle"
-                                    type="button"
-                                    class="py-4 px-5 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
+                                class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
+                            >
+                                <header
+                                    class="flex items-center justify-center leading-tight py-2 md:p-2"
+                                >
+                                    <div class="px-2 py-4">
+                                <label
+                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
                                     <i class="fa fa-shuffle"></i>
                                     Shuffle Deck
-                                </button>
-                                <button
+                                    </label>
+                                    </div>
+                                </header>
+                            </article>
+                            <article 
                                     @click="handelFlip"
-                                    class="py-4 px-5 mr-2 mb-2 bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm mb-4 mt-4"
+                                class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
+                            >
+                                <header
+                                    class="flex items-center justify-center leading-tight py-2 md:p-2"
+                                >
+                                    <div class="px-2 py-4">
+                                <label
+                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
                                     <i class="fa fa-rotate"></i>
                                     Flip Card
-                                </button>
+                                </label>
+                                    </div>
+                                </header>
+                            </article>
+                            
 
-                                <div>
-                                    <Link
+                            <article 
+                                        v-if="flashcard.next_page_url != NULL"
+                                class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
+                            >
+                                <header
+                                    class="flex items-center justify-center leading-tight py-2 md:p-2"
+                                >
+                                    <div class="px-2 py-4">
+                                <Link 
                                         v-if="flashcard.next_page_url != NULL"
                                         v-bind:href="flashcard.next_page_url"
-                                        class="bg-btn-color font-bold rounded text-gray-900 text-sm border border-primary-100 font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-2 mb-4 mt-4"
-                                    >
+                                    class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
+                                >
                                         Next Card
                                         <i class="fa fa-arrow-right"></i
-                                    ></Link>
-                                </div>
-                                <!-- <Link
+                                    ></Link
+                                >
+                                    </div>
+                                </header>
+                            </article>
+                            <!-- <div class="flex-col">
+                                <Link
                                     v-if="flashcard.prev_page_url != NULL"
                                     :href="flashcard.prev_page_url"
                                     Class=" lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 "
@@ -389,10 +432,10 @@ function deleteAudio() {
                                     class="mb-2 lg:ml-auto mx-1 lg:mr-3 py-2 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
                                 >
                                     Next Card <i class="fa fa-arrow-right"></i>
-                                </Link> -->
-                            </div>
+                                </Link> 
+                            </div> -->
                         </div>
-                        <div class="col-span-4">
+                        <div class="col-span-6">
                             <div class=" ">
                                 <div class="flip-card mt-6">
                                         <transition name="flip" mode="out-in">
@@ -430,7 +473,7 @@ function deleteAudio() {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-2 mt-6">
+                        <div class="col-span-2 mt-8">
                             <article
                                 class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500 hover:bg-white hover:text-yellow-600 text-sm"
                             >
@@ -446,7 +489,7 @@ function deleteAudio() {
                                                             .pronounciation_voice
                                                 )
                                             "
-                                            class="lg:ml-auto lg:mr-3 text-gray-900 font-bold transition duration-200"
+                                            class=" font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm"
                                         >
                                             Hear Me Say It! <i class="fa fa-volume-up"></i>
                                         </Button>
@@ -464,7 +507,7 @@ function deleteAudio() {
                                         <Button
                                             id="modalbtn"
                                             type="button"
-                                            class="lg:ml-auto lg:mr-3 text-gray-900 font-bold transition duration-200"
+                                            class="font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm"
                                         >
                                             Let Me Hear You Say It!
                                         <i class="fa fa-microphone"></i>

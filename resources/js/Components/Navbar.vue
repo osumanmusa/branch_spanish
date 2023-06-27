@@ -14,7 +14,7 @@ let showMenu = ref(false);
 <template>
       <nav
       class="sticky top-0 nav
-        py-4
+        py-2
         md:flex bg-col shadow-md 
       "
     >
@@ -82,9 +82,11 @@ let showMenu = ref(false);
           md:flex md:space-y-0  md:mt-0 justify-end px-2
         "
       ><div v-if="$page.props.auth.user" class="lg:w-[25vw] lg:text-end pl-8 lg:mb-4">
-        <Link class="lg:inline-block mx-10 lg:ml-auto px-4  ">
-          
-          <img class="logged-icon ml-2 mr-2" src="/img/avatar.png" alt="Your avatar">
+        <Link class="lg:inline-block mx-10 lg:ml-auto px-4 " :href="'/user_dashboad'">
+
+          <img v-if="$page.props.auth.user.profile_image==null" class="logged-icon ml-2 mr-2 " src="/img/avatar.png"  alt="Your avatar">
+    <img v-else class="logged-icon ml-2 mr-2 w-24 h-24 mb-1 rounded-full shadow-lg" :src="'/img/profile-img/'+ $page.props.auth.user.profile_image"  alt="Your avatar">
+
     
         <p class="nav-text lg:text-center px-2">{{ $page.props.auth.user.name }}</p>
         </Link>
@@ -173,8 +175,8 @@ let showMenu = ref(false);
 </template>
 <style scoped>
 .logged-icon{
-    height: 40px;
-    width: 40px;
+    height: 45px;
+    width: 45px;
 }
 .log-button{
   background: #007FFF;
@@ -182,7 +184,7 @@ let showMenu = ref(false);
 .logo2{
     width: 240px;
     margin-left: 20px;
-    height: 100px;
+    height: 60px;
 }
 .nav-text{
   color: #007FFF;

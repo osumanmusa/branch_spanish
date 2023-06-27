@@ -15,6 +15,7 @@ class Useranswers extends Model
         'user_id' ,
         'quiz_id' ,
         'user_answer' ,
+        'answer_attempt' ,
 
     ];
 }

@@ -293,7 +293,7 @@ const submit = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <pagination />
+                            <pagination :links="parents.links"/>
                         </div>
                     </div>
 
