@@ -7,37 +7,81 @@ import { shuffle as _shuffle } from "lodash-es";
 import { Modal } from "flowbite";
 
 const props = defineProps({
-    flashcards: Object,
+    
     flashcard: Object,
     category:Object,
     successmessage: Object,
     errormessage: Object,
 });
-const flashcards = ref([]);
+const flashcards = ref( props.flashcard );
+const selectedCard = ref({});
 const cardKey = ref();
-if (props.flashcard.data.length > 0) {
-    cardKey.value = props.flashcard.data[0].flashcard_frontcontent;
-}
-function Shuffle() {
-    flashcards.value = _shuffle(props.flashcards);
-}
-onMounted(() => {
-    Shuffle();
-    cardKey;
-    handelFlip();
-});
+const currentCardIndex = ref(0)
+// if (props.flashcard.length > 0) {
+//     cardKey.value = props.flashcard.flashcard_frontcontent;
+// }
 
+
+function Shuffle() {
+    flashcards.value = _shuffle(props.flashcard);
+     
+     flashcards.value.find(function(item, i){
+  if(item.id == selectedCard.value.id){
+    currentCardIndex.value = i;
+    
+    return i;
+  
+  }
+  
+});
+// showCard(currentCardIndex.value)
+
+}
 const hasFipped = ref(false);
+
+
+
 const handelFlip = () => {
-    if (!hasFipped.value) {
-        cardKey.value = props.flashcard.data[0].flashcard_frontcontent;
+    if (hasFipped.value) {
+        cardKey.value = selectedCard.value.flashcard_frontcontent;
     } else {
-        cardKey.value = props.flashcard.data[0].flashcard_backcontent;
+        cardKey.value = selectedCard.value.flashcard_backcontent;
     }
     hasFipped.value = !hasFipped.value;
 
     //window.alert(cardKey.value + hasFipped.value);
 };
+
+function showCard(i) {
+      selectedCard.value = flashcards.value[i];
+      cardKey.value =  selectedCard.value.flashcard_frontcontent
+      currentCardIndex.value=i
+    //   cardKey.value = f.flashcard_frontcontent;
+    }
+
+    function nextCard (){
+if(currentCardIndex.value   >= flashcards.value.length -1 ){
+
+    return
+}
+
+showCard(currentCardIndex.value + 1)
+
+    }
+
+    function previousCard(){
+        if(currentCardIndex.value <= 0){
+            return
+        }
+
+        showCard(currentCardIndex.value - 1)
+    }
+
+    onMounted(() => {
+    
+    
+    showCard(currentCardIndex.value)
+});
 </script>
 
 <template>
@@ -160,12 +204,8 @@ const handelFlip = () => {
                                             class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]"
                                         >
                                             <div class="px-6 py-4">
-                                                <h1 v-if="cardKey.length <5"
-                                                    class="text-gray-700 normal-case text-6xl text-center "
-                                                >
-                                                    {{ cardKey }}
-                                                </h1>
-                                                <h1 v-else
+                                               
+                                                <h1
                                                     class="text-gray-700 normal-case text-6xl text-center "
                                                 >
                                                     {{ cardKey }}
@@ -179,21 +219,21 @@ const handelFlip = () => {
                     </div>
                     <div class="flex flex-wrap justify-center my-4">
                         <p class="text-white text-2xl">
-                            {{ flashcard.data[0].flashcard }}
+                            {{ selectedCard.flashcard }}
                         </p>
                     </div>
                     <div
                         class="flex flex-wrap justify-center mx-1 lg:-mx-4 lg:my-12"
                     >
                         <div class="flex items-center justify-between">
-                            <Link
-                                v-if="flashcard.prev_page_url != NULL"
-                                :href="flashcard.prev_page_url"
+                            <button
+                            v-show="currentCardIndex > 0"
                                 Class="lg:ml-auto mx-1 lg:mr-3 py-4 px-6 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500  hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 "
-                            >
+                                @click="previousCard()"
+                                >
                                 <i class="fa fa-arrow-left"></i>
                                 Previous Card
-                            </Link>
+                            </button>
                             <Button
                                 @click="Shuffle"
                                 class="lg:ml-auto mx-1 lg:mr-3 py-4 bg-btn-color px-6 font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
@@ -210,17 +250,18 @@ const handelFlip = () => {
                                 Flip Card
                             </button>
 
-                            <Link
-                                v-if="flashcard.next_page_url != NULL"
-                                v-bind:href="flashcard.next_page_url"
+                            <button
+                            v-show="currentCardIndex < flashcard.length -1"
                                 class="lg:ml-auto mx-1 lg:mr-3 py-4 px-3 bg-btn-color font-bold rounded text-gray-900 hover:bg-white hover:text-blue-500 hover:text-blue text-sm border border-primary-100 font-bold transition duration-200"
-                            >
+                            @click = "nextCard()"
+                                >
                                 Next Card
                                 <i class="fa fa-arrow-right fa-solid"></i>
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -233,21 +274,21 @@ const handelFlip = () => {
            
                     <!--Componen end-->
                         <div
-                            v-for="f in flashcards"
+                            v-for="(f,i) in flashcards"
                             :key="f.id"
                             class="my-1 wrap-items  px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:px-4 lg:w-1/4  "
                         >
                             <!-- Article -->
                             <article v-bind:class="{
-                        'bind-bg': flashcard.data[0].flashcard === f.flashcard,
+                        'bind-bg': selectedCard.flashcard === f.flashcard,
                     }"
                                 class="overflow-hidden rounded-lg shadow-lg bg-btn-color "
                             >
                                 <header v-bind:class="{
-                        'bind-bg': flashcard.data[0].flashcard === f.flashcard,
+                        'bind-bg': selectedCard.flashcard === f.flashcard,
                     }"
                                     class="flex items-center justify-center leading-tight p-2 md:p-4 lg:h-[40vh]"
-                                >
+                                    @click="showCard(i)" >
                                     <div class="px-6 py-4">
                                         <h1 
                                             class="text-black font-large object-scale-down normal-case text-center px-1"
@@ -286,7 +327,7 @@ const handelFlip = () => {
             </div>
         </div>
     </section>
-    <section v-else class="">
+    <section v-else  class="">
         <div class="container my-12 mx-auto px-4 md:px-12">
             <div class="flex flex-wrap justify-center mx-1 lg:-mx-4">
               

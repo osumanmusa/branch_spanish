@@ -341,7 +341,7 @@ const submit = () => {
                         <Button
                             v-else
                             class="w-48 h-16 lg:ml-auto lg:mr-3 py-2 px-6 bg-btn-color text-white hover:bg-white hover:text-blue-500 border border-white hover:text-blue text-sm border border-primary-100 font-bold transition duration-200 p-2 md:p-4 flex items-center justify-center"
-                        >
+                            :disabled="form.processing">
                             Submit
                         </Button>
                     </div>

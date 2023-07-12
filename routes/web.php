@@ -47,6 +47,7 @@ Route::get("/quizme", [RoutesController::class, "quizme"])->name('quizme')->midd
 
 Route::get("/showflashcard/{id}", [RoutesController::class, "card"])->name('card.show')->middleware(Authenticate::class);
 
+Route::get("/shuffleflashcard/{id}", [RoutesController::class, "cardshuffler"])->name('card.shuffle')->middleware(Authenticate::class);
 Route::get("/showpronounciation/{id}", [RoutesController::class, "voice"])->name('voice.show')->middleware(Authenticate::class);
 
 Route::get("/showquiz/{id}", [RoutesController::class, "showquiz"])->name('quiz.show')->middleware(Authenticate::class);
@@ -89,6 +90,8 @@ Route::group(['middleware' => 'checkRole:superadmin'], function() {
     Route::get("/superadmin_delete_flashcard/{id}", [SuperAdminFlashcardsController::class, "destroy"])->name('superadmin.deleteflashcards');
 
     Route::post("/superadmin/store_category", [SuperAdminCategoryController::class, "store"])->name('superadmin.category.store');
+    Route::get("/superadmin/category", [SuperAdminCategoryController::class, "index"])->name('superadmin.category.index');
+    Route::get("/superadmin/delete_category/{id}", [SuperAdminCategoryController::class, "destroy"])->name('superadmin.category.destroy');
 
     Route::get("/superadmin/submissions", [SuperAdminPronounciationController::class, "main"])->name('superadmin.show.submissions');
     Route::get("/superadmin/pronounciation", [SuperAdminPronounciationController::class, "index"])->name('superadmin.pronounciation');
@@ -143,6 +146,8 @@ All Admin Routes List
         Route::get("/admin_delete_flashcard/{id}", [AdminFlashcardsController::class, "destroy"])->name('admin.deleteflashcards');
 
         Route::post("/admin/store_category", [AdminCategoryController::class, "store"])->name('admin.category.store');
+        Route::get("/admin/category", [AdminCategoryController::class, "index"])->name('admin.category.index');
+        Route::get("/admin/delete_category/{id}", [AdminCategoryController::class, "destroy"])->name('admin.category.destroy');
 
         Route::get("/admin/pronounciation", [AdminPronounciationController::class, "index"])->name('admin.pronounciation');
         Route::get("/admin/submissions", [AdminPronounciationController::class, "main"])->name('admin.show.submissions');

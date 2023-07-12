@@ -6,7 +6,6 @@ import paginate from "../Components/paginate.vue";
 import { shuffle as _shuffle } from "lodash-es";
 import { Modal } from "flowbite";
 const props = defineProps({
-    flashcards: Object,
     flashcard: Object,
     category:Object,
     successmessage: Object,
@@ -14,58 +13,89 @@ const props = defineProps({
 });
 const audioUrl = ref("");
 const isRecording = ref(false);
-onMounted(() => {
-    const $buttonElement = document.querySelector("#modalbtn");
-    const $modalElement = document.querySelector("#modal");
-    const $closeButton = document.querySelector("#closeButton");
 
-    const modalOptions = {
-        backdropClasses:
-            "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40",
-    };
+var previousAudio = null;
 
-    if ($modalElement) {
-        const modal = new Modal($modalElement, modalOptions);
-        $buttonElement.addEventListener("click", () => modal.toggle());
-        $closeButton.addEventListener("click", () => modal.hide());
-
-        // programmatically show
-        // modal.show();
-    }
-});
-const flashcards = ref([]);
-
+const flashcards = ref( props.flashcard );
+const selectedCard = ref({});
 const cardKey = ref();
-if (props.flashcard.data.length > 0) {
-    cardKey.value = props.flashcard.data[0].flashcard_frontcontent;
-}
-function Shuffle() {
-    flashcards.value = _shuffle(props.flashcards);
-}
-onMounted(() => {
-    Shuffle();
-    cardKey;
-    handelFlip();
-});
+const currentCardIndex = ref(0)
+// if (props.flashcard.length > 0) {
+//     cardKey.value = props.flashcard.flashcard_frontcontent;
+// }
 
+
+function Shuffle() {
+    flashcards.value = _shuffle(props.flashcard);
+     
+     flashcards.value.find(function(item, i){
+  if(item.id == selectedCard.value.id){
+    currentCardIndex.value = i;
+    
+    return i;
+  
+  }
+  
+});
+// showCard(currentCardIndex.value)
+
+}
 const hasFipped = ref(false);
+
+
+
 const handelFlip = () => {
-    if (!hasFipped.value) {
-        cardKey.value = props.flashcard.data[0].flashcard_frontcontent;
+    if (hasFipped.value) {
+        cardKey.value = selectedCard.value.flashcard_frontcontent;
     } else {
-        cardKey.value = props.flashcard.data[0].flashcard_backcontent;
+        cardKey.value = selectedCard.value.flashcard_backcontent;
     }
     hasFipped.value = !hasFipped.value;
 
     //window.alert(cardKey.value + hasFipped.value);
 };
 
-function playSound(sound) {
-    if (sound) {
-        var audio = new Audio(sound);
-        audio.play();
+function showCard(i) {
+      selectedCard.value = flashcards.value[i];
+      cardKey.value =  selectedCard.value.flashcard_frontcontent
+      currentCardIndex.value=i
+    //   cardKey.value = f.flashcard_frontcontent;
     }
+
+    function nextCard (){
+if(currentCardIndex.value   >= flashcards.value.length -1 ){
+
+    return
 }
+
+showCard(currentCardIndex.value + 1)
+
+    }
+
+    function previousCard(){
+        if(currentCardIndex.value <= 0){
+            return
+        }
+
+        showCard(currentCardIndex.value - 1)
+    }
+
+
+
+    function playSound(sound) {
+  if (previousAudio) {
+    if (!previousAudio.ended) {
+      return; // Previous sound is still playing, so exit the function
+    }
+  }
+
+  if (sound) {
+    var audio = new Audio(sound);
+    audio.play();
+    previousAudio = audio;
+  }
+}
+
 let audiofile = new FormData();
 let delfile = null;
 let mediaRecorder; 
@@ -131,6 +161,8 @@ let mediaRecorder;
 
 const chunks = [];
 
+
+
 function startRecording() {
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function (stream) {
@@ -172,41 +204,6 @@ function stopRecording() {
     }
 }
 
-const submit = () => {
-
- audiofile.append("voiceid", props.flashcard.data[0].id);
-        
-const csrf_token = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
-
-    fetch("/storevoice", {
-        method: "POST",
-        // headers: {
-        //     "X-CSRFToken": csrf_token,
-        //     // 'Content-Type': 'application/json',
-        //     url: "/storevoice",
-        //     // 'Content-Type': undefined,
-        //     // 'Accept': 'application/json',
-        //     Authorization: "Bearer ",
-        //     "Access-Control-Allow-Methods": "POST",
-        //     "Access-Control-Allow-Headers":
-        //         "origin,X-Requested-With,content-type,accept",
-        //     "Access-Control-Allow-Credentials": "true",
-        // },
-
-        body: audiofile,
-    }).then(res => res.json())
-    .then((res) =>{
-        
-       if(res.status == 'success'){
-        
-            window.location.href=('/verifypronounciation')
-        
-       }
-
-    })
-};
 
 function deleteAudio() {
     if (delfile !== null) {
@@ -214,6 +211,65 @@ function deleteAudio() {
     }
     audioUrl.value = null;
 }
+
+onMounted(() => {
+    
+    showCard(currentCardIndex.value);
+
+
+
+});
+function modalopen(){
+    
+    const $modalElement = document.querySelector("#modal");
+    const $closeButton = document.querySelector("#closeButton");
+
+    const modalOptions = {
+        backdropClasses:
+            "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40",
+    };
+    const modal = new Modal($modalElement, modalOptions);
+         modal.toggle();
+        $closeButton.addEventListener("click", () => modal.hide());
+}
+
+
+
+
+const submit = () => {
+audiofile.append("voiceid", selectedCard.value.id);
+       
+const csrf_token = document
+       .querySelector('meta[name="csrf-token"]')
+       .getAttribute("content");
+
+   fetch("/storevoice", {
+       method: "POST",
+       // headers: {
+       //     "X-CSRFToken": csrf_token,
+       //     // 'Content-Type': 'application/json',
+       //     url: "/storevoice",
+       //     // 'Content-Type': undefined,
+       //     // 'Accept': 'application/json',
+       //     Authorization: "Bearer ",
+       //     "Access-Control-Allow-Methods": "POST",
+       //     "Access-Control-Allow-Headers":
+       //         "origin,X-Requested-With,content-type,accept",
+       //     "Access-Control-Allow-Credentials": "true",
+       // },
+
+       body: audiofile,
+   }).then(res => res.json())
+   .then((res) =>{
+       
+      if(res.status == 'success'){
+       
+           window.location.href=('/verifypronounciation')
+       
+      }
+
+   })
+};
 </script>
 
 <template>
@@ -309,7 +365,7 @@ function deleteAudio() {
                 </button>
             </div>
         </Transition>
- 
+
         <section>
             <!-- Page Container -->
 
@@ -327,20 +383,18 @@ function deleteAudio() {
                             
 
                             <article 
-                                    v-if="flashcard.prev_page_url != NULL"
+                            v-if="currentCardIndex > 0"  @click="previousCard()"
                                 class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
                             >
                                 <header
                                     class="flex items-center justify-center leading-tight py-2 md:p-2"
                                 >
                                     <div class="px-2 py-4">
-                                <Link
-                                    v-if="flashcard.prev_page_url != NULL"
-                                    :href="flashcard.prev_page_url"
+                                <label
                                     class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
                                     <i class="fa fa-arrow-left"></i>
-                                    Previous Card</Link
+                                    Previous Card</label
                                 >
                                     </div>
                                 </header>
@@ -382,21 +436,19 @@ function deleteAudio() {
                             
 
                             <article 
-                                        v-if="flashcard.next_page_url != NULL"
+                            v-if="currentCardIndex < flashcard.length -1" @click = "nextCard()"
                                 class="overflow-hidden rounded-lg bg-btn-color text-white border border-yellow-500  text-sm mt-3"
                             >
                                 <header
                                     class="flex items-center justify-center leading-tight py-2 md:p-2"
                                 >
                                     <div class="px-2 py-4">
-                                <Link 
-                                        v-if="flashcard.next_page_url != NULL"
-                                        v-bind:href="flashcard.next_page_url"
+                                <label
                                     class="bg-btn-color font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm py-4 px-5 mr-2 mb-4 mt-4"
                                 >
                                         Next Card
                                         <i class="fa fa-arrow-right"></i
-                                    ></Link
+                                    ></label
                                 >
                                     </div>
                                 </header>
@@ -450,12 +502,7 @@ function deleteAudio() {
                                                         class="flex items-center justify-center leading-tight p-2 md:p-4 h-[50vh]"
                                                     >
                                                         <div class="px-6 py-4">
-                                                <h1 v-if="cardKey.length <5"
-                                                    class="text-gray-700 normal-case text-6xl text-center"
-                                                >
-                                                    {{ cardKey }}
-                                                </h1>
-                                                <h1 v-else
+                                                <h1 
                                                     class="text-gray-700 normal-case text-6xl text-center"
                                                 >
                                                     {{ cardKey }}
@@ -468,7 +515,7 @@ function deleteAudio() {
                                 </div>
                                 <div class="flex flex-wrap justify-center my-4">
                                     <p class="text-white text-2xl">
-                                        {{ flashcard.data[0].flashcard }}
+                            {{ selectedCard.flashcard }}
                                     </p>
                                 </div>
                             </div>
@@ -485,7 +532,7 @@ function deleteAudio() {
                                             @click.prevent="
                                                 playSound(
                                                     '/audio/' +
-                                                        flashcard.data[0]
+                                                    selectedCard
                                                             .pronounciation_voice
                                                 )
                                             "
@@ -505,7 +552,7 @@ function deleteAudio() {
                                 >
                                     <div class="px-2 py-4">
                                         <Button
-                                            id="modalbtn"
+                                            @click="modalopen"
                                             type="button"
                                             class="font-bold rounded text-gray-900 text-sm  font-bold rounded-lg text-sm"
                                         >
@@ -640,7 +687,7 @@ function deleteAudio() {
              
                     <!--Componen end-->
                         <div
-                            v-for="f in flashcards"
+                            v-for="(f,i) in flashcards"
                             :key="f.id"
                             class="my-1 wrap-items  px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:px-4 lg:w-1/4  "
                         >
@@ -649,10 +696,10 @@ function deleteAudio() {
                                 class="overflow-hidden rounded-lg shadow-lg bg-btn-color "
                             >
                                 <header :class="{
-                        'bg-gray-100': flashcard.data[0].id === f.id,
+                        'bg-gray-100': selectedCard.id === f.id,
                     }"
                                     class="flex items-center justify-center leading-tight p-2 md:p-4 lg:h-[40vh]"
-                                >
+                                    @click="showCard(i)" >
                                     <div class="px-6 py-4">
                                         <h1 
                                             class="text-black font-large object-scale-down normal-case text-center px-1"

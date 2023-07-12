@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Category;
+use DB;
+
 
 
 class AdminCategoryController extends Controller
@@ -18,6 +20,12 @@ class AdminCategoryController extends Controller
      */
     public function index()
     {
+        $category = Category::select('*')->paginate(20);
+        
+        return Inertia::render('Admin/Category/index',[
+            'category'=> $category
+
+        ]);
         //
     }
 
@@ -34,9 +42,22 @@ class AdminCategoryController extends Controller
      */
     public function store(Request $request)
     {
+
+                
+        $cat=Category::select('*')
+        ->whereIn('category_name',[$request->name])
+        ->get();
+
+
+    if($cat->isNotEmpty()){
+        $errormessage = 'Sorry, Category exist';
+        return redirect()->back()->with('errormessage',$errormessage);
         
+
+    }
         $request->validate([
             'name' => 'required',
+            'image' => 'required',
         ]);
         $category_image = time() . '-' . $request->file('image')->getClientOriginalName() . '.' . $request->file('image')->extension();
        $request->file('image')->move(public_path('img/category/'), $category_image);
@@ -47,7 +68,8 @@ class AdminCategoryController extends Controller
            'category_image' => $category_image,
        ]);
        if($category){
-           return redirect()->route('adminflashcards');
+        $successmessage = 'Category Created Successsfully';
+        return redirect()->back()->with('successmessage',$successmessage);
        }
        else{
 
@@ -85,6 +107,12 @@ class AdminCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
+        $delcard=Category::findOrFail($id);
+        
+        $delcard->delete();
+        
+        $successmessage = 'Deleted Successsfully';
+        return redirect()->route('admin.category.index')->with('successmessage',$successmessage);
     }
 }

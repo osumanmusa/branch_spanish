@@ -46,10 +46,12 @@ class RoutesController extends Controller
 
     public function card(string $id)
     {
-        $flashcards = DB::table('categories')  
-        ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
-        ->where('flashcards.category_id','=',$id)->get();
-        $flashcard=Flashcard::select('*')->where('flashcards.category_id','=',$id)->paginate(1);
+        // $flashcards = DB::table('categories')  
+        // ->join('flashcards', 'categories.id', '=', 'flashcards.category_id')
+        // ->where('flashcards.category_id','=',$id)->get();
+        
+        $flashcards=Flashcard::select('*')->where('flashcards.category_id','=',$id)->get();
+        $flashcard=Flashcard::select('*')->where('flashcards.category_id','=',$id)->get();
         $category= Category::select('category_name')->where('id','=',$id)->first();
         return Inertia::render('card', [
             'flashcards' =>$flashcards,
@@ -58,6 +60,19 @@ class RoutesController extends Controller
         ]);
     }
 
+    public function cardshuffler()
+    {
+        
+        $flashcards=Flashcard::select('*')->where('flashcards.category_id','=',$id)->inRandomOrder()->paginate(50);
+        $flashcard=Flashcard::select('*')->where('flashcards.category_id','=',$id)->shuffle()->paginate(1);
+        $category= Category::select('category_name')->where('id','=',$id)->first();
+        return Inertia::render('card', [
+            'flashcards' =>$flashcards,
+            'flashcard' =>$flashcard,
+            'category' =>$category,
+        ]);
+        //
+    }
 
     public function pronounciation()
     {
@@ -69,16 +84,16 @@ class RoutesController extends Controller
 
     public function voice(string $id)
     {
-        $flashcard = DB::table('categories')  
-        ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
-        ->where('pronounciations.category_id','=',$id)->paginate(1);
-        $flashcards= DB::table('categories')  
+        // $flashcard = DB::table('categories')  
+        // ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
+        // ->where('pronounciations.category_id','=',$id)->get();
+        $flashcard= DB::table('categories')  
         ->join('pronounciations', 'categories.id', '=', 'pronounciations.category_id')
         ->where('pronounciations.category_id','=',$id)->get();
         $category= Category::select('category_name')->where('id','=',$id)->first();
         return Inertia::render('voice', [
             'flashcard' =>$flashcard,
-            'flashcards' =>$flashcards,
+            // 'flashcards' =>$flashcards,
             'category' =>$category,
         ]);
     }
@@ -686,6 +701,7 @@ else{
     //     ->where('userscore.quiz_attempt' ,'=',$att)
     //     ->where('useranswers.answer_attempt' ,'=',$att)->get();
     }
+
 
 
 

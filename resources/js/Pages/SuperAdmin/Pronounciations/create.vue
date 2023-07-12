@@ -397,7 +397,7 @@ function deleteAudio() {
 
   <div class="lg:px-16 lg:right-0 p-3 ">
 
-    <button type="submit" class="card-submit py-3 px-4 text-right rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+    <button type="submit" class="card-submit py-3 px-4 text-right rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800" >
         Save
 
     </button>

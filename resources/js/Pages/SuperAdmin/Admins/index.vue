@@ -124,6 +124,7 @@ const props=defineProps({
                         <tr>
                             <th scope="col" class="lg:px-4 lg:py-3 border ">Admin name</th>
                             <th scope="col" class="lg:px-4 lg:py-3 border ">Admin Email</th>
+                            <th scope="col" class="lg:px-4 lg:py-3 border ">Role</th>
                             <th scope="col" class="lg:px-4 lg:py-3 border ">Action</th>
                         </tr>
                     </thead>
@@ -132,6 +133,7 @@ const props=defineProps({
         
                         <td class="px-6 py-4 border text-center text-sm font-medium text-gray-800 dark:text-gray-200"> {{s.name}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.email}} </td>
+                        <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">{{s.role}} </td>
                         <td class="px-6 py-4 border text-center text-sm text-gray-800 dark:text-gray-200">
                             
                          

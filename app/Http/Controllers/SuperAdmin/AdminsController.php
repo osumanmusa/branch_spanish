@@ -24,7 +24,8 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $admins= User::where('role','=','admin')->paginate(12);
+        $id =  Auth::user()->id;
+        $admins= User::where('role','=','admin')->orwhere('role','=','superadmin')->where('id','!=',$id)->paginate(12);
         return Inertia::render('SuperAdmin/Admins/index',[
             'admins' => $admins,
             

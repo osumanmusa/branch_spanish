@@ -215,12 +215,12 @@ const submit = () => {
                                             <td
                                                 class="px-6 mx-1 py-4 border whitespace-nowrap text-center text-sm font-medium"
                                             > 
-                                                <a class="p-4 py-2 px-6 bg-white text-green-400 hover:bg-green-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('superadmin.acconts.enroll', p.id)">
+                                                <a class="p-4 py-2 px-6 bg-white text-green-400 hover:bg-green-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('superadmin.acconts.enroll', p.id)" :disabled="form.processing">
                                                      Enroll/activate
                                                 </a> 
                                                 
                                 
-                                                <a class="p-4 mx-1 py-2 px-6 bg-white text-red-500 hover:bg-red-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('superadmin.accounts.de-activate', p.id)">
+                                                <a class="p-4 mx-1 py-2 px-6 bg-white text-red-500 hover:bg-red-600 text-sm hover:text-white border border-default font-bold transition duration-200" v-bind:href="route('superadmin.accounts.de-activate', p.id)" :disabled="form.processing">
                                                     <i class="fa fa-trash fa-solid" aria-hidden="true"></i> De-activate
                                                 </a>
                                             </td>

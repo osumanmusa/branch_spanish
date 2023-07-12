@@ -25,17 +25,17 @@ onMounted(() => {
     }
 });
 
-const form = useForm({
+const modalform = useForm({
     name: "",
     image: "",
 });
 
 const submit = () => {
-    form.post(route("superadmin.category.store"));
+    modalform.post(route("superadmin.category.store"));
 };
 
 function selectFile($event) {
-    form.image = $event.target.files[0];
+    modalform.image = $event.target.files[0];
 }
 </script>
 <template>
@@ -163,7 +163,7 @@ function selectFile($event) {
                         </button>
                     </div>
                     <!-- Modal body -->
-                    <form @submit="submit" enctype="multipart/form-data">
+                    <form @submit.prevent="submit" enctype="multipart/form-data">
                         <div class="p-6 space-y-6">
                             <div class="p-2">
                                 <label
@@ -174,9 +174,9 @@ function selectFile($event) {
                                 <input
                                     type="text"
                                     id="name"
-                                    v-model="form.name"
+                                    v-model="modalform.name"
                                     class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                                    placeholder="Enter Title"
+                                    placeholder="Enter Title" required
                                 />
                             </div>
                             <div class="p-2">
@@ -191,7 +191,7 @@ function selectFile($event) {
                                     ref="photo"
                                     v-on:change="selectFile"
                                     class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                    aria-describedby="user_avatar_help"
+                                    aria-describedby="user_avatar_help" required
                                 />
                             </div>
                         </div>
@@ -201,7 +201,7 @@ function selectFile($event) {
                         >
                             <button
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
+                                :disabled="modalform.processing">
                                 Submit
                             </button>
                         </div>

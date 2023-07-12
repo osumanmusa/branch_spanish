@@ -57,7 +57,7 @@ defineProps({
                                         class="mx-auto"
                                     >
                                         <img
-                                            class="rounded-2xl h-[35vh] drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
+                                            class="rounded-2xl f-card h-[35vh] lg:w-[20vw] drop-shadow-md hover:drop-shadow-xl transition-all duration-200 delay-100"
                                             :src="
                                                 '/img/category/' +
                                                 c.category_image
@@ -172,5 +172,10 @@ body{
     height: 128.42px;
     left: 1197px;
     z-index: 1;
+}
+.f-card{
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 </style>

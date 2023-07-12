@@ -35,6 +35,12 @@ const changeSelected = (i) => {
                 <span class="mx-3">Dashboard</span>
             </Link>
     
+            <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/category" :class="{ 'selected': $page.url === '/admin/category' }">
+                <img src="/img/dashboard/5.png"/>
+    
+                <span class="mx-3">Categories</span>
+            </Link>
+
             <Link  class="flex items-center px-6 py-2 mt-4 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/admin/flashcards" :class="{ 'selected': $page.url === '/admin/flashcards' }">
                 <img src="/img/dashboard/2.png"/>
     
